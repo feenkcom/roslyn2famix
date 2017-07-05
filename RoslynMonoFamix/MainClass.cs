@@ -60,7 +60,7 @@ namespace RoslynMonoFamix
 
 
 
-			string solutionPath = "C:/Users/george/Desktop/RoslynMonoFamix/RoslynMonoFamix.sln";
+			string solutionPath = "C:/Users/george/Source/Repos/roslyn2famix/RoslynMonoFamix.sln";
 
 			var msWorkspace = MSBuildWorkspace.Create();
 			var solution = await msWorkspace.OpenSolutionAsync(solutionPath);
@@ -72,18 +72,27 @@ namespace RoslynMonoFamix
 				{
 					if (document.SupportsSyntaxTree)
 					{
-						var syntexTree = document.GetSyntaxTreeAsync();
-						var semanticModel = document.GetSemanticModelAsync();
-						var compilationAsync = document.Project.GetCompilationAsync();
+						var syntexTree = await document.GetSyntaxTreeAsync();
 
-						var invocation = tree.GetRoot().DescendantNodes().OfType<InvocationExpressionSyntax>().First();
-						var invoked = model.GetSymbolInfo(invocationSyntax).Symbol;
-
-						Console.WriteLine(invocation.Parent.ToString());
-						Console.WriteLine(invoked.ToString());
-						Console.WriteLine(invoked.ContainingType);
-						Console.WriteLine(invoked.GetAttributes());
-
+						var compilationAsync = await project.GetCompilationAsync();
+						var semanticModel = compilationAsync.GetSemanticModel(syntexTree);
+					
+						
+						if (syntexTree.GetRoot().DescendantNodes().OfType<InvocationExpressionSyntax>().Count() > 0)
+						{
+							var methoddeclaration = syntexTree.GetRoot().DescendantNodes().OfType<BaseMethodDeclarationSyntax>().First();
+							if (methoddeclaration != null)
+							{
+								var invoked = semanticModel.GetDeclaredSymbol(methoddeclaration);
+								if (invoked != null)
+								{
+									var callers = await Microsoft.CodeAnalysis.FindSymbols.SymbolFinder.FindCallersAsync(invoked, solution);
+									Console.WriteLine(invoked.ToString());
+									Console.WriteLine(callers.Count());
+								}
+							}
+							
+						}
 						//Console.WriteLine(project.Name + "\t\t\t" + document.Name);
 					}
 				}
