@@ -15,7 +15,7 @@ namespace FameTest
 		{
 
 
-			private List<Treasure> hoard;
+			private List<Treasure> hoard = new List<Treasure>();
 
 			[FameProperty(Name = "hoard")]
 			public List<Treasure> Hoard
@@ -39,12 +39,20 @@ namespace FameTest
 		[TestMethod]
 		public void LeDragonTest()
 		{
-			MetaRepository metaRepo = new MetaRepository();
+			Tower t = new Fame.Tower();
+			MetaRepository metaRepo = t.metamodel;
 			metaRepo.With(typeof(Dragon));
 			metaRepo.With(typeof(Treasure));
 			Assert.IsNotNull(metaRepo.Get("RPG.Dragon"));
 			Assert.IsNotNull(metaRepo.Get("RPG.Treasure"));
-			//TODO next: implement Repository.elements
+			Dragon leDragon = t.model.NewInstance<Dragon>("RPG.Dragon");
+			Treasure deltaHoard = t.model.NewInstance<Treasure>("RPG.Treasure");
+			leDragon.AddHoard(deltaHoard);
+
+			Assert.IsNotNull(leDragon);
+			Assert.IsNotNull(deltaHoard);
+			
+			t.model.ExportMSEFile("C:/Users/george/out.mse");
 		}
 	}
 }

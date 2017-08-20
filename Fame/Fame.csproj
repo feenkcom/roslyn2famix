@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{09C7B774-DC5F-4541-B33B-C50664A623AF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Fame</RootNamespace>
+    <AssemblyName>Fame</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClassNotMetadescribedException.cs" />
+    <Compile Include="Common\Warnings.cs" />
+    <Compile Include="ElementInPropertyNotMetadescribed.cs" />
+    <Compile Include="FameDescriptionAttribute.cs" />
+    <Compile Include="FamePackageAttribute.cs" />
+    <Compile Include="FamePropertyAttribute.cs" />
+    <Compile Include="FamePropertyWithDerivedAttribute.cs" />
+    <Compile Include="Fm3\Element.cs" />
+    <Compile Include="Fm3\MetaDescription.cs" />
+    <Compile Include="Fm3\PackageDescription.cs" />
+    <Compile Include="Fm3\PropertyDescription.cs" />
+    <Compile Include="INamed.cs" />
+    <Compile Include="INested.cs" />
+    <Compile Include="Internal\Access.cs" />
+    <Compile Include="Internal\MetaDescriptionFactory.cs" />
+    <Compile Include="Internal\Number.cs" />
+    <Compile Include="Internal\PropertyFactory.cs" />
+    <Compile Include="Internal\RepositoryVisitor.cs" />
+    <Compile Include="Internal\UnknownElementError.cs" />
+    <Compile Include="MetaRepository.cs" />
+    <Compile Include="Parser\IParseClient.cs" />
+    <Compile Include="Parser\MSEPrinter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository.cs" />
+    <Compile Include="Tower.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

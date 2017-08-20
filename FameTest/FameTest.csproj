@@ -55,8 +55,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\Fame.csproj">
-      <Project>{863df87c-535e-4f1a-8a2f-01b7e9bc0ec5}</Project>
+    <ProjectReference Include="..\Fame\Fame.csproj">
+      <Project>{09c7b774-dc5f-4541-b33b-c50664a623af}</Project>
       <Name>Fame</Name>
     </ProjectReference>
   </ItemGroup>
