@@ -23,6 +23,8 @@ namespace RoslynMonoFamix
         {
             const string code = @"
                 public class MyClass {
+                         public int bla;
+                         public string IsInterface { get; set; }
                          int Method1() { return 0; }
                          void Method2()
                          {
@@ -67,6 +69,8 @@ namespace RoslynMonoFamix
             var msWorkspace = MSBuildWorkspace.Create();
             var solution = await msWorkspace.OpenSolutionAsync(solutionPath);
 
+            var visitor = new ModelVisitor();
+
             var documents = new List<Document>();
             foreach (var project in solution.Projects)
             {
@@ -74,7 +78,11 @@ namespace RoslynMonoFamix
                 {
                     if (document.SupportsSyntaxTree)
                     {
+
                         var syntaxTree = await document.GetSyntaxTreeAsync();
+                        //Console.WriteLine("---------------");
+                        //visitor.Visit(syntaxTree.GetRoot());
+                        //Console.WriteLine("---------------");
 
                         var compilationAsync = await project.GetCompilationAsync();
                         var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);
@@ -82,7 +90,26 @@ namespace RoslynMonoFamix
                         foreach (var cls in syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>())
                         {
                             Class aClass = metamodel.NewInstance<Class>("FAMIX.Class");
-                            aClass.Name = semanticModel.GetDeclaredSymbol(cls).Name;
+                            //aClass.Name = semanticModel.GetDeclaredSymbol(cls).Name;
+                            Console.WriteLine(semanticModel.GetDeclaredSymbol(cls).Name);
+
+                            foreach (var method in cls.DescendantNodes().OfType<BaseMethodDeclarationSyntax>())
+                            {
+                                Method aMethod = metamodel.NewInstance<Method>("FAMIX.Method");
+                                //aMethod.Name = semanticModel.GetDeclaredSymbol(method).Name;
+                                Console.WriteLine("\t" + semanticModel.GetDeclaredSymbol(method).Name);
+                            }
+
+                            foreach (var field in cls.DescendantNodes().OfType<FieldDeclarationSyntax>())
+                            {
+                                foreach (var variable in field.Declaration.Variables)
+                                {
+                                    Model.Attribute anAttribute = metamodel.NewInstance<Model.Attribute>("FAMIX.Attribute");
+                                    //anAttribute.Name = semanticModel.GetDeclaredSymbol(attribute).Name;
+                                    Console.WriteLine("\t" + semanticModel.GetDeclaredSymbol(variable).Name);
+                                }
+                            }
+
                         }
 
                         //if (syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().Count() > 0)

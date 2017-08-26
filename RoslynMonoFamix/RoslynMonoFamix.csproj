@@ -163,10 +163,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FamixModel\Class.cs" />
-    <Compile Include="FamixModel\FamixModel.cs" />
-    <Compile Include="FamixModel\Method.cs" />
-    <Compile Include="FamixModel\Type.cs" />
+    <Compile Include="ModelVisitor.cs" />
+    <Compile Include="Model\Attribute.cs" />
+    <Compile Include="Model\Class.cs" />
+    <Compile Include="Model\FamixModel.cs" />
+    <Compile Include="Model\Method.cs" />
+    <Compile Include="Model\NamedEntity.cs" />
+    <Compile Include="Model\Type.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="MainClass.cs" />
     <Compile Include="CustomWalker.cs" />
