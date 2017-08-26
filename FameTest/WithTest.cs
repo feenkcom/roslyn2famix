@@ -1,7 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Fame;
 using System.Collections.Generic;
+
+using Fame;
 
 namespace FameTest
 {

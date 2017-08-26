@@ -163,6 +163,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FamixModel\Class.cs" />
+    <Compile Include="FamixModel\FamixModel.cs" />
+    <Compile Include="FamixModel\Method.cs" />
+    <Compile Include="FamixModel\Type.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="MainClass.cs" />
     <Compile Include="CustomWalker.cs" />
@@ -171,5 +175,12 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fame\Fame.csproj">
+      <Project>{09c7b774-dc5f-4541-b33b-c50664a623af}</Project>
+      <Name>Fame</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
