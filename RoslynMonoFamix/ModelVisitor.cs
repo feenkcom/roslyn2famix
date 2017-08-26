@@ -3,16 +3,19 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using Fame;
 using Model;
+using Microsoft.CodeAnalysis;
 
 public class ModelVisitor : CSharpSyntaxWalker
 {
 
-    public ModelVisitor(Repository metamodel)
+    private Repository metamodel;
+    private SemanticModel semanticModel;
+
+    public ModelVisitor(Repository metamodel, SemanticModel semanticModel)
     {
         this.metamodel = metamodel;
+        this.semanticModel = semanticModel;
     }
-
-    private Repository metamodel;
 
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
     {
@@ -27,6 +30,8 @@ public class ModelVisitor : CSharpSyntaxWalker
         Method aMethod = metamodel.NewInstance<Method>("FAMIX.Method");
         string methodName = node.Identifier.ToString();
         Console.WriteLine("\t" + methodName);
+        var methodSymbol = semanticModel.GetDeclaredSymbol(node);
+        Console.WriteLine("\t\t" + methodSymbol.IsAbstract);
         base.VisitMethodDeclaration(node);
     }
 

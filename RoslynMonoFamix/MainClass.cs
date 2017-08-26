@@ -53,8 +53,6 @@ namespace RoslynMonoFamix
             var msWorkspace = MSBuildWorkspace.Create();
             var solution = await msWorkspace.OpenSolutionAsync(solutionPath);
 
-            var visitor = new ModelVisitor(metamodel);
-
             var documents = new List<Document>();
             foreach (var project in solution.Projects)
             {
@@ -64,10 +62,12 @@ namespace RoslynMonoFamix
                     {
 
                         var syntaxTree = await document.GetSyntaxTreeAsync();
-                        visitor.Visit(syntaxTree.GetRoot());
 
                         var compilationAsync = await project.GetCompilationAsync();
                         var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);
+
+                        var visitor = new ModelVisitor(metamodel, semanticModel);
+                        visitor.Visit(syntaxTree.GetRoot());
 
                         //if (syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().Count() > 0)
                         //{
