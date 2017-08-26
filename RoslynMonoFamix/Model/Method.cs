@@ -4,7 +4,7 @@ namespace Model
 {
     [FamePackage("FAMIX")]
     [FameDescription("Method")]
-    class Method : NamedEntity
+    class Method : BehaviouralEntity
     {
 
         [FameProperty(Name = "Kind")]

@@ -46,22 +46,6 @@ namespace RoslynMonoFamix
 
             var model = compilation.GetSemanticModel(tree);
 
-            //Looking at the first method symbol
-            var methodSyntax = tree.GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().First();
-            var methodSymbol = model.GetDeclaredSymbol(methodSyntax);
-
-            Console.WriteLine(methodSymbol.ToString());
-            Console.WriteLine(methodSymbol.GetAttributes());
-
-            //Looking at the first method symbol
-            var invocationSyntax = tree.GetRoot().DescendantNodes().OfType<InvocationExpressionSyntax>().First();
-            var invokedSymbol = model.GetSymbolInfo(invocationSyntax).Symbol;
-
-            Console.WriteLine(invocationSyntax.Parent.ToString());
-            Console.WriteLine(invokedSymbol.ToString());
-            Console.WriteLine(invokedSymbol.ContainingType);
-            Console.WriteLine(invokedSymbol.GetAttributes());
-
             string solutionPath = "C:/Users/george/source/roslyn2famix/RoslynMonoFamix.sln";
 
             var metamodel = FamixModel.Metamodel();
@@ -69,7 +53,7 @@ namespace RoslynMonoFamix
             var msWorkspace = MSBuildWorkspace.Create();
             var solution = await msWorkspace.OpenSolutionAsync(solutionPath);
 
-            var visitor = new ModelVisitor();
+            var visitor = new ModelVisitor(metamodel);
 
             var documents = new List<Document>();
             foreach (var project in solution.Projects)
@@ -80,55 +64,12 @@ namespace RoslynMonoFamix
                     {
 
                         var syntaxTree = await document.GetSyntaxTreeAsync();
-                        //Console.WriteLine("---------------");
-                        //visitor.Visit(syntaxTree.GetRoot());
-                        //Console.WriteLine("---------------");
+                        visitor.Visit(syntaxTree.GetRoot());
 
                         var compilationAsync = await project.GetCompilationAsync();
                         var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);
 
-                        foreach (var cls in syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>())
-                        {
-                            Class aClass = metamodel.NewInstance<Class>("FAMIX.Class");
-                            //aClass.Name = semanticModel.GetDeclaredSymbol(cls).Name;
-                            Console.WriteLine(semanticModel.GetDeclaredSymbol(cls).Name);
-
-                            foreach (var method in cls.DescendantNodes().OfType<BaseMethodDeclarationSyntax>())
-                            {
-                                Method aMethod = metamodel.NewInstance<Method>("FAMIX.Method");
-                                //aMethod.Name = semanticModel.GetDeclaredSymbol(method).Name;
-                                Console.WriteLine("\t" + semanticModel.GetDeclaredSymbol(method).Name);
-                            }
-
-                            foreach (var field in cls.DescendantNodes().OfType<FieldDeclarationSyntax>())
-                            {
-                                foreach (var variable in field.Declaration.Variables)
-                                {
-                                    Model.Attribute anAttribute = metamodel.NewInstance<Model.Attribute>("FAMIX.Attribute");
-                                    //anAttribute.Name = semanticModel.GetDeclaredSymbol(attribute).Name;
-                                    Console.WriteLine("\t" + semanticModel.GetDeclaredSymbol(variable).Name);
-                                }
-                            }
-
-                        }
-
                         //if (syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().Count() > 0)
-                        //{
-                        //    var methoddeclaration = syntaxTree.GetRoot().DescendantNodes().OfType<BaseMethodDeclarationSyntax>().First();
-                        //    if (methoddeclaration != null)
-                        //    {
-                        //        var invoked = semanticModel.GetDeclaredSymbol(methoddeclaration);
-                        //        if (invoked != null)
-                        //        {
-                        //            var callers = await Microsoft.CodeAnalysis.FindSymbols.SymbolFinder.FindCallersAsync(invoked, solution);
-                        //            Console.WriteLine(invoked.ToString());
-                        //            Console.WriteLine(callers.Count());
-                        //        }
-                        //    }
-
-                        //}
-
-                        //if (syntaxTree.GetRoot().DescendantNodes().OfType<InvocationExpressionSyntax>().Count() > 0)
                         //{
                         //    var methoddeclaration = syntaxTree.GetRoot().DescendantNodes().OfType<BaseMethodDeclarationSyntax>().First();
                         //    if (methoddeclaration != null)

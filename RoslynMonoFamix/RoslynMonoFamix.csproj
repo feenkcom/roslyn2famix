@@ -165,6 +165,7 @@
   <ItemGroup>
     <Compile Include="ModelVisitor.cs" />
     <Compile Include="Model\Attribute.cs" />
+    <Compile Include="Model\BehaviouralEntity.cs" />
     <Compile Include="Model\Class.cs" />
     <Compile Include="Model\FamixModel.cs" />
     <Compile Include="Model\Method.cs" />
