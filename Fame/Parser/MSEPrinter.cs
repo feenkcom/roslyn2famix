@@ -62,6 +62,7 @@ namespace Fame.Parser
 		public void BeginElement(String name)
 		{
 			indentation++;
+			//wasln = false;
 			Lntabs();
 			Append('(');
 			Append(name);
@@ -91,6 +92,7 @@ namespace Fame.Parser
 		public void EndElement(String name)
 		{
 			Append(')');
+			wasln = false;
 			indentation--;
 		}
 
