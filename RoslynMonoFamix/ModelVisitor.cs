@@ -20,11 +20,8 @@ public class ModelVisitor : CSharpSyntaxWalker
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
     {
         Class aClass = metamodel.NewInstance<Class>("FAMIX.Class");
-		
         string className = node.Identifier.ToString();
-		aClass.Name = className;
-
-		Console.WriteLine(className);
+        Console.WriteLine(className);
         base.VisitClassDeclaration(node);
     }
 
