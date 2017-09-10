@@ -102,8 +102,8 @@ namespace Fame.Internal
 							visitor.EndAttribute(property.Name);
 						}
 					}
-					visitor.EndElement(meta.Fullname);
 				}
+				visitor.EndElement(meta.Fullname);
 			}
 
 		}
