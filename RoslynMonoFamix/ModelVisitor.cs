@@ -46,23 +46,4 @@ public class ModelVisitor : CSharpSyntaxWalker
         base.VisitFieldDeclaration(node);
     }
 
-    public override void VisitInvocationExpression(InvocationExpressionSyntax node)
-    {
-        var symbol = semanticModel.GetDeclaredSymbol(node);
-        //var expr = node.Expression;
-        //if (expr is IdentifierNameSyntax)
-        //{
-        //    IdentifierNameSyntax identifierName = expr as IdentifierNameSyntax; // identifierName is your method name
-        //    Console.WriteLine("CALL:::" + identifierName);
-        //}
-
-        //if (expr is MemberAccessExpressionSyntax)
-        //{
-        //    MemberAccessExpressionSyntax memberAccessExpressionSyntax = expr as MemberAccessExpressionSyntax;
-        //    Console.WriteLine("CALL:::" + memberAccessExpressionSyntax);
-        //    //memberAccessExpressionSyntax.Name is your method name
-        //}
-        base.VisitInvocationExpression(node);
-    }
-
 }
