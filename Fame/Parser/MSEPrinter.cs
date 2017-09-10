@@ -25,12 +25,13 @@ namespace Fame.Parser
 			if (!wasln)
 			{
 				stream.Append('\n');
+
 				for (int n = 0; n < indentation; n++)
 				{
 					stream.Append('\t');
 				}
-
 			}
+
 			wasln = true;
 		}
 
@@ -45,11 +46,13 @@ namespace Fame.Parser
 		private void Append(string name)
 		{
 			stream.Append(name);
+			wasln = false;
 		}
 
 		private void Append(char v)
 		{
 			stream.Append(v);
+			wasln = false;
 		}
 
 		public void BeginDocument()
@@ -62,7 +65,6 @@ namespace Fame.Parser
 		public void BeginElement(String name)
 		{
 			indentation++;
-			//wasln = false;
 			Lntabs();
 			Append('(');
 			Append(name);
@@ -83,16 +85,20 @@ namespace Fame.Parser
 
 		private void Close()
 		{
-			
 			string s = stream.ToString();
 			Console.WriteLine(s);
-			//System.IO.File.WriteAllText(filepath, stream.ToString());
+			if (filepath != null)
+				System.IO.File.WriteAllText(filepath, stream.ToString());
+		}
+
+		public string GetMSE()
+		{
+			return stream.ToString();
 		}
 
 		public void EndElement(String name)
 		{
 			Append(')');
-			wasln = false;
 			indentation--;
 		}
 

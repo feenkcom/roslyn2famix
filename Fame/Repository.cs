@@ -111,9 +111,11 @@ namespace Fame
 			rv.Run();
 		}
 
-		public void ExportMSEFile(string filename)
+		public string ExportMSEFile(string filename)
 		{
-			Accept(new MSEPrinter(filename));
+			var msePrinter = new MSEPrinter(filename);
+			Accept(msePrinter);
+			return msePrinter.GetMSE();
 		}
 	}
 }

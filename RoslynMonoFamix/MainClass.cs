@@ -46,9 +46,14 @@ namespace RoslynMonoFamix
 
             var model = compilation.GetSemanticModel(tree);
 
-            string solutionPath = "C:/Users/george/source/roslyn2famix/RoslynMonoFamix.sln";
+           
+			string path = Assembly.GetAssembly(typeof(MainClass)).Location;
+			Console.WriteLine("--->>>" + path);
+			path = path.Replace("RoslynMonoFamix.exe", "");
+			string solutionPath = path+"../../../SampleCode/SampleCode.sln";
 
-            var metamodel = FamixModel.Metamodel();
+			
+			var metamodel = FamixModel.Metamodel();
 
             var msWorkspace = MSBuildWorkspace.Create();
             var solution = await msWorkspace.OpenSolutionAsync(solutionPath);
@@ -60,39 +65,19 @@ namespace RoslynMonoFamix
                 {
                     if (document.SupportsSyntaxTree)
                     {
-
                         var syntaxTree = await document.GetSyntaxTreeAsync();
-
                         var compilationAsync = await project.GetCompilationAsync();
                         var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);
-
                         var visitor = new ModelVisitor(metamodel, semanticModel);
                         visitor.Visit(syntaxTree.GetRoot());
-
-                        //if (syntaxTree.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>().Count() > 0)
-                        //{
-                        //    var methoddeclaration = syntaxTree.GetRoot().DescendantNodes().OfType<BaseMethodDeclarationSyntax>().First();
-                        //    if (methoddeclaration != null)
-                        //    {
-                        //        var invoked = semanticModel.GetDeclaredSymbol(methoddeclaration);
-                        //        if (invoked != null)
-                        //        {
-                        //            var callers = await Microsoft.CodeAnalysis.FindSymbols.SymbolFinder.FindCallersAsync(invoked, solution);
-                        //            Console.WriteLine(invoked.ToString());
-                        //            Console.WriteLine(callers.Count());
-                        //        }
-                        //    }
-
-                        //}
-                        ////Console.WriteLine(project.Name + "\t\t\t" + document.Name);
                     }
                 }
             }
 
             metamodel.ExportMSEFile("C:/Users/george/out.mse");
-            //List<MethodDeclarationSyntax> methods = documents.SelectMany(x => x.GetSyntaxRootAsync().Result.DescendantNodes().OfType<MethodDeclarationSyntax>()).ToList();
+			//List<MethodDeclarationSyntax> methods = documents.SelectMany(x => x.GetSyntaxRootAsync().Result.DescendantNodes().OfType<MethodDeclarationSyntax>()).ToList();
 
-            Console.ReadKey();
+			Console.ReadKey();
         }
     }
 }
