@@ -49,19 +49,18 @@ public class ModelVisitor : CSharpSyntaxWalker
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
         var symbol = semanticModel.GetDeclaredSymbol(node);
-        //var expr = node.Expression;
-        //if (expr is IdentifierNameSyntax)
-        //{
-        //    IdentifierNameSyntax identifierName = expr as IdentifierNameSyntax; // identifierName is your method name
-        //    Console.WriteLine("CALL:::" + identifierName);
-        //}
+        var expr = node.Expression;
+        if (expr is IdentifierNameSyntax)
+        {
+            IdentifierNameSyntax identifiername = expr as IdentifierNameSyntax; // identifiername is your method name
+            Console.WriteLine("\t\t\t" + identifiername);
+        }
 
-        //if (expr is MemberAccessExpressionSyntax)
-        //{
-        //    MemberAccessExpressionSyntax memberAccessExpressionSyntax = expr as MemberAccessExpressionSyntax;
-        //    Console.WriteLine("CALL:::" + memberAccessExpressionSyntax);
-        //    //memberAccessExpressionSyntax.Name is your method name
-        //}
+        if (expr is MemberAccessExpressionSyntax)
+        {
+            MemberAccessExpressionSyntax memberAccess = expr as MemberAccessExpressionSyntax;
+            Console.WriteLine("\t\t\t" + memberAccess);
+        }
         base.VisitInvocationExpression(node);
     }
 
