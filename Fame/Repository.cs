@@ -50,14 +50,11 @@ namespace Fame
 		public T NewInstance<T>(string qname)
 		{
 			Element m = metamodel.Get(qname);
-			if (m != null)
+			if (m.GetType() == typeof( MetaDescription))
 			{
-				if (m.GetType() == typeof(MetaDescription))
-				{
-					T element = (T)((MetaDescription)m).NewInstance();
-					this.Add(element);
-					return element;
-				}
+				T element = (T)((MetaDescription)m).NewInstance();
+				this.Add(element);
+				return element;
 			}
 			return default(T);//null
 		}

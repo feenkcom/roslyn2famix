@@ -131,8 +131,7 @@ namespace Fame.Internal
 		private int GetSerialNumber(Element description, Object element)
 		{
 			index.TryGetValue(element, out int serial);
-			if (serial == 0)
-				throw new UnknownElementError(description, element);
+			if (serial == 0) throw new UnknownElementError(description, element);
 			return serial;
 		}
 
