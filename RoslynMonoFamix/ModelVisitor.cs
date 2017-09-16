@@ -46,20 +46,39 @@ public class ModelVisitor : CSharpSyntaxWalker
         base.VisitFieldDeclaration(node);
     }
 
+    public IMethodSymbol GetMethodSymbol(SyntaxNode node)
+    {
+        var symbolInfo = semanticModel.GetSymbolInfo(node).Symbol;
+        if (symbolInfo is IMethodSymbol methodSymbol)
+            return methodSymbol;
+        return null;
+    }
+
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
         var symbol = semanticModel.GetDeclaredSymbol(node);
         var expr = node.Expression;
+        IMethodSymbol methodSymbol = null;
+ 
         if (expr is IdentifierNameSyntax)
         {
             IdentifierNameSyntax identifiername = expr as IdentifierNameSyntax; // identifiername is your method name
             Console.WriteLine("\t\t\t" + identifiername);
+
+            methodSymbol = GetMethodSymbol(node);
         }
 
         if (expr is MemberAccessExpressionSyntax)
         {
             MemberAccessExpressionSyntax memberAccess = expr as MemberAccessExpressionSyntax;
             Console.WriteLine("\t\t\t" + memberAccess);
+
+            methodSymbol = GetMethodSymbol(node);
+        }
+
+        if (methodSymbol != null)
+        {
+            Console.WriteLine("\t\t\t Calling:" + methodSymbol.Name);
         }
         base.VisitInvocationExpression(node);
     }

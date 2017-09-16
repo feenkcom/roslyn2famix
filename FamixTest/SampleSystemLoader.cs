@@ -18,18 +18,13 @@ namespace FamixTest
 		[TestInitialize]
 		public void LoadSampleSystem()
 		{
-			//Environment.SetEnvironmentVariable("VSINSTALLDIR", @"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community");
-			//Environment.SetEnvironmentVariable("VisualStudioVersion", @"15.0");
-		//Environment.SetEnvironmentVariable("MSBUILD_EXE_PATH", @"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe");
 			string path = Assembly.GetAssembly(typeof(SampleSystemLoader)).Location;
-			Console.WriteLine("--->>>" + this.GetType().Name);
 			path = path.Replace("FamixTest.dll", "");
 			string solutionPath = path + "../../../SampleCode/SampleCode.sln";
 
 			var msWorkspace = MSBuildWorkspace.Create();
 			msWorkspace.WorkspaceFailed += (o, e) =>
 			{
-				var ee = e;
 				System.Console.WriteLine(e.Diagnostic.Message);
 			};
 
