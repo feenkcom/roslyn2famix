@@ -17,10 +17,7 @@ namespace FamixTest
 		[TestMethod]
 		public void TestMethod1()
 		{
-			Assert.AreEqual(
-@"(
-	(FAMIX.Class (id: 1)
-		(Name 'Class1')))", metamodel.ExportMSEFile(null));
+			Assert.AreEqual("(\n\t(FAMIX.Class (id: 1)\n\t\t(Name 'Class1')))", metamodel.ExportMSEFile(null));
 		}
 	}
 }
