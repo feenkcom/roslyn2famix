@@ -20,18 +20,15 @@ public class ModelVisitor : CSharpSyntaxWalker
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
     {
         Class aClass = metamodel.NewInstance<Class>("FAMIX.Class");
-        string className = node.Identifier.ToString();
-        Console.WriteLine(className);
+        aClass.Name = node.Identifier.ToString();
         base.VisitClassDeclaration(node);
     }
 
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         Method aMethod = metamodel.NewInstance<Method>("FAMIX.Method");
-        string methodName = node.Identifier.ToString();
-        Console.WriteLine("\t" + methodName);
+        aMethod.Name = node.Identifier.ToString();
         var methodSymbol = semanticModel.GetDeclaredSymbol(node);
-        Console.WriteLine("\t\t" + methodSymbol.IsAbstract);
         base.VisitMethodDeclaration(node);
     }
 
@@ -40,8 +37,7 @@ public class ModelVisitor : CSharpSyntaxWalker
         foreach (var variable in node.Declaration.Variables)
         {
             Model.Attribute anAttribute = metamodel.NewInstance<Model.Attribute>("FAMIX.Attribute");
-            string attributeName = variable.Identifier.ToString();
-            Console.WriteLine("\t" + attributeName);
+            anAttribute.Name = variable.Identifier.ToString();
         }
         base.VisitFieldDeclaration(node);
     }
@@ -63,16 +59,12 @@ public class ModelVisitor : CSharpSyntaxWalker
         if (expr is IdentifierNameSyntax)
         {
             IdentifierNameSyntax identifiername = expr as IdentifierNameSyntax; // identifiername is your method name
-            Console.WriteLine("\t\t\t" + identifiername);
-
             methodSymbol = GetMethodSymbol(node);
         }
 
         if (expr is MemberAccessExpressionSyntax)
         {
             MemberAccessExpressionSyntax memberAccess = expr as MemberAccessExpressionSyntax;
-            Console.WriteLine("\t\t\t" + memberAccess);
-
             methodSymbol = GetMethodSymbol(node);
         }
 

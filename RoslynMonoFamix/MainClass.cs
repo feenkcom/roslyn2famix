@@ -48,10 +48,8 @@ namespace RoslynMonoFamix
                 }
             }
 
-            metamodel.ExportMSEFile("C:/Users/george/out.mse");
-			//List<MethodDeclarationSyntax> methods = documents.SelectMany(x => x.GetSyntaxRootAsync().Result.DescendantNodes().OfType<MethodDeclarationSyntax>()).ToList();
-
-			Console.ReadKey();
+            metamodel.ExportMSEFile("SampleCode.mse");
+            Console.ReadKey();
         }
     }
 }
