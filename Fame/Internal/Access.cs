@@ -14,7 +14,7 @@ namespace Fame.Internal
 
 		public Access(PropertyInfo p)
 		{
-			if (typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(p.PropertyType.GetTypeInfo()))
+			if (typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(p.PropertyType.GetTypeInfo()) && p.PropertyType.GenericTypeArguments.Length > 0)
 			{   //FIXME this is very brittle, do not do this at work kids
 				elementType = p.PropertyType.GenericTypeArguments[0];
 				containerType = p.PropertyType;

@@ -20,15 +20,21 @@ public class ModelVisitor : CSharpSyntaxWalker
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
     {
         Class aClass = metamodel.NewInstance<Class>("FAMIX.Class");
-        aClass.Name = node.Identifier.ToString();
+		
+        string className = node.Identifier.ToString();
+		aClass.Name = className;
+
+		Console.WriteLine(className);
         base.VisitClassDeclaration(node);
     }
 
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         Method aMethod = metamodel.NewInstance<Method>("FAMIX.Method");
-        aMethod.Name = node.Identifier.ToString();
+        string methodName = node.Identifier.ToString();
+        Console.WriteLine("\t" + methodName);
         var methodSymbol = semanticModel.GetDeclaredSymbol(node);
+        Console.WriteLine("\t\t" + methodSymbol.IsAbstract);
         base.VisitMethodDeclaration(node);
     }
 
@@ -37,41 +43,28 @@ public class ModelVisitor : CSharpSyntaxWalker
         foreach (var variable in node.Declaration.Variables)
         {
             Model.Attribute anAttribute = metamodel.NewInstance<Model.Attribute>("FAMIX.Attribute");
-            anAttribute.Name = variable.Identifier.ToString();
+            string attributeName = variable.Identifier.ToString();
+            Console.WriteLine("\t" + attributeName);
         }
         base.VisitFieldDeclaration(node);
-    }
-
-    public IMethodSymbol GetMethodSymbol(SyntaxNode node)
-    {
-        var symbolInfo = semanticModel.GetSymbolInfo(node).Symbol;
-        if (symbolInfo is IMethodSymbol methodSymbol)
-            return methodSymbol;
-        return null;
     }
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
         var symbol = semanticModel.GetDeclaredSymbol(node);
-        var expr = node.Expression;
-        IMethodSymbol methodSymbol = null;
- 
-        if (expr is IdentifierNameSyntax)
-        {
-            IdentifierNameSyntax identifiername = expr as IdentifierNameSyntax; // identifiername is your method name
-            methodSymbol = GetMethodSymbol(node);
-        }
+        //var expr = node.Expression;
+        //if (expr is IdentifierNameSyntax)
+        //{
+        //    IdentifierNameSyntax identifierName = expr as IdentifierNameSyntax; // identifierName is your method name
+        //    Console.WriteLine("CALL:::" + identifierName);
+        //}
 
-        if (expr is MemberAccessExpressionSyntax)
-        {
-            MemberAccessExpressionSyntax memberAccess = expr as MemberAccessExpressionSyntax;
-            methodSymbol = GetMethodSymbol(node);
-        }
-
-        if (methodSymbol != null)
-        {
-            Console.WriteLine("\t\t\t Calling:" + methodSymbol.Name);
-        }
+        //if (expr is MemberAccessExpressionSyntax)
+        //{
+        //    MemberAccessExpressionSyntax memberAccessExpressionSyntax = expr as MemberAccessExpressionSyntax;
+        //    Console.WriteLine("CALL:::" + memberAccessExpressionSyntax);
+        //    //memberAccessExpressionSyntax.Name is your method name
+        //}
         base.VisitInvocationExpression(node);
     }
 
