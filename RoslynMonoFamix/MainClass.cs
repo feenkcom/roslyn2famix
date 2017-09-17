@@ -21,38 +21,12 @@ namespace RoslynMonoFamix
 
         public static async Task MainAsync(string[] args)
         {
-            const string code = @"
-                public class MyClass {
-                         public int bla;
-                         public string IsInterface { get; set; }
-                         int Method1() { return 0; }
-                         void Method2()
-                         {
-                            int x = Method1();
-                         }
-                    }
-                }";
-            var tree = CSharpSyntaxTree.ParseText(code);
-            var syntaxRoot = tree.GetRoot();
-
-            var walker = new CustomWalker();
-            walker.Visit(syntaxRoot);
-
-            Console.WriteLine(typeof(object).GetTypeInfo().Assembly.Location);
-
-            var Mscorlib = MetadataReference.CreateFromFile(typeof(object).GetTypeInfo().Assembly.Location);
-            var compilation = CSharpCompilation.Create("MyCompilation",
-                syntaxTrees: new[] { tree }, references: new[] { Mscorlib });
-
-            var model = compilation.GetSemanticModel(tree);
-
            
 			string path = Assembly.GetAssembly(typeof(MainClass)).Location;
 			Console.WriteLine("--->>>" + path);
 			path = path.Replace("RoslynMonoFamix.exe", "");
 			string solutionPath = path+"../../../SampleCode/SampleCode.sln";
-
-			
+	
 			var metamodel = FamixModel.Metamodel();
 
             var msWorkspace = MSBuildWorkspace.Create();
