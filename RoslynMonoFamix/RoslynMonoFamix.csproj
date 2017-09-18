@@ -7,6 +7,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>RoslynMonoFamix</RootNamespace>
     <AssemblyName>RoslynMonoFamix</AssemblyName>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
