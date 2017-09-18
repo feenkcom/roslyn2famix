@@ -188,6 +188,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InCSharp\InCSharpImporter.cs" />
+    <Compile Include="InCSharp\NamedEntityAccumulator.cs" />
     <Compile Include="ModelVisitor.cs" />
     <Compile Include="Model\Attribute.cs" />
     <Compile Include="Model\BehaviouralEntity.cs" />

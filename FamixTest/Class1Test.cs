@@ -18,6 +18,6 @@ namespace FamixTest
 		public void TestMethod1()
 		{
 			Assert.AreEqual("(\n\t(FAMIX.Class (id: 1)\n\t\t(Name 'Class1')))", metamodel.ExportMSEFile(null));
-		}
+        }
 	}
 }

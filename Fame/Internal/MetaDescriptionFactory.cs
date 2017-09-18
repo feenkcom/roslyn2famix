@@ -25,10 +25,26 @@ namespace Fame.Internal
 		public MetaDescription CreateInstance()
 		{
 			var name = type.GetTypeInfo().GetCustomAttribute<FameDescriptionAttribute>();
-			instance = new MetaDescription(name.Value)
+			if (name != null)
 			{
-				BaseClass = type
-			};
+				instance = new MetaDescription(name.Value)
+				{
+					BaseClass = type
+				};
+			}
+			else
+			{
+				if (type.GetTypeInfo().FullName == "System.String")
+					instance = MetaDescription.STRING;
+				else if (type.GetTypeInfo().FullName == "System.Boolean")
+					instance = MetaDescription.BOOLEAN;
+				else
+					instance = new MetaDescription(type.GetTypeInfo().Name)
+					{
+						BaseClass = type
+					};
+			}
+			
 			return instance;
 		}
 
@@ -43,7 +59,10 @@ namespace Fame.Internal
 		private void InitializePackage()
 		{
 			var name = type.GetTypeInfo().GetCustomAttribute<FamePackageAttribute>();
-			instance.Package = repository.InitializePackageNamed(name.Value);
+			var packageName = type.GetTypeInfo().Namespace;
+			if (name != null)
+				packageName = name.Value;
+			instance.Package = repository.InitializePackageNamed(packageName);
 			instance.Package.AddElement(instance);
 		}
 
@@ -52,11 +71,8 @@ namespace Fame.Internal
 			var declaredProperties = type.GetTypeInfo().DeclaredProperties;
 			foreach (PropertyInfo method in declaredProperties)
 			{
-				if (method.PropertyType.GenericTypeArguments.Length > 0)
-				{
-					PropertyFactory propertyFactory = new PropertyFactory(new Access(method), repository);
-					childFactories.Add(propertyFactory);
-				}
+				PropertyFactory propertyFactory = new PropertyFactory(new Access(method), repository);
+				childFactories.Add(propertyFactory);
 			}
 		}
 

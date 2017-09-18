@@ -10,8 +10,5 @@ namespace Model
         [FameProperty(Name = "IsInterface")]
         public string IsInterface { get; set; }
 
-        [FameProperty(Name = "Name")]
-        public string Name { get; set; }
-
     }
 }
