@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "AndreiChis 10/21/2017 19:05",
+	"super" : "Object",
+	"category" : "Fame-CSharp",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"classCodeGenerator"
+	],
+	"name" : "FMCSharpCodeGenerator",
+	"type" : "normal"
+}

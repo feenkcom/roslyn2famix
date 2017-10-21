@@ -1,0 +1,15 @@
+{
+	"commentStamp" : "",
+	"super" : "Object",
+	"category" : "Fame-CSharp",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"fameClass",
+		"instVarNames",
+		"initializeSource"
+	],
+	"name" : "FMCSharpClassCodeGenerator",
+	"type" : "normal"
+}
