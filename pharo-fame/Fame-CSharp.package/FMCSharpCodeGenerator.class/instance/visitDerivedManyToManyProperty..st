@@ -1,0 +1,3 @@
+visiting
+visitDerivedManyToManyProperty: fameProperty
+	self visitManyToManyProperty: fameProperty
