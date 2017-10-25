@@ -1,3 +1,7 @@
 visiting
-visitClass: fameClass 
-	classCodeGenerator := FMCSharpClassCodeGenerator forFameClass: fameClass
+visitClass: fameClass
+	| classDefinition |
+	classCodeGenerator := FMCSharpClassCodeGenerator forFameClass: fameClass.
+	classDefinition := classCodeGenerator buildClassDefinition.
+	file writeStreamDo: [ :aStream | 
+		aStream nextPutAll: classDefinition ].

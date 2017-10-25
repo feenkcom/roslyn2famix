@@ -8,7 +8,8 @@
 	"instvars" : [
 		"fameClass",
 		"instVarNames",
-		"initializeSource"
+		"initializeSource",
+		"stream"
 	],
 	"name" : "FMCSharpClassCodeGenerator",
 	"type" : "normal"

@@ -6,7 +6,9 @@
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
+		"directory",
 		"classCodeGenerator",
+		"file",
 		"skipDerivedMethods"
 	],
 	"name" : "FMCSharpCodeGenerator",
