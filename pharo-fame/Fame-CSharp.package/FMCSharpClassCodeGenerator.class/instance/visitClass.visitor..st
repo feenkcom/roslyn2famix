@@ -1,7 +1,7 @@
 visiting
-visitClass: class visitor: vis
+visitClass: class visitor: aVisitor
 	"comment stating purpose of message"
 	fameClass := class.
 	class attributes do: [ :attribute | 
-			vis acceptFameProperty: attribute ].
-	^	class
+			aVisitor acceptFameProperty: attribute ].
+	^ class

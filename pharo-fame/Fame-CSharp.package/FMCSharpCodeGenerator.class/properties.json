@@ -9,7 +9,8 @@
 		"directory",
 		"classCodeGenerator",
 		"file",
-		"skipDerivedMethods"
+		"skipDerivedMethods",
+		"stream"
 	],
 	"name" : "FMCSharpCodeGenerator",
 	"type" : "normal"
