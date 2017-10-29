@@ -3,4 +3,4 @@ visitOneProperty: fameProperty
 	"self initializeProperty: fameProperty with: 'nil'.
 	self compileGetter: fameProperty.
 	self compileSimpleSetter: fameProperty.	"
-	stream nextPutAll: fameProperty name, ' '.
+	instVarNames add: fameProperty name.

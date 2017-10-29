@@ -4,3 +4,4 @@ visitManyToOneProperty: fameProperty
 		expandMacrosWith: (self methodNameFor: fameProperty opposite)).
 	self compileGetter: fameProperty.
 	self compileManyToAnySetter: fameProperty."
+	self visitOneProperty: fameProperty.
