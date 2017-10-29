@@ -1,3 +1,4 @@
+This class traverses the Famix metamodel and accepts visitors on each element in the metamodel.
 tower := FMTower new.
 tower metamodel importString: FMDungeonExample metamodelString.
 generator := FMCSharpCodeGenerator new.

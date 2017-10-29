@@ -1,7 +1,7 @@
 generating
 buildClassDefinition
-	^ (String streamContents: [ :stream |
-		stream
+	^ (String streamContents: [ :aStream |
+		aStream
 			nextPutAll: '<1s><n><n>'; "Package definition"
 			nextPutAll: '<2s><n><n>'; "Imports"
 			nextPutAll: '<3s><n>';    "Annotations"

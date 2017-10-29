@@ -1,16 +1,17 @@
 {
-	"commentStamp" : "",
+	"commentStamp" : "GeorgeGanea 10/28/2017 13:33",
 	"super" : "Object",
 	"category" : "Fame-CSharp",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
-		"fameClass",
+		"directory",
 		"instVarNames",
 		"initializeSource",
-		"stream"
+		"stream",
+		"fameClass"
 	],
-	"name" : "FMCSharpClassCodeGenerator",
+	"name" : "FMCSharpCodeGeneratorVisitor",
 	"type" : "normal"
 }
