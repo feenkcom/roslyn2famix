@@ -9,7 +9,7 @@ namespace Model
 {
     [FamePackage("FAMIX")]
     [FameDescription("NamedEntity")]
-    class BehaviouralEntity : NamedEntity
+    public class BehaviouralEntity : NamedEntity
     {
     }
 }

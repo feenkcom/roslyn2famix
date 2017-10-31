@@ -16,7 +16,7 @@ namespace RoslynMonoFamix
     {
         static void Main(string[] args)
         {
-            MainAsync(args).GetAwaiter().GetResult();
+            //MainAsync(args).GetAwaiter().GetResult();
         }
 
         public static async Task MainAsync(string[] args)
@@ -42,7 +42,7 @@ namespace RoslynMonoFamix
                         var syntaxTree = await document.GetSyntaxTreeAsync();
                         var compilationAsync = await project.GetCompilationAsync();
                         var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);
-                        var visitor = new ModelVisitor(metamodel, semanticModel);
+                        var visitor = new ModelVisitor(semanticModel, new InCSharp.InCSharpImporter(metamodel));
                         visitor.Visit(syntaxTree.GetRoot());
                     }
                 }

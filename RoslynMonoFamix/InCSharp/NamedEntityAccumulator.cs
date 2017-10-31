@@ -7,42 +7,28 @@ using System.Threading.Tasks;
 
 namespace RoslynMonoFamix.InCSharp
 {
-    class NamedEntityAccumulator<T>
+    public class NamedEntityAccumulator<T>
     {
-        private Repository repository;
 
         private Dictionary<String, T> entities;
 
-        public NamedEntityAccumulator(Repository repository)
+        public NamedEntityAccumulator()
         {
-            this.repository = repository;
             entities = new Dictionary<String, T>();
         }
 
-        //public List<T> get()
-        //{
-        //    return entities
-        //        .entrySet()
-        //        .stream()
-        //        .map(p->p.getValue())
-        //        .collect(Collectors.toList());
-        //}
+        public List<T> get()
+        {
+            return entities.Values.ToList();
+        }
 
-        //public Stream<T> stream()
-        //{
-        //    return entities
-        //            .entrySet()
-        //            .stream()
-        //            .map(p->p.getValue());
-        //}
-
-        public T add(String qualifiedName, T entity)
+        public T Add(String qualifiedName, T entity)
         {
             entities.Add(qualifiedName, entity);
-            repository.Add(entity);
+            
             return entity;
         }
-        public T named(String qualifiedName)
+        public T Named(String qualifiedName)
         {
             if (entities.ContainsKey(qualifiedName))
             {

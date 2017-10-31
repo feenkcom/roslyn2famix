@@ -5,7 +5,7 @@ namespace Model
 {
     [FamePackage("FAMIX")]
     [FameDescription("Type")]
-    class Type : NamedEntity
+    public class Type : NamedEntity
     {
 
         private List<Method> methods = new List<Method>();

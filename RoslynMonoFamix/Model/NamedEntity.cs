@@ -4,7 +4,7 @@ namespace Model
 {
     [FamePackage("FAMIX")]
     [FameDescription("NamedEntity")]
-    class NamedEntity
+    public class NamedEntity
     {
 
         [FameProperty(Name = "Name")]

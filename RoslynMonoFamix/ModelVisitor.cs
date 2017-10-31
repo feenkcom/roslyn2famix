@@ -4,32 +4,34 @@ using System;
 using Fame;
 using Model;
 using Microsoft.CodeAnalysis;
+using RoslynMonoFamix.InCSharp;
 
 public class ModelVisitor : CSharpSyntaxWalker
 {
-
-    private Repository metamodel;
     private SemanticModel semanticModel;
+    private InCSharpImporter importer;
 
-    public ModelVisitor(Repository metamodel, SemanticModel semanticModel)
+    public ModelVisitor (SemanticModel semanticModel, InCSharpImporter importer)
     {
-        this.metamodel = metamodel;
         this.semanticModel = semanticModel;
+        this.importer = importer;
     }
 
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
     {
-        Class aClass = metamodel.NewInstance<Class>("FAMIX.Class");
-		aClass.Name = node.Identifier.ToString();
+        //Class aClass = metamodel.NewInstance<Class>("FAMIX.Class");
+		//aClass.Name = node.Identifier.ToString();
         base.VisitClassDeclaration(node);
     }
 
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
-    {
-        Method aMethod = metamodel.NewInstance<Method>("FAMIX.Method");
+    { 
         string methodName = node.Identifier.ToString();
         Console.WriteLine("\t" + methodName);
         var methodSymbol = semanticModel.GetDeclaredSymbol(node);
+
+        Method aMethod = importer.EnsureMethod(methodSymbol);
+        Console.WriteLine("\t\t\t ID from declaration:" + methodSymbol.GetHashCode());
         Console.WriteLine("\t\t" + methodSymbol.IsAbstract);
         base.VisitMethodDeclaration(node);
     }
@@ -38,9 +40,9 @@ public class ModelVisitor : CSharpSyntaxWalker
     {
         foreach (var variable in node.Declaration.Variables)
         {
-            Model.Attribute anAttribute = metamodel.NewInstance<Model.Attribute>("FAMIX.Attribute");
-            string attributeName = variable.Identifier.ToString();
-            Console.WriteLine("\t" + attributeName);
+            //Model.Attribute anAttribute = repository.NewInstance<Model.Attribute>("FAMIX.Attribute");
+            //string attributeName = variable.Identifier.ToString();
+            //Console.WriteLine("\t" + attributeName);
         }
         base.VisitFieldDeclaration(node);
     }
@@ -63,6 +65,7 @@ public class ModelVisitor : CSharpSyntaxWalker
         {
             IdentifierNameSyntax identifiername = expr as IdentifierNameSyntax; // identifiername is your method name
             methodSymbol = GetMethodSymbol(node);
+            Console.WriteLine("\t\t\t ID from usage:" + methodSymbol.GetHashCode());
         }
         if (expr is MemberAccessExpressionSyntax)
         {
@@ -73,7 +76,8 @@ public class ModelVisitor : CSharpSyntaxWalker
          if (methodSymbol != null)
          {
              Console.WriteLine("\t\t\t Calling:" + methodSymbol.Name);
-         }
+             Console.WriteLine("\t\t\t ID from usage:" + methodSymbol.GetHashCode());
+        }
         base.VisitInvocationExpression(node);
     }
 
