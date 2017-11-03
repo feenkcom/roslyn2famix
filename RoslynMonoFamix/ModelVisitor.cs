@@ -19,8 +19,8 @@ public class ModelVisitor : CSharpSyntaxWalker
 
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
     {
-        //Class aClass = metamodel.NewInstance<Class>("FAMIX.Class");
-		//aClass.Name = node.Identifier.ToString();
+        var typeSymbol = semanticModel.GetDeclaredSymbol(node);
+        Model.Type aType = importer.EnsureType(typeSymbol);
         base.VisitClassDeclaration(node);
     }
 

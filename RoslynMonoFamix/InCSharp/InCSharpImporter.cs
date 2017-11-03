@@ -17,13 +17,14 @@ namespace RoslynMonoFamix.InCSharp
         {
             this.repository = repository;
             this.Methods = new NamedEntityAccumulator<Method>();
+            this.Types = new NamedEntityAccumulator<Model.Type>();
         }
 
         public NamedEntityAccumulator<Model.Type> Types { get; set; }
         public NamedEntityAccumulator<Method> Methods { get; set; }
         public NamedEntityAccumulator<Model.Attribute> Attributes { get; set; }
 
-        public Method EnsureMethod(ISymbol aMethod)
+        public Method EnsureMethod(IMethodSymbol aMethod)
         {
             if (Methods.has(aMethod.GetHashCode().ToString()))
                 return Methods.Named(aMethod.GetHashCode().ToString());
@@ -33,5 +34,14 @@ namespace RoslynMonoFamix.InCSharp
             return method;
         }
 
+        public Model.Type EnsureType(INamedTypeSymbol aType)
+        {
+            if (Types.has(aType.GetHashCode().ToString()))
+                return Types.Named(aType.GetHashCode().ToString());
+
+            Model.Type type = repository.NewInstance<Model.Type>("FAMIX.Class");
+            Types.Add(aType.GetHashCode().ToString(), type);
+            return type;
+        }
     }
 }

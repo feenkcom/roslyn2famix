@@ -43,7 +43,7 @@ namespace FamixTest
 						var syntaxTree = document.GetSyntaxTreeAsync().Result;
 						var compilationAsync = project.GetCompilationAsync().Result;
 						var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);
-						var visitor = new ModelVisitor(metamodel, semanticModel);
+						var visitor = new ModelVisitor(semanticModel, new RoslynMonoFamix.InCSharp.InCSharpImporter(metamodel));
 						visitor.Visit(syntaxTree.GetRoot());
 					}
 				}
