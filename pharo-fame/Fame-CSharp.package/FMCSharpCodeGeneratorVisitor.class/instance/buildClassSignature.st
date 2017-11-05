@@ -1,7 +1,7 @@
 private - generating
 buildClassSignature
-	^ ('public', ' ',
+	^ ('    public', ' ',
 	  (fameClass isAbstract ifTrue: [ 'abstract', ' ' ] ifFalse: ['']),
 	  'class <1s> : <2s>')
 		  expandMacrosWith: fameClass name
-						  with: fameClass superclass fullName.
+						  with: fameClass superclass name.

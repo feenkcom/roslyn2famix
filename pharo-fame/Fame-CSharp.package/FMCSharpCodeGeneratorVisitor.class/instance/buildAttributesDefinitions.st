@@ -1,3 +1,3 @@
 private - generating
 buildAttributesDefinitions
-	^ instVarNames asString.
+	^ instVars flatCollect: [:var | var, '<n>' expandMacros ].

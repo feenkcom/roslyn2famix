@@ -1,5 +1,5 @@
 initialization
 initialize
 	super initialize.
-	instVarNames := OrderedCollection new.
+	instVars := OrderedCollection new.
 	initializeSource := String new writeStream.

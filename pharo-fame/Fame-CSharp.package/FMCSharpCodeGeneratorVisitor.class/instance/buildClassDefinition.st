@@ -6,11 +6,12 @@ buildClassDefinition
 			nextPutAll: '<2s><n><n>'; "Imports"
 			nextPutAll: '<3s><n>';    "Annotations"
 			nextPutAll: '<4s><n>';    "Class signature"
-			nextPutAll: '{<n>';    
+			nextPutAll: '    {<n>';    
 			nextPutAll: '<5s><n><n>'; "Attributes"
 			nextPutAll: '<6s><n><n>'; "Construtor"
 			nextPutAll: '<7s><n><n>'; "Content"
-			nextPutAll: '}']) expandMacrosWithArguments: { 
+			nextPutAll: '    }<n>';
+			nextPutAll: '}'"end of namespace block"]) expandMacrosWithArguments: { 
 				self buildPackageDefinition.
 				self buildImports.
 				self buildClassAnnotations.
