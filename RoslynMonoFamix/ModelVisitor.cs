@@ -10,6 +10,7 @@ public class ModelVisitor : CSharpSyntaxWalker
 {
     private SemanticModel semanticModel;
     private InCSharpImporter importer;
+    private Method currentMethod;
 
     public ModelVisitor (SemanticModel semanticModel, InCSharpImporter importer)
     {
@@ -31,9 +32,11 @@ public class ModelVisitor : CSharpSyntaxWalker
         var methodSymbol = semanticModel.GetDeclaredSymbol(node);
 
         Method aMethod = importer.EnsureMethod(methodSymbol);
-        Console.WriteLine("\t\t\t ID from declaration:" + methodSymbol.GetHashCode());
+        currentMethod = aMethod;
+        Console.WriteLine("\t\t ID from declaration:" + methodSymbol.GetHashCode());
         Console.WriteLine("\t\t" + methodSymbol.IsAbstract);
         base.VisitMethodDeclaration(node);
+        currentMethod = null;
     }
 
     public override void VisitFieldDeclaration(FieldDeclarationSyntax node)
@@ -73,8 +76,11 @@ public class ModelVisitor : CSharpSyntaxWalker
              methodSymbol = GetMethodSymbol(node);
          }
  
-         if (methodSymbol != null)
+         if (methodSymbol != null && currentMethod != null)
          {
+             var calledMethod = importer.EnsureMethod(methodSymbol);
+             // add the call to currentMethod here (once we have the model created)
+             Console.WriteLine("\t\t\t Current method:" + currentMethod);
              Console.WriteLine("\t\t\t Calling:" + methodSymbol.Name);
              Console.WriteLine("\t\t\t ID from usage:" + methodSymbol.GetHashCode());
         }
