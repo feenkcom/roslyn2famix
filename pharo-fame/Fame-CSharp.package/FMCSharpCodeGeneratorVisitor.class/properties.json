@@ -7,10 +7,10 @@
 	"classvars" : [ ],
 	"instvars" : [
 		"directory",
-		"instVarNames",
 		"initializeSource",
 		"stream",
-		"fameClass"
+		"fameClass",
+		"instVars"
 	],
 	"name" : "FMCSharpCodeGeneratorVisitor",
 	"type" : "normal"

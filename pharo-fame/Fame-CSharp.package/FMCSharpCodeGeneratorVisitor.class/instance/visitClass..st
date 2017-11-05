@@ -8,4 +8,4 @@ visitClass: aFameClass
 			self stream: aStream.
 			stream nextPutAll: self buildClassDefinition.
 			].
-	instVarNames := OrderedCollection new.
+	instVars := OrderedCollection new.
