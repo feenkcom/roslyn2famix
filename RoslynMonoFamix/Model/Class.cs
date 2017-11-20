@@ -1,16 +1,20 @@
-﻿using Fame;
+using Fame;using System.Collections.Generic;namespace Model{
 
-namespace Model
-{
+
+
     [FamePackage("FAMIX")]
     [FameDescription("Class")]
     public class Class : Type
     {
+        [FameProperty(Name = "isInterface")]
+        public Boolean isInterface { get; set; }
 
-        [FameProperty(Name = "IsInterface")]
-        public string IsInterface { get; set; }
+        private List<Exception> exceptions = new List<Exception>();        [FameProperty(Name = "exceptions", Opposite = "exceptionClass")]        public List Exceptions        {            get { return Exceptions; }            set { Exceptions = value; }        }        public void AddException(Exception one)        {            Exceptions.Add(one);        }
 
-        [FameProperty(Name = "Name")]
-        public string Name { get; set; }
+
+
+
+
+
     }
 }
