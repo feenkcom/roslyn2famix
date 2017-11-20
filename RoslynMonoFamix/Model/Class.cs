@@ -1,4 +1,9 @@
-using Fame;using System.Collections.Generic;namespace Model{
+using Fame;
+using System;
+using System.Collections.Generic;
+
+namespace Model
+{
 
 
 
@@ -7,9 +12,22 @@ using Fame;using System.Collections.Generic;namespace Model{
     public class Class : Type
     {
         [FameProperty(Name = "isInterface")]
-        public Boolean isInterface { get; set; }
+        public Boolean IsInterface { get; set; }
 
-        private List<Exception> exceptions = new List<Exception>();        [FameProperty(Name = "exceptions", Opposite = "exceptionClass")]        public List Exceptions        {            get { return Exceptions; }            set { Exceptions = value; }        }        public void AddException(Exception one)        {            Exceptions.Add(one);        }
+
+        private List<Exception> exceptions = new List<Exception>();
+
+        [FameProperty(Name = "exceptions", Opposite = "exceptionClass")]
+        public List<Exception> Exceptions
+        {
+            get { return Exceptions; }
+            set { Exceptions = value; }
+        }
+
+        public void AddException(Exception one)
+        {
+            Exceptions.Add(one);
+        }
 
 
 

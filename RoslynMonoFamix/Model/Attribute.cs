@@ -1,4 +1,8 @@
-using Fame;using System.Collections.Generic;namespace Model{
+using Fame;
+using System.Collections.Generic;
+
+namespace Model
+{
 
 
 
