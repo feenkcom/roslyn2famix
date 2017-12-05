@@ -13,8 +13,8 @@ namespace FAMIX
     [FameProperty(Name = "incomingTraitUsages",  Opposite = "trait")]    
     public List IncomingTraitUsages
     {
-      { return IncomingTraitUsages; }
-      { IncomingTraitUsages = value; }
+      get { return IncomingTraitUsages; }
+      set { IncomingTraitUsages = value; }
     }
     public void AddTraitUsage(TraitUsage one)
     {

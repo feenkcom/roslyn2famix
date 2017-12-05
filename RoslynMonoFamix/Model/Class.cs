@@ -19,8 +19,8 @@ namespace FAMIX
     [FameProperty(Name = "exceptions",  Opposite = "exceptionClass")]    
     public List Exceptions
     {
-      { return Exceptions; }
-      { Exceptions = value; }
+      get { return Exceptions; }
+      set { Exceptions = value; }
     }
     public void AddException(Exception one)
     {
@@ -38,8 +38,8 @@ namespace FAMIX
     [FameProperty(Name = "isIgnored")]    
     public List IsIgnored
     {
-      { return IsIgnored; }
-      { IsIgnored = value; }
+      get { return IsIgnored; }
+      set { IsIgnored = value; }
     }
     public void AddBoolean(Boolean one)
     {

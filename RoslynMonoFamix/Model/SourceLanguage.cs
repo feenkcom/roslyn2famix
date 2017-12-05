@@ -16,8 +16,8 @@ namespace FAMIX
     [FameProperty(Name = "sourcedEntities",  Opposite = "declaredSourceLanguage")]    
     public List SourcedEntities
     {
-      { return SourcedEntities; }
-      { SourcedEntities = value; }
+      get { return SourcedEntities; }
+      set { SourcedEntities = value; }
     }
     public void AddSourcedEntity(SourcedEntity one)
     {

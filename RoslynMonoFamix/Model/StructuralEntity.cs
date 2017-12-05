@@ -13,8 +13,8 @@ namespace FAMIX
     [FameProperty(Name = "dereferencedInvocations",  Opposite = "referencer")]    
     public List DereferencedInvocations
     {
-      { return DereferencedInvocations; }
-      { DereferencedInvocations = value; }
+      get { return DereferencedInvocations; }
+      set { DereferencedInvocations = value; }
     }
     public void AddDereferencedInvocation(DereferencedInvocation one)
     {
@@ -29,8 +29,8 @@ namespace FAMIX
     [FameProperty(Name = "incomingAccesses",  Opposite = "variable")]    
     public List IncomingAccesses
     {
-      { return IncomingAccesses; }
-      { IncomingAccesses = value; }
+      get { return IncomingAccesses; }
+      set { IncomingAccesses = value; }
     }
     public void AddAccess(Access one)
     {
@@ -42,8 +42,8 @@ namespace FAMIX
     [FameProperty(Name = "accessors")]    
     public List Accessors
     {
-      { return Accessors; }
-      { Accessors = value; }
+      get { return Accessors; }
+      set { Accessors = value; }
     }
     public void AddBehaviouralEntity(BehaviouralEntity one)
     {

@@ -13,8 +13,8 @@ namespace FAMIX
     [FameProperty(Name = "incomingIncludeRelations",  Opposite = "target")]    
     public List IncomingIncludeRelations
     {
-      { return IncomingIncludeRelations; }
-      { IncomingIncludeRelations = value; }
+      get { return IncomingIncludeRelations; }
+      set { IncomingIncludeRelations = value; }
     }
     public void AddInclude(Include one)
     {
@@ -26,8 +26,8 @@ namespace FAMIX
     [FameProperty(Name = "includingFiles")]    
     public List IncludingFiles
     {
-      { return IncludingFiles; }
-      { IncludingFiles = value; }
+      get { return IncludingFiles; }
+      set { IncludingFiles = value; }
     }
     public void AddCFile(CFile one)
     {
@@ -39,8 +39,8 @@ namespace FAMIX
     [FameProperty(Name = "includedFiles")]    
     public List IncludedFiles
     {
-      { return IncludedFiles; }
-      { IncludedFiles = value; }
+      get { return IncludedFiles; }
+      set { IncludedFiles = value; }
     }
     public void AddCFile(CFile one)
     {
@@ -52,8 +52,8 @@ namespace FAMIX
     [FameProperty(Name = "outgoingIncludeRelations",  Opposite = "source")]    
     public List OutgoingIncludeRelations
     {
-      { return OutgoingIncludeRelations; }
-      { OutgoingIncludeRelations = value; }
+      get { return OutgoingIncludeRelations; }
+      set { OutgoingIncludeRelations = value; }
     }
     public void AddInclude(Include one)
     {

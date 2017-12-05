@@ -16,8 +16,8 @@ namespace FAMIX
     [FameProperty(Name = "invokedMethods")]    
     public List InvokedMethods
     {
-      { return InvokedMethods; }
-      { InvokedMethods = value; }
+      get { return InvokedMethods; }
+      set { InvokedMethods = value; }
     }
     public void AddMethod(Method one)
     {
@@ -35,8 +35,8 @@ namespace FAMIX
     [FameProperty(Name = "invokingMethods")]    
     public List InvokingMethods
     {
-      { return InvokingMethods; }
-      { InvokingMethods = value; }
+      get { return InvokingMethods; }
+      set { InvokingMethods = value; }
     }
     public void AddMethod(Method one)
     {
@@ -48,8 +48,8 @@ namespace FAMIX
     [FameProperty(Name = "caughtExceptions",  Opposite = "definingMethod")]    
     public List CaughtExceptions
     {
-      { return CaughtExceptions; }
-      { CaughtExceptions = value; }
+      get { return CaughtExceptions; }
+      set { CaughtExceptions = value; }
     }
     public void AddCaughtException(CaughtException one)
     {
@@ -61,8 +61,8 @@ namespace FAMIX
     [FameProperty(Name = "clientTypes")]    
     public List ClientTypes
     {
-      { return ClientTypes; }
-      { ClientTypes = value; }
+      get { return ClientTypes; }
+      set { ClientTypes = value; }
     }
     public void AddType(Type one)
     {
@@ -77,8 +77,8 @@ namespace FAMIX
     [FameProperty(Name = "thrownExceptions",  Opposite = "definingMethod")]    
     public List ThrownExceptions
     {
-      { return ThrownExceptions; }
-      { ThrownExceptions = value; }
+      get { return ThrownExceptions; }
+      set { ThrownExceptions = value; }
     }
     public void AddThrownException(ThrownException one)
     {
@@ -105,8 +105,8 @@ namespace FAMIX
     [FameProperty(Name = "declaredExceptions",  Opposite = "definingMethod")]    
     public List DeclaredExceptions
     {
-      { return DeclaredExceptions; }
-      { DeclaredExceptions = value; }
+      get { return DeclaredExceptions; }
+      set { DeclaredExceptions = value; }
     }
     public void AddDeclaredException(DeclaredException one)
     {
@@ -136,8 +136,8 @@ namespace FAMIX
     [FameProperty(Name = "providerTypes")]    
     public List ProviderTypes
     {
-      { return ProviderTypes; }
-      { ProviderTypes = value; }
+      get { return ProviderTypes; }
+      set { ProviderTypes = value; }
     }
     public void AddType(Type one)
     {

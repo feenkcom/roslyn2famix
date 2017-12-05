@@ -13,8 +13,8 @@ namespace FAMIX
     [FameProperty(Name = "accesses",  Opposite = "accessor")]    
     public List Accesses
     {
-      { return Accesses; }
-      { Accesses = value; }
+      get { return Accesses; }
+      set { Accesses = value; }
     }
     public void AddAccess(Access one)
     {
@@ -35,8 +35,8 @@ namespace FAMIX
     [FameProperty(Name = "localVariables",  Opposite = "parentBehaviouralEntity")]    
     public List LocalVariables
     {
-      { return LocalVariables; }
-      { LocalVariables = value; }
+      get { return LocalVariables; }
+      set { LocalVariables = value; }
     }
     public void AddLocalVariable(LocalVariable one)
     {
@@ -51,8 +51,8 @@ namespace FAMIX
     [FameProperty(Name = "outgoingInvocations",  Opposite = "sender")]    
     public List OutgoingInvocations
     {
-      { return OutgoingInvocations; }
-      { OutgoingInvocations = value; }
+      get { return OutgoingInvocations; }
+      set { OutgoingInvocations = value; }
     }
     public void AddInvocation(Invocation one)
     {
@@ -64,8 +64,8 @@ namespace FAMIX
     [FameProperty(Name = "activations",  Opposite = "behaviour")]    
     public List Activations
     {
-      { return Activations; }
-      { Activations = value; }
+      get { return Activations; }
+      set { Activations = value; }
     }
     public void AddActivation(Activation one)
     {
@@ -77,8 +77,8 @@ namespace FAMIX
     [FameProperty(Name = "parameters",  Opposite = "parentBehaviouralEntity")]    
     public List Parameters
     {
-      { return Parameters; }
-      { Parameters = value; }
+      get { return Parameters; }
+      set { Parameters = value; }
     }
     public void AddParameter(Parameter one)
     {
@@ -90,8 +90,8 @@ namespace FAMIX
     [FameProperty(Name = "incomingInvocations",  Opposite = "candidates")]    
     public List IncomingInvocations
     {
-      { return IncomingInvocations; }
-      { IncomingInvocations = value; }
+      get { return IncomingInvocations; }
+      set { IncomingInvocations = value; }
     }
     public void AddInvocation(Invocation one)
     {
@@ -109,8 +109,8 @@ namespace FAMIX
     [FameProperty(Name = "providerBehaviours")]    
     public List ProviderBehaviours
     {
-      { return ProviderBehaviours; }
-      { ProviderBehaviours = value; }
+      get { return ProviderBehaviours; }
+      set { ProviderBehaviours = value; }
     }
     public void AddBehaviouralEntity(BehaviouralEntity one)
     {
@@ -128,8 +128,8 @@ namespace FAMIX
     [FameProperty(Name = "outgoingReferences",  Opposite = "source")]    
     public List OutgoingReferences
     {
-      { return OutgoingReferences; }
-      { OutgoingReferences = value; }
+      get { return OutgoingReferences; }
+      set { OutgoingReferences = value; }
     }
     public void AddReference(Reference one)
     {
@@ -141,8 +141,8 @@ namespace FAMIX
     [FameProperty(Name = "clientBehaviours")]    
     public List ClientBehaviours
     {
-      { return ClientBehaviours; }
-      { ClientBehaviours = value; }
+      get { return ClientBehaviours; }
+      set { ClientBehaviours = value; }
     }
     public void AddBehaviouralEntity(BehaviouralEntity one)
     {
@@ -157,8 +157,8 @@ namespace FAMIX
     [FameProperty(Name = "implicitVariables",  Opposite = "parentBehaviouralEntity")]    
     public List ImplicitVariables
     {
-      { return ImplicitVariables; }
-      { ImplicitVariables = value; }
+      get { return ImplicitVariables; }
+      set { ImplicitVariables = value; }
     }
     public void AddImplicitVariable(ImplicitVariable one)
     {

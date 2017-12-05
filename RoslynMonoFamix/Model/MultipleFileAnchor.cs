@@ -13,8 +13,8 @@ namespace FAMIX
     [FameProperty(Name = "allFiles")]    
     public List AllFiles
     {
-      { return AllFiles; }
-      { AllFiles = value; }
+      get { return AllFiles; }
+      set { AllFiles = value; }
     }
     public void AddAbstractFileAnchor(AbstractFileAnchor one)
     {

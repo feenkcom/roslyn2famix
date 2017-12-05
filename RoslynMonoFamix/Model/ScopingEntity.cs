@@ -13,8 +13,8 @@ namespace FAMIX
     [FameProperty(Name = "globalVariables",  Opposite = "parentScope")]    
     public List GlobalVariables
     {
-      { return GlobalVariables; }
-      { GlobalVariables = value; }
+      get { return GlobalVariables; }
+      set { GlobalVariables = value; }
     }
     public void AddGlobalVariable(GlobalVariable one)
     {
@@ -29,8 +29,8 @@ namespace FAMIX
     [FameProperty(Name = "childScopes",  Opposite = "parentScope")]    
     public List ChildScopes
     {
-      { return ChildScopes; }
-      { ChildScopes = value; }
+      get { return ChildScopes; }
+      set { ChildScopes = value; }
     }
     public void AddScopingEntity(ScopingEntity one)
     {

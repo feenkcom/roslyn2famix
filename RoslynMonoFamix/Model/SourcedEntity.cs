@@ -13,8 +13,8 @@ namespace FAMIX
     [FameProperty(Name = "containerFiles",  Opposite = "entities")]    
     public List ContainerFiles
     {
-      { return ContainerFiles; }
-      { ContainerFiles = value; }
+      get { return ContainerFiles; }
+      set { ContainerFiles = value; }
     }
     public void AddFile(File one)
     {
@@ -29,8 +29,8 @@ namespace FAMIX
     [FameProperty(Name = "comments",  Opposite = "container")]    
     public List Comments
     {
-      { return Comments; }
-      { Comments = value; }
+      get { return Comments; }
+      set { Comments = value; }
     }
     public void AddComment(Comment one)
     {

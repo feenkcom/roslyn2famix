@@ -52,8 +52,8 @@ namespace FAMIX
     [FameProperty(Name = "childNamedEntities",  Opposite = "parentPackage")]    
     public List ChildNamedEntities
     {
-      { return ChildNamedEntities; }
-      { ChildNamedEntities = value; }
+      get { return ChildNamedEntities; }
+      set { ChildNamedEntities = value; }
     }
     public void AddNamedEntity(NamedEntity one)
     {
@@ -65,8 +65,8 @@ namespace FAMIX
     [FameProperty(Name = "clientTypes")]    
     public List ClientTypes
     {
-      { return ClientTypes; }
-      { ClientTypes = value; }
+      get { return ClientTypes; }
+      set { ClientTypes = value; }
     }
     public void AddType(Type one)
     {
@@ -78,8 +78,8 @@ namespace FAMIX
     [FameProperty(Name = "providerTypes")]    
     public List ProviderTypes
     {
-      { return ProviderTypes; }
-      { ProviderTypes = value; }
+      get { return ProviderTypes; }
+      set { ProviderTypes = value; }
     }
     public void AddType(Type one)
     {

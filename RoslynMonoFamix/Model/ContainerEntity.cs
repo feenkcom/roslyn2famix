@@ -13,8 +13,8 @@ namespace FAMIX
     [FameProperty(Name = "functions",  Opposite = "container")]    
     public List Functions
     {
-      { return Functions; }
-      { Functions = value; }
+      get { return Functions; }
+      set { Functions = value; }
     }
     public void AddFunction(Function one)
     {
@@ -26,8 +26,8 @@ namespace FAMIX
     [FameProperty(Name = "types",  Opposite = "container")]    
     public List Types
     {
-      { return Types; }
-      { Types = value; }
+      get { return Types; }
+      set { Types = value; }
     }
     public void AddType(Type one)
     {
@@ -39,8 +39,8 @@ namespace FAMIX
     [FameProperty(Name = "definedAnnotationTypes",  Opposite = "container")]    
     public List DefinedAnnotationTypes
     {
-      { return DefinedAnnotationTypes; }
-      { DefinedAnnotationTypes = value; }
+      get { return DefinedAnnotationTypes; }
+      set { DefinedAnnotationTypes = value; }
     }
     public void AddAnnotationType(AnnotationType one)
     {

@@ -16,8 +16,8 @@ namespace FAMIX
     [FameProperty(Name = "arguments",  Opposite = "argumentsInParameterizedTypes")]    
     public List Arguments
     {
-      { return Arguments; }
-      { Arguments = value; }
+      get { return Arguments; }
+      set { Arguments = value; }
     }
     public void AddType(Type one)
     {

@@ -13,8 +13,8 @@ namespace FAMIX
     [FameProperty(Name = "attributes",  Opposite = "parentAnnotationInstance")]    
     public List Attributes
     {
-      { return Attributes; }
-      { Attributes = value; }
+      get { return Attributes; }
+      set { Attributes = value; }
     }
     public void AddAnnotationInstanceAttribute(AnnotationInstanceAttribute one)
     {

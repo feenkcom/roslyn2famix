@@ -13,8 +13,8 @@ namespace FAMIX
     [FameProperty(Name = "parameters")]    
     public List Parameters
     {
-      { return Parameters; }
-      { Parameters = value; }
+      get { return Parameters; }
+      set { Parameters = value; }
     }
     public void AddParameterType(ParameterType one)
     {
@@ -26,8 +26,8 @@ namespace FAMIX
     [FameProperty(Name = "parameterizedTypes",  Opposite = "parameterizableClass")]    
     public List ParameterizedTypes
     {
-      { return ParameterizedTypes; }
-      { ParameterizedTypes = value; }
+      get { return ParameterizedTypes; }
+      set { ParameterizedTypes = value; }
     }
     public void AddParameterizedType(ParameterizedType one)
     {

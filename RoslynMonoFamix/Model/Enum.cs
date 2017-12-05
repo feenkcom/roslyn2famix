@@ -13,8 +13,8 @@ namespace FAMIX
     [FameProperty(Name = "values",  Opposite = "parentEnum")]    
     public List Values
     {
-      { return Values; }
-      { Values = value; }
+      get { return Values; }
+      set { Values = value; }
     }
     public void AddEnumValue(EnumValue one)
     {

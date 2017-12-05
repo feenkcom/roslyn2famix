@@ -16,8 +16,8 @@ namespace FAMIX
     [FameProperty(Name = "receivingInvocations",  Opposite = "receiver")]    
     public List ReceivingInvocations
     {
-      { return ReceivingInvocations; }
-      { ReceivingInvocations = value; }
+      get { return ReceivingInvocations; }
+      set { ReceivingInvocations = value; }
     }
     public void AddInvocation(Invocation one)
     {
@@ -29,8 +29,8 @@ namespace FAMIX
     [FameProperty(Name = "annotationInstances",  Opposite = "annotatedEntity")]    
     public List AnnotationInstances
     {
-      { return AnnotationInstances; }
-      { AnnotationInstances = value; }
+      get { return AnnotationInstances; }
+      set { AnnotationInstances = value; }
     }
     public void AddAnnotationInstance(AnnotationInstance one)
     {
@@ -57,8 +57,8 @@ namespace FAMIX
     [FameProperty(Name = "modifiers")]    
     public List Modifiers
     {
-      { return Modifiers; }
-      { Modifiers = value; }
+      get { return Modifiers; }
+      set { Modifiers = value; }
     }
     public void AddString(String one)
     {

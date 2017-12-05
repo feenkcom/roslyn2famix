@@ -13,8 +13,8 @@ namespace FAMIX
     [FameProperty(Name = "candidates",  Opposite = "incomingInvocations")]    
     public List Candidates
     {
-      { return Candidates; }
-      { Candidates = value; }
+      get { return Candidates; }
+      set { Candidates = value; }
     }
     public void AddBehaviouralEntity(BehaviouralEntity one)
     {

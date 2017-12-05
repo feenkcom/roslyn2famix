@@ -16,8 +16,8 @@ namespace FAMIX
     [FameProperty(Name = "instances",  Opposite = "annotationType")]    
     public List Instances
     {
-      { return Instances; }
-      { Instances = value; }
+      get { return Instances; }
+      set { Instances = value; }
     }
     public void AddAnnotationInstance(AnnotationInstance one)
     {

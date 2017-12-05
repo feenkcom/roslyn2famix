@@ -22,8 +22,8 @@ namespace FAMIX
     [FameProperty(Name = "outgoingTraitUsages",  Opposite = "user")]    
     public List OutgoingTraitUsages
     {
-      { return OutgoingTraitUsages; }
-      { OutgoingTraitUsages = value; }
+      get { return OutgoingTraitUsages; }
+      set { OutgoingTraitUsages = value; }
     }
     public void AddTraitUsage(TraitUsage one)
     {
@@ -35,8 +35,8 @@ namespace FAMIX
     [FameProperty(Name = "typeAliases",  Opposite = "aliasedType")]    
     public List TypeAliases
     {
-      { return TypeAliases; }
-      { TypeAliases = value; }
+      get { return TypeAliases; }
+      set { TypeAliases = value; }
     }
     public void AddTypeAlias(TypeAlias one)
     {
@@ -54,8 +54,8 @@ namespace FAMIX
     [FameProperty(Name = "argumentsInParameterizedTypes",  Opposite = "arguments")]    
     public List ArgumentsInParameterizedTypes
     {
-      { return ArgumentsInParameterizedTypes; }
-      { ArgumentsInParameterizedTypes = value; }
+      get { return ArgumentsInParameterizedTypes; }
+      set { ArgumentsInParameterizedTypes = value; }
     }
     public void AddParameterizedType(ParameterizedType one)
     {
@@ -70,8 +70,8 @@ namespace FAMIX
     [FameProperty(Name = "clientTypes")]    
     public List ClientTypes
     {
-      { return ClientTypes; }
-      { ClientTypes = value; }
+      get { return ClientTypes; }
+      set { ClientTypes = value; }
     }
     public void AddType(Type one)
     {
@@ -89,8 +89,8 @@ namespace FAMIX
     [FameProperty(Name = "incomingReferences",  Opposite = "target")]    
     public List IncomingReferences
     {
-      { return IncomingReferences; }
-      { IncomingReferences = value; }
+      get { return IncomingReferences; }
+      set { IncomingReferences = value; }
     }
     public void AddReference(Reference one)
     {
@@ -123,8 +123,8 @@ namespace FAMIX
     [FameProperty(Name = "instances",  Opposite = "type")]    
     public List Instances
     {
-      { return Instances; }
-      { Instances = value; }
+      get { return Instances; }
+      set { Instances = value; }
     }
     public void AddInstance(Instance one)
     {
@@ -136,8 +136,8 @@ namespace FAMIX
     [FameProperty(Name = "superInheritances",  Opposite = "subclass")]    
     public List SuperInheritances
     {
-      { return SuperInheritances; }
-      { SuperInheritances = value; }
+      get { return SuperInheritances; }
+      set { SuperInheritances = value; }
     }
     public void AddInheritance(Inheritance one)
     {
@@ -155,8 +155,8 @@ namespace FAMIX
     [FameProperty(Name = "subInheritances",  Opposite = "superclass")]    
     public List SubInheritances
     {
-      { return SubInheritances; }
-      { SubInheritances = value; }
+      get { return SubInheritances; }
+      set { SubInheritances = value; }
     }
     public void AddInheritance(Inheritance one)
     {
@@ -168,8 +168,8 @@ namespace FAMIX
     [FameProperty(Name = "structuresWithDeclaredType",  Opposite = "declaredType")]    
     public List StructuresWithDeclaredType
     {
-      { return StructuresWithDeclaredType; }
-      { StructuresWithDeclaredType = value; }
+      get { return StructuresWithDeclaredType; }
+      set { StructuresWithDeclaredType = value; }
     }
     public void AddStructuralEntity(StructuralEntity one)
     {
@@ -193,8 +193,8 @@ namespace FAMIX
     [FameProperty(Name = "behavioursWithDeclaredType",  Opposite = "declaredType")]    
     public List BehavioursWithDeclaredType
     {
-      { return BehavioursWithDeclaredType; }
-      { BehavioursWithDeclaredType = value; }
+      get { return BehavioursWithDeclaredType; }
+      set { BehavioursWithDeclaredType = value; }
     }
     public void AddBehaviouralEntity(BehaviouralEntity one)
     {
@@ -206,8 +206,8 @@ namespace FAMIX
     [FameProperty(Name = "methods",  Opposite = "parentType")]    
     public List Methods
     {
-      { return Methods; }
-      { Methods = value; }
+      get { return Methods; }
+      set { Methods = value; }
     }
     public void AddMethod(Method one)
     {
@@ -222,8 +222,8 @@ namespace FAMIX
     [FameProperty(Name = "attributes",  Opposite = "parentType")]    
     public List Attributes
     {
-      { return Attributes; }
-      { Attributes = value; }
+      get { return Attributes; }
+      set { Attributes = value; }
     }
     public void AddAttribute(Attribute one)
     {
@@ -277,8 +277,8 @@ namespace FAMIX
     [FameProperty(Name = "providerTypes")]    
     public List ProviderTypes
     {
-      { return ProviderTypes; }
-      { ProviderTypes = value; }
+      get { return ProviderTypes; }
+      set { ProviderTypes = value; }
     }
     public void AddType(Type one)
     {

@@ -19,8 +19,8 @@ namespace FAMIX
     [FameProperty(Name = "clientTypes")]    
     public List ClientTypes
     {
-      { return ClientTypes; }
-      { ClientTypes = value; }
+      get { return ClientTypes; }
+      set { ClientTypes = value; }
     }
     public void AddType(Type one)
     {
@@ -38,8 +38,8 @@ namespace FAMIX
     [FameProperty(Name = "providerTypes")]    
     public List ProviderTypes
     {
-      { return ProviderTypes; }
-      { ProviderTypes = value; }
+      get { return ProviderTypes; }
+      set { ProviderTypes = value; }
     }
     public void AddType(Type one)
     {
