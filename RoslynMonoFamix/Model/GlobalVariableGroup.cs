@@ -1,16 +1,12 @@
-using Fame;using System.Collections.Generic;namespace Model{
+using Fame;
+using System;
+using System.Collections.Generic;
 
-
-
-    [FamePackage("FAMIX")]
-    [FameDescription("GlobalVariableGroup")]
-    public class GlobalVariableGroup : Group
-    {
-
-
-
-
-
-
-    }
+namespace FAMIX
+{
+  [FamePackage("FAMIX")]
+  [FameDescription("GlobalVariableGroup")]
+  public class GlobalVariableGroup : Group
+  {
+  }
 }

@@ -1,20 +1,28 @@
-using Fame;using System.Collections.Generic;namespace Model{
+using Fame;
+using System;
+using System.Collections.Generic;
 
-
-
-    [FamePackage("FAMIX")]
-    [FameDescription("ParameterizedType")]
-    public class ParameterizedType : Type
+namespace FAMIX
+{
+  [FamePackage("FAMIX")]
+  [FameDescription("ParameterizedType")]
+  public class ParameterizedType : Type
+  {
+    [FameProperty(Name = "parameterizableClass",  Opposite = "parameterizedTypes")]    
+    public ParameterizableClass parameterizableClass { get; set; }
+    
+    private List<Type> arguments = new List<Type>();
+    
+    [FameProperty(Name = "arguments",  Opposite = "argumentsInParameterizedTypes")]    
+    public List Arguments
     {
-        private List<Type> arguments = new List<Type>();        [FameProperty(Name = "arguments") Opposite = "argumentsInParameterizedTypes"]        public List	 Types        {            get { return Types; }            set { Types = value; }        }        public void AddType(Type one)        {            Types.Add(one);        }
-        [FameProperty(Name = "parameterizableClass") Opposite = "parameterizedTypes"]
-        public ParameterizableClass parameterizableClass { get; set; }
-
-
-
-
-
-
-
+      { return Arguments; }
+      { Arguments = value; }
     }
+    public void AddType(Type one)
+    {
+      Arguments.Add(one);
+    }
+    
+  }
 }

@@ -1,19 +1,15 @@
-using Fame;using System.Collections.Generic;namespace Model{
+using Fame;
+using System;
+using System.Collections.Generic;
 
-
-
-    [FamePackage("FAMIX")]
-    [FameDescription("CompilationUnit")]
-    public class CompilationUnit : CFile
-    {
-        [FameProperty(Name = "module") Opposite = "compilationUnit"]
-        public Module module { get; set; }
-
-
-
-
-
-
-
-    }
+namespace FAMIX
+{
+  [FamePackage("FAMIX")]
+  [FameDescription("CompilationUnit")]
+  public class CompilationUnit : CFile
+  {
+    [FameProperty(Name = "module",  Opposite = "compilationUnit")]    
+    public Module module { get; set; }
+    
+  }
 }

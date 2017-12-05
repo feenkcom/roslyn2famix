@@ -1,25 +1,21 @@
-using Fame;using System.Collections.Generic;namespace Model{
+using Fame;
+using System;
+using System.Collections.Generic;
 
-
-
-    [FamePackage("FAMIX")]
-    [FameDescription("AbstractFileAnchor")]
-    public class AbstractFileAnchor : SourceAnchor
-    {
-        [FameProperty(Name = "fileName")]
-        public String fileName { get; set; }
-
-        [FameProperty(Name = "correspondingFile")]
-        public File correspondingFile { get; set; }
-
-        [FameProperty(Name = "encoding")]
-        public String encoding { get; set; }
-
-
-
-
-
-
-
-    }
+namespace FAMIX
+{
+  [FamePackage("FAMIX")]
+  [FameDescription("AbstractFileAnchor")]
+  public class AbstractFileAnchor : SourceAnchor
+  {
+    [FameProperty(Name = "correspondingFile")]    
+    public File correspondingFile { get; set; }
+    
+    [FameProperty(Name = "encoding")]    
+    public String encoding { get; set; }
+    
+    [FameProperty(Name = "fileName")]    
+    public String fileName { get; set; }
+    
+  }
 }

@@ -1,16 +1,12 @@
-using Fame;using System.Collections.Generic;namespace Model{
+using Fame;
+using System;
+using System.Collections.Generic;
 
-
-
-    [FamePackage("FAMIX")]
-    [FameDescription("UnknownVariable")]
-    public class UnknownVariable : StructuralEntity
-    {
-
-
-
-
-
-
-    }
+namespace FAMIX
+{
+  [FamePackage("FAMIX")]
+  [FameDescription("UnknownVariable")]
+  public class UnknownVariable : StructuralEntity
+  {
+  }
 }

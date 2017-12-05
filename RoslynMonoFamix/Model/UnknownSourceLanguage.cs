@@ -1,16 +1,12 @@
-using Fame;using System.Collections.Generic;namespace Model{
+using Fame;
+using System;
+using System.Collections.Generic;
 
-
-
-    [FamePackage("FAMIX")]
-    [FameDescription("UnknownSourceLanguage")]
-    public class UnknownSourceLanguage : SourceLanguage
-    {
-
-
-
-
-
-
-    }
+namespace FAMIX
+{
+  [FamePackage("FAMIX")]
+  [FameDescription("UnknownSourceLanguage")]
+  public class UnknownSourceLanguage : SourceLanguage
+  {
+  }
 }

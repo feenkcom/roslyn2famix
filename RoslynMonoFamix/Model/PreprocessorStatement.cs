@@ -1,16 +1,12 @@
-using Fame;using System.Collections.Generic;namespace Model{
+using Fame;
+using System;
+using System.Collections.Generic;
 
-
-
-    [FamePackage("FAMIX")]
-    [FameDescription("PreprocessorStatement")]
-    public class PreprocessorStatement : SourcedEntity
-    {
-
-
-
-
-
-
-    }
+namespace FAMIX
+{
+  [FamePackage("FAMIX")]
+  [FameDescription("PreprocessorStatement")]
+  public class PreprocessorStatement : SourcedEntity
+  {
+  }
 }

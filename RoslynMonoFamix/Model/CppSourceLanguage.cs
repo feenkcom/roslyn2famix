@@ -1,16 +1,12 @@
-using Fame;using System.Collections.Generic;namespace Model{
+using Fame;
+using System;
+using System.Collections.Generic;
 
-
-
-    [FamePackage("FAMIX")]
-    [FameDescription("CppSourceLanguage")]
-    public class CppSourceLanguage : CSourceLanguage
-    {
-
-
-
-
-
-
-    }
+namespace FAMIX
+{
+  [FamePackage("FAMIX")]
+  [FameDescription("CppSourceLanguage")]
+  public class CppSourceLanguage : CSourceLanguage
+  {
+  }
 }

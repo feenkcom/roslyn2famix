@@ -1,22 +1,18 @@
-using Fame;using System.Collections.Generic;namespace Model{
+using Fame;
+using System;
+using System.Collections.Generic;
 
-
-
-    [FamePackage("FAMIX")]
-    [FameDescription("PreprocessorIfdef")]
-    public class PreprocessorIfdef : PreprocessorStatement
-    {
-        [FameProperty(Name = "negated")]
-        public Boolean negated { get; set; }
-
-        [FameProperty(Name = "macro")]
-        public String macro { get; set; }
-
-
-
-
-
-
-
-    }
+namespace FAMIX
+{
+  [FamePackage("FAMIX")]
+  [FameDescription("PreprocessorIfdef")]
+  public class PreprocessorIfdef : PreprocessorStatement
+  {
+    [FameProperty(Name = "macro")]    
+    public String macro { get; set; }
+    
+    [FameProperty(Name = "negated")]    
+    public Boolean negated { get; set; }
+    
+  }
 }

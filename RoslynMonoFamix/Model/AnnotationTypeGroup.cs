@@ -1,14 +1,12 @@
-using Fame;using System.Collections.Generic;namespace Model{
+using Fame;
+using System;
+using System.Collections.Generic;
 
-    [FamePackage("FAMIX")]
-    [FameDescription("AnnotationTypeGroup")]
-    public class AnnotationTypeGroup : Group
-    {
-
-
-
-
-
-
-    }
+namespace FAMIX
+{
+  [FamePackage("FAMIX")]
+  [FameDescription("AnnotationTypeGroup")]
+  public class AnnotationTypeGroup : Group
+  {
+  }
 }

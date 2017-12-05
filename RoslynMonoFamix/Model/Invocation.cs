@@ -1,26 +1,34 @@
-using Fame;using System.Collections.Generic;namespace Model{
+using Fame;
+using System;
+using System.Collections.Generic;
 
-
-
-    [FamePackage("FAMIX")]
-    [FameDescription("Invocation")]
-    public class Invocation : Association
+namespace FAMIX
+{
+  [FamePackage("FAMIX")]
+  [FameDescription("Invocation")]
+  public class Invocation : Association
+  {
+    private List<BehaviouralEntity> candidates = new List<BehaviouralEntity>();
+    
+    [FameProperty(Name = "candidates",  Opposite = "incomingInvocations")]    
+    public List Candidates
     {
-        [FameProperty(Name = "sender") Opposite = "outgoingInvocations"]
-        public BehaviouralEntity sender { get; set; }
-
-        [FameProperty(Name = "receiver") Opposite = "receivingInvocations"]
-        public NamedEntity receiver { get; set; }
-
-        private List<BehaviouralEntity> candidates = new List<BehaviouralEntity>();        [FameProperty(Name = "candidates") Opposite = "incomingInvocations"]        public List BehaviouralEntitys        {            get { return BehaviouralEntitys; }            set { BehaviouralEntitys = value; }        }        public void AddBehaviouralEntity(BehaviouralEntity one)        {            BehaviouralEntitys.Add(one);        }
-        [FameProperty(Name = "signature")]
-        public String signature { get; set; }
-
-
-
-
-
-
-
+      { return Candidates; }
+      { Candidates = value; }
     }
+    public void AddBehaviouralEntity(BehaviouralEntity one)
+    {
+      Candidates.Add(one);
+    }
+    
+    [FameProperty(Name = "receiver",  Opposite = "receivingInvocations")]    
+    public NamedEntity receiver { get; set; }
+    
+    [FameProperty(Name = "signature")]    
+    public String signature { get; set; }
+    
+    [FameProperty(Name = "sender",  Opposite = "outgoingInvocations")]    
+    public BehaviouralEntity sender { get; set; }
+    
+  }
 }

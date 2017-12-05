@@ -1,19 +1,15 @@
-using Fame;using System.Collections.Generic;namespace Model{
+using Fame;
+using System;
+using System.Collections.Generic;
 
-
-
-    [FamePackage("FAMIX")]
-    [FameDescription("DereferencedInvocation")]
-    public class DereferencedInvocation : Invocation
-    {
-        [FameProperty(Name = "referencer") Opposite = "dereferencedInvocations"]
-        public StructuralEntity referencer { get; set; }
-
-
-
-
-
-
-
-    }
+namespace FAMIX
+{
+  [FamePackage("FAMIX")]
+  [FameDescription("DereferencedInvocation")]
+  public class DereferencedInvocation : Invocation
+  {
+    [FameProperty(Name = "referencer",  Opposite = "dereferencedInvocations")]    
+    public StructuralEntity referencer { get; set; }
+    
+  }
 }

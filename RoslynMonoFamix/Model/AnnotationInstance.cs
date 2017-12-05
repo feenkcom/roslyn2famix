@@ -1,23 +1,31 @@
-using Fame;using System.Collections.Generic;namespace Model{
+using Fame;
+using System;
+using System.Collections.Generic;
 
-
-
-    [FamePackage("FAMIX")]
-    [FameDescription("AnnotationInstance")]
-    public class AnnotationInstance : SourcedEntity
+namespace FAMIX
+{
+  [FamePackage("FAMIX")]
+  [FameDescription("AnnotationInstance")]
+  public class AnnotationInstance : SourcedEntity
+  {
+    private List<AnnotationInstanceAttribute> attributes = new List<AnnotationInstanceAttribute>();
+    
+    [FameProperty(Name = "attributes",  Opposite = "parentAnnotationInstance")]    
+    public List Attributes
     {
-        [FameProperty(Name = "annotatedEntity") Opposite = "annotationInstances"]
-        public NamedEntity annotatedEntity { get; set; }
-
-        [FameProperty(Name = "annotationType") Opposite = "instances"]
-        public AnnotationType annotationType { get; set; }
-
-        private List<AnnotationInstanceAttribute> attributes = new List<AnnotationInstanceAttribute>();        [FameProperty(Name = "attributes", Opposite = "parentAnnotationInstance")]        public List AnnotationInstanceAttributes        {            get { return AnnotationInstanceAttributes; }            set { AnnotationInstanceAttributes = value; }        }        public void AddAnnotationInstanceAttribute(AnnotationInstanceAttribute one)        {            AnnotationInstanceAttributes.Add(one);        }
-
-
-
-
-
-
+      { return Attributes; }
+      { Attributes = value; }
     }
+    public void AddAnnotationInstanceAttribute(AnnotationInstanceAttribute one)
+    {
+      Attributes.Add(one);
+    }
+    
+    [FameProperty(Name = "annotatedEntity",  Opposite = "annotationInstances")]    
+    public NamedEntity annotatedEntity { get; set; }
+    
+    [FameProperty(Name = "annotationType",  Opposite = "instances")]    
+    public AnnotationType annotationType { get; set; }
+    
+  }
 }

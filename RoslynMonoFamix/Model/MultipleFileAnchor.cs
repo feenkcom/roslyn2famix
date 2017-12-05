@@ -1,17 +1,25 @@
-using Fame;using System.Collections.Generic;namespace Model{
+using Fame;
+using System;
+using System.Collections.Generic;
 
-
-
-    [FamePackage("FAMIX")]
-    [FameDescription("MultipleFileAnchor")]
-    public class MultipleFileAnchor : SourceAnchor
+namespace FAMIX
+{
+  [FamePackage("FAMIX")]
+  [FameDescription("MultipleFileAnchor")]
+  public class MultipleFileAnchor : SourceAnchor
+  {
+    private List<AbstractFileAnchor> allFiles = new List<AbstractFileAnchor>();
+    
+    [FameProperty(Name = "allFiles")]    
+    public List AllFiles
     {
-	     private List<AbstractFileAnchor> allFiles = new List<AbstractFileAnchor>();        [FameProperty(Name = "allFiles")]        public List AbstractFileAnchors        {            get { return AbstractFileAnchors; }            set { AbstractFileAnchors = value; }        }        public void AddAbstractFileAnchor(AbstractFileAnchor one)        {            AbstractFileAnchors.Add(one);        }
-
-
-
-
-
-
+      { return AllFiles; }
+      { AllFiles = value; }
     }
+    public void AddAbstractFileAnchor(AbstractFileAnchor one)
+    {
+      AllFiles.Add(one);
+    }
+    
+  }
 }
