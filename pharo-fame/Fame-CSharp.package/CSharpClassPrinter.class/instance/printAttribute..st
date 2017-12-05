@@ -10,8 +10,8 @@ printAttribute: fameProperty
 					self writeAttributeAnnotation: fameProperty.
 					self writeLine: 'public List ', propName capitalized.
 					self enterBlock.
-						self writeLine: '{ return ', propName capitalized,  '; }'.
-            			self writeLine: '{ ', propName capitalized,  ' = value; }'.				
+						self writeLine: 'get { return ', propName capitalized,  '; }'.
+            			self writeLine: 'set { ', propName capitalized,  ' = value; }'.				
 					self exitBlock.		
 					self writeLine: 'public void Add', propType, '(', propType, ' one)'.
 					self enterBlock.
