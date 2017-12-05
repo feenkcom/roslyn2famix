@@ -9,7 +9,7 @@ visitManyToManyProperty: fameProperty
 	instVars add: ('
         private List%<<1s>> <2s> = new List%<<1s>>();
 
-        [FameProperty(Name = "<2s>") Opposite = "', fameProperty opposite name, '"]
+        [FameProperty(Name = "<2s>", Opposite = "', fameProperty opposite name, '")]
         public List<',typeName,'> ',typeName,'s
         {
             get { return ',typeName,'s; }

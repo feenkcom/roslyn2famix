@@ -1,16 +1,15 @@
 {
-	"commentStamp" : "GeorgeGanea 12/4/2017 13:09",
+	"commentStamp" : "GeorgeGanea 12/5/2017 13:12",
 	"super" : "Object",
 	"category" : "Fame-CSharp",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
-		"classCodeGenerator",
-		"file",
-		"skipDerivedMethods",
-		"stream"
+		"theStream",
+		"theClass",
+		"indent"
 	],
-	"name" : "FMTraverser",
+	"name" : "CSharpClassPrinter",
 	"type" : "normal"
 }

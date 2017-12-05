@@ -1,0 +1,1 @@
+FameCSharpGenerator new generateFor: MooseModel meta metamodel in: '/Users/george/moose'
