@@ -1,1 +1,1 @@
-FameCSharpGenerator new generateFor: MooseModel meta metamodel in: '/Users/george/moose'
+FameCSharpGenerator new generateFor: MooseModel meta metamodel in: 'C:\Users\george\moose'
