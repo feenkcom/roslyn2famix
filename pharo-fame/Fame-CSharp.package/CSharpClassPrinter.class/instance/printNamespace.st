@@ -1,6 +1,6 @@
 printing
 printNamespace
-	self writeLine: 'namespace ', theClass package name.
+	self writeLine: 'namespace FAMIX'.
 	self enterBlock.
 	self printClass.
 	self exitBlock.
