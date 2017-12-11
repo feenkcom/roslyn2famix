@@ -18,6 +18,7 @@ namespace RoslynMonoFamix.InCSharp
             this.repository = repository;
             this.Methods = new NamedEntityAccumulator<Method>();
             this.Types = new NamedEntityAccumulator<FAMIX.Type>();
+            this.Attributes = new NamedEntityAccumulator<FAMIX.Attribute>();
         }
 
         public NamedEntityAccumulator<FAMIX.Type> Types { get; set; }
@@ -43,6 +44,17 @@ namespace RoslynMonoFamix.InCSharp
             
             Types.Add(fullName, type);
             return type;
+        }
+
+        public FAMIX.Attribute EnsureAttribute (String attributeFullName, IFieldSymbol field)
+        {
+            if (Attributes.has(attributeFullName))
+                return Attributes.Named(attributeFullName);
+            FAMIX.Attribute attribute = repository.NewInstance<FAMIX.Attribute>("FAMIX.Attribute");
+
+            attribute.name = field.Name;
+            Attributes.Add(attributeFullName, attribute);
+            return attribute;
         }
     }
 }

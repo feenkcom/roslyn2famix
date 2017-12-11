@@ -46,19 +46,23 @@ public class ModelVisitor : CSharpSyntaxWalker
     {
         foreach (var variable in node.Declaration.Variables)
         {
-            //Model.Attribute anAttribute = repository.NewInstance<Model.Attribute>("FAMIX.Attribute");
-            //string attributeName = variable.Identifier.ToString();
-            //Console.WriteLine("\t" + attributeName);
+            string attributeName = variable.Identifier.ToString();
+            var symbol =  semanticModel.GetDeclaredSymbol(variable);
+            if (symbol is IFieldSymbol)
+            {
+                FAMIX.Attribute anAttribute = importer.EnsureAttribute(currentClassKey + "." + attributeName, (IFieldSymbol) symbol);
+            }
+            
         }
         base.VisitFieldDeclaration(node);
     }
 
-    public IMethodSymbol GetMethodSymbol(SyntaxNode node)
+    public T GetSymbol<T>(SyntaxNode node)
     {
         var symbolInfo = semanticModel.GetSymbolInfo(node).Symbol;
-        if (symbolInfo is IMethodSymbol methodSymbol)
+        if (symbolInfo is T methodSymbol)
             return methodSymbol;
-        return null;
+        return default(T);
     }
 
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
@@ -70,13 +74,13 @@ public class ModelVisitor : CSharpSyntaxWalker
         if (expr is IdentifierNameSyntax)
         {
             IdentifierNameSyntax identifiername = expr as IdentifierNameSyntax; // identifiername is your method name
-            methodSymbol = GetMethodSymbol(node);
+            methodSymbol = GetSymbol<IMethodSymbol>(node);
             Console.WriteLine("\t\t\t ID from usage:" + methodSymbol.GetHashCode());
         }
         if (expr is MemberAccessExpressionSyntax)
         {
             MemberAccessExpressionSyntax memberAccess = expr as MemberAccessExpressionSyntax;
-            methodSymbol = GetMethodSymbol(node);
+            methodSymbol = GetSymbol<IMethodSymbol>(node);
         }
 
         if (methodSymbol != null && currentMethod != null)
