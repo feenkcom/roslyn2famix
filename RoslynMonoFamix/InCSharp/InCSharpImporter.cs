@@ -1,6 +1,6 @@
 ﻿using Fame;
 using Microsoft.CodeAnalysis;
-using Model;
+using FAMIX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,30 +17,31 @@ namespace RoslynMonoFamix.InCSharp
         {
             this.repository = repository;
             this.Methods = new NamedEntityAccumulator<Method>();
-            this.Types = new NamedEntityAccumulator<Model.Type>();
+            this.Types = new NamedEntityAccumulator<FAMIX.Type>();
         }
 
-        public NamedEntityAccumulator<Model.Type> Types { get; set; }
+        public NamedEntityAccumulator<FAMIX.Type> Types { get; set; }
         public NamedEntityAccumulator<Method> Methods { get; set; }
-        public NamedEntityAccumulator<Model.Attribute> Attributes { get; set; }
+        public NamedEntityAccumulator<FAMIX.Attribute> Attributes { get; set; }
 
-        public Method EnsureMethod(IMethodSymbol aMethod)
+        public Method EnsureMethod(String methodFullName, IMethodSymbol aMethod)
         {
-            if (Methods.has(aMethod.GetHashCode().ToString()))
-                return Methods.Named(aMethod.GetHashCode().ToString());
+            if (Methods.has(methodFullName))
+                return Methods.Named(methodFullName);
             
             Method method = repository.NewInstance<Method>("FAMIX.Method");
-            Methods.Add(aMethod.GetHashCode().ToString(), method);
+            Methods.Add(methodFullName, method);
             return method;
         }
 
-        public Model.Type EnsureType(INamedTypeSymbol aType)
+        public FAMIX.Type EnsureType(String fullName, INamedTypeSymbol aType)
         {
-            if (Types.has(aType.GetHashCode().ToString()))
-                return Types.Named(aType.GetHashCode().ToString());
+            if (Types.has(fullName))
+                return Types.Named(fullName);
 
-            Model.Type type = repository.NewInstance<Model.Type>("FAMIX.Class");
-            Types.Add(aType.GetHashCode().ToString(), type);
+            FAMIX.Type type = repository.NewInstance<FAMIX.Type>("FAMIX.Class");
+            
+            Types.Add(fullName, type);
             return type;
         }
     }

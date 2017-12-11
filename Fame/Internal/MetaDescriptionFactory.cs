@@ -53,10 +53,22 @@ namespace Fame.Internal
 			InitializePackage();
 			CreatePropertyFactories();
 			CreatePropertyInstances();
+            InitializeSuperclass();
 			InitializeProperties();
 		}
 
-		private void InitializePackage()
+        private void InitializeSuperclass()
+        {
+            if (type.BaseType != null)
+            {
+                repository.With(type.BaseType);
+                MetaDescription superclass = repository.GetDescription(type.BaseType);
+                if (superclass != null)
+                    instance.SuperClass = superclass;
+            }
+        }
+
+        private void InitializePackage()
 		{
 			var name = type.GetTypeInfo().GetCustomAttribute<FamePackageAttribute>();
 			var packageName = type.GetTypeInfo().Namespace;
