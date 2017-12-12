@@ -56,5 +56,7 @@ namespace RoslynMonoFamix.InCSharp
             Attributes.Add(attributeFullName, attribute);
             return attribute;
         }
+
+        public T CreateNewAssociation<T>(String typeName) => repository.NewInstance<T>(typeName);
     }
 }

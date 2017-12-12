@@ -31,13 +31,10 @@ public class ModelVisitor : CSharpSyntaxWalker
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         string methodName = node.Identifier.ToString();
-        Console.WriteLine("\t" + methodName);
         var methodSymbol = semanticModel.GetDeclaredSymbol(node);
         String fullMethodName = FullMethodName(methodSymbol);
         Method aMethod = importer.EnsureMethod(fullMethodName, methodSymbol);
         currentMethod = aMethod;
-        Console.WriteLine("\t\t ID from declaration:" + methodSymbol.GetHashCode());
-        Console.WriteLine("\t\t" + methodSymbol.IsAbstract);
         base.VisitMethodDeclaration(node);
         currentMethod = null;
     }
@@ -64,7 +61,7 @@ public class ModelVisitor : CSharpSyntaxWalker
             return methodSymbol;
         return default(T);
     }
-
+    /*
     public override void VisitInvocationExpression(InvocationExpressionSyntax node)
     {
         var symbol = semanticModel.GetDeclaredSymbol(node);
@@ -95,6 +92,51 @@ public class ModelVisitor : CSharpSyntaxWalker
             Console.WriteLine("\t\t\t ID from usage:" + methodSymbol.GetHashCode());
         }
         base.VisitInvocationExpression(node);
+    }
+    */
+    /**
+     * Visit an identifier, it can be anything, a method reference, a field, a local variable, etc.
+     * We need to find out what it is and if it is located in a method and then make the appropriate connection.
+     */
+    public override void VisitIdentifierName(IdentifierNameSyntax node)
+    {
+        if (currentMethod != null)
+        {
+            Console.WriteLine("node+++ " + node.Identifier);
+            FAMIX.NamedEntity referencedEntity = FindReferencedEntity(node);
+            if (referencedEntity is FAMIX.Method) AddMethodCall(node, currentMethod, referencedEntity as FAMIX.Method);
+            if (referencedEntity is FAMIX.Attribute) AddAttributeAccess(currentMethod, referencedEntity as FAMIX.Attribute);
+        }
+        base.VisitIdentifierName(node);
+    }
+
+    private void AddAttributeAccess(Method clientMethod, FAMIX.Attribute attribute)
+    {
+        Access access = importer.CreateNewAssociation<Access>("FAMIX.Access");
+        access.accessor = currentMethod;
+        access.variable = attribute;
+        clientMethod.AddAccesse(access);
+        attribute.AddAccessor(clientMethod);
+    }
+
+    private void AddMethodCall(IdentifierNameSyntax node, Method clientMethod, Method referencedEntity)
+    {
+        Invocation invocation = importer.CreateNewAssociation<Invocation>("FAMIX.Invocation");
+        invocation.sender = clientMethod;
+        invocation.AddCandidate(referencedEntity);
+        invocation.signature = node.Span.ToString();
+        clientMethod.AddOutgoingInvocation(invocation);
+        referencedEntity.AddIncomingInvocation(invocation);
+    }
+
+    private NamedEntity FindReferencedEntity(IdentifierNameSyntax node)
+    {
+        var symbol = semanticModel.GetSymbolInfo(node).Symbol;
+        if (symbol is IMethodSymbol)
+            return importer.EnsureMethod(FullMethodName(symbol as IMethodSymbol), symbol as IMethodSymbol);
+        if (symbol is IFieldSymbol)
+            return importer.EnsureAttribute(currentClassKey + "." + symbol.Name, symbol as IFieldSymbol);
+        return null;
     }
 
     private String FullMethodName(IMethodSymbol method)

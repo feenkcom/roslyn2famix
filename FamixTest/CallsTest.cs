@@ -8,7 +8,7 @@ namespace FamixTest
     {
         [TestMethod]
         public void TestStandardCall() =>
-            Assert.AreEqual(1, importer.Methods.Named(".SampleProject.Basic.StandardCaller.CallerMethod()").InvokedMethods.Count);
+            Assert.AreEqual(1, importer.Methods.Named(".SampleProject.Basic.StandardCaller.CallerMethod()").OutgoingInvocations.Count);
 
 
         [TestMethod]
