@@ -169,6 +169,7 @@
     <Compile Include="SampleSystemLoader.cs" />
     <Compile Include="CallsTest.cs" />
     <Compile Include="AttributeTest.cs" />
+    <Compile Include="SubClassTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

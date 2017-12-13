@@ -6,14 +6,7 @@ using System.Threading.Tasks;
 
 namespace SampleProject.Basic
 {
-    class Attribute
+    class SubClass : BaseClass
     {
-        private int i;
-        private int j, k;
-
-        private void Accessor()
-        {
-            i = j + 1;
-        }
     }
 }

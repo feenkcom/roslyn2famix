@@ -25,6 +25,18 @@ public class ModelVisitor : CSharpSyntaxWalker
         currentClassKey = FullTypeName(typeSymbol);
         FAMIX.Type type = importer.EnsureType(currentClassKey, typeSymbol);
         type.name = node.Identifier.ToString();
+
+
+        if (typeSymbol.BaseType != null)
+        {
+            FAMIX.Type baseType = importer.EnsureType(FullTypeName(typeSymbol.BaseType), typeSymbol.BaseType);
+            Inheritance inheritance = importer.CreateNewAssociation<Inheritance>("FAMIX.Inheritance");
+            inheritance.subclass = type;
+            inheritance.superclass = baseType;
+            baseType.AddSubInheritance(inheritance);
+            type.AddSuperInheritance(inheritance);
+        }
+
         base.VisitClassDeclaration(node);
     }
 
@@ -61,39 +73,7 @@ public class ModelVisitor : CSharpSyntaxWalker
             return methodSymbol;
         return default(T);
     }
-    /*
-    public override void VisitInvocationExpression(InvocationExpressionSyntax node)
-    {
-        var symbol = semanticModel.GetDeclaredSymbol(node);
-        var expr = node.Expression;
-        IMethodSymbol methodSymbol = null;
 
-        if (expr is IdentifierNameSyntax)
-        {
-            IdentifierNameSyntax identifiername = expr as IdentifierNameSyntax; // identifiername is your method name
-            methodSymbol = GetSymbol<IMethodSymbol>(node);
-            Console.WriteLine("\t\t\t ID from usage:" + methodSymbol.GetHashCode());
-        }
-        if (expr is MemberAccessExpressionSyntax)
-        {
-            MemberAccessExpressionSyntax memberAccess = expr as MemberAccessExpressionSyntax;
-            methodSymbol = GetSymbol<IMethodSymbol>(node);
-        }
-
-        if (methodSymbol != null && currentMethod != null)
-        {
-            var calledMethod = importer.EnsureMethod(FullMethodName(methodSymbol), methodSymbol);
-            // add the call to currentMethod here (once we have the model created)
-            currentMethod.InvokedMethods.Add(calledMethod);
-            calledMethod.InvokingMethods.Add(calledMethod);
-
-            Console.WriteLine("\t\t\t Current method:" + currentMethod);
-            Console.WriteLine("\t\t\t Calling:" + methodSymbol.Name);
-            Console.WriteLine("\t\t\t ID from usage:" + methodSymbol.GetHashCode());
-        }
-        base.VisitInvocationExpression(node);
-    }
-    */
     /**
      * Visit an identifier, it can be anything, a method reference, a field, a local variable, etc.
      * We need to find out what it is and if it is located in a method and then make the appropriate connection.
@@ -140,7 +120,6 @@ public class ModelVisitor : CSharpSyntaxWalker
     }
 
     private String FullMethodName(IMethodSymbol method)
-
     {
         var parameters = "(";
         foreach (var par in method.Parameters)
@@ -151,6 +130,7 @@ public class ModelVisitor : CSharpSyntaxWalker
 
         return currentClassKey + "." + method.Name + parameters;
     }
+
     private String FullTypeName(INamedTypeSymbol aType)
     {
         String name = aType.Name;

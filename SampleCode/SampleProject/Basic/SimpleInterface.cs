@@ -6,14 +6,8 @@ using System.Threading.Tasks;
 
 namespace SampleProject.Basic
 {
-    class Attribute
+    interface ISimpleInterface
     {
-        private int i;
-        private int j, k;
-
-        private void Accessor()
-        {
-            i = j + 1;
-        }
+        void Method();
     }
 }
