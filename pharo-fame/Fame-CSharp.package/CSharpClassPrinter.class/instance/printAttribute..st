@@ -3,10 +3,12 @@ printAttribute: fameProperty
 	|propName propType|
 	propName := fameProperty name.
 	propType := fameProperty type name.
-	(propName = 'activations') | (propName = 'instances') | (propType = 'Number') ifFalse: [ 
+	propType = 'Number' ifTrue: [ propType := 'int' ].
+	propName = 'return' ifTrue: [ propName := '_return' ].
 	fameProperty isMultivalued
 		ifTrue: [
-					self writeLine: ('private List%<<2s>> <1s> = new List%<<2s>>();' 						expandMacrosWith: (propName) with: propType).
+					self writeLine: ('private List%<<2s>> <1s> = new List%<<2s>>();' 
+						  expandMacrosWith: (propName) with: propType).
 					self writeLine: ''.						
 					self writeAttributeAnnotation: fameProperty.
 					self writeLine: ('public List %<<1s>> ' expandMacrosWith: propType) , propName capitalized.
@@ -21,7 +23,7 @@ printAttribute: fameProperty
 			 ]
 		ifFalse: [ 
 				  self writeAttributeAnnotation: fameProperty.
+				  
 				  self writeLine: 'public ', propType,' ', propName, ' { get; set; }'
 			 ].
 		self writeLine: ''.
- 		].
