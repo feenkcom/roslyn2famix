@@ -5,19 +5,14 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
 using System.Collections.Generic;
 
-using Model;
+using FAMIX;
 
 namespace FamixTest
 {
 	[TestClass]
 	public class Class1Test : SampleSystemLoader
-	{
-
-
+	{     
 		[TestMethod]
-		public void TestMethod1()
-		{
-			Assert.AreEqual("(\n\t(FAMIX.Class (id: 1)\n\t\t(Name 'Class1')))", metamodel.ExportMSEFile(null));
-        }
-	}
+		public void ClassWasIngested() => Assert.IsNotNull(importer.Types.Named(".SampleProject.Basic.Class1"));
+    }
 }
