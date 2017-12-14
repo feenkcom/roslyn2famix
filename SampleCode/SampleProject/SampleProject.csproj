@@ -44,7 +44,9 @@
     <Compile Include="Basic\BaseClass.cs" />
     <Compile Include="Basic\Class1.cs" />
     <Compile Include="Basic\Calls.cs" />
-    <Compile Include="Basic\SimpleInterface.cs" />
+    <Compile Include="Basic\Implementor.cs" />
+    <Compile Include="Basic\ISimpleInterface.cs" />
+    <Compile Include="Basic\SecondInterface.cs" />
     <Compile Include="Basic\SubClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

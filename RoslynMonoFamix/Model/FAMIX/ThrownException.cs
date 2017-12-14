@@ -12,7 +12,7 @@ namespace FAMIX
   public class ThrownException : FAMIX.Exception
   {
     [FameProperty(Name = "definingMethod",  Opposite = "thrownExceptions")]    
-    public Method definingMethod { get; set; }
+    public FAMIX.Method definingMethod { get; set; }
     
   }
 }

@@ -12,7 +12,7 @@ namespace FAMIX
   public class ImplicitVariable : FAMIX.StructuralEntity
   {
     [FameProperty(Name = "parentBehaviouralEntity",  Opposite = "implicitVariables")]    
-    public BehaviouralEntity parentBehaviouralEntity { get; set; }
+    public FAMIX.BehaviouralEntity parentBehaviouralEntity { get; set; }
     
   }
 }

@@ -170,6 +170,8 @@
     <Compile Include="CallsTest.cs" />
     <Compile Include="AttributeTest.cs" />
     <Compile Include="SubClassTest.cs" />
+    <Compile Include="ISimpleInterfaceTest.cs" />
+    <Compile Include="ImplementorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

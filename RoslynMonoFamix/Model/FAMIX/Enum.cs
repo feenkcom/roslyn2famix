@@ -11,15 +11,15 @@ namespace FAMIX
   [FameDescription("Enum")]
   public class Enum : FAMIX.Type
   {
-    private List<EnumValue> values = new List<EnumValue>();
+    private List<FAMIX.EnumValue> values = new List<FAMIX.EnumValue>();
     
     [FameProperty(Name = "values",  Opposite = "parentEnum")]    
-    public List <EnumValue> Values
+    public List <FAMIX.EnumValue> Values
     {
       get { return values; }
       set { values = value; }
     }
-    public void AddValue(EnumValue one)
+    public void AddValue(FAMIX.EnumValue one)
     {
       values.Add(one);
     }

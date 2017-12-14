@@ -11,15 +11,15 @@ namespace FAMIX
   [FameDescription("MultipleFileAnchor")]
   public class MultipleFileAnchor : FAMIX.SourceAnchor
   {
-    private List<AbstractFileAnchor> allFiles = new List<AbstractFileAnchor>();
+    private List<FAMIX.AbstractFileAnchor> allFiles = new List<FAMIX.AbstractFileAnchor>();
     
     [FameProperty(Name = "allFiles")]    
-    public List <AbstractFileAnchor> AllFiles
+    public List <FAMIX.AbstractFileAnchor> AllFiles
     {
       get { return allFiles; }
       set { allFiles = value; }
     }
-    public void AddAllFile(AbstractFileAnchor one)
+    public void AddAllFile(FAMIX.AbstractFileAnchor one)
     {
       allFiles.Add(one);
     }

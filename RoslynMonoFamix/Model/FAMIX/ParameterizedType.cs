@@ -12,17 +12,17 @@ namespace FAMIX
   public class ParameterizedType : FAMIX.Type
   {
     [FameProperty(Name = "parameterizableClass",  Opposite = "parameterizedTypes")]    
-    public ParameterizableClass parameterizableClass { get; set; }
+    public FAMIX.ParameterizableClass parameterizableClass { get; set; }
     
-    private List<Type> arguments = new List<Type>();
+    private List<FAMIX.Type> arguments = new List<FAMIX.Type>();
     
     [FameProperty(Name = "arguments",  Opposite = "argumentsInParameterizedTypes")]    
-    public List <Type> Arguments
+    public List <FAMIX.Type> Arguments
     {
       get { return arguments; }
       set { arguments = value; }
     }
-    public void AddArgument(Type one)
+    public void AddArgument(FAMIX.Type one)
     {
       arguments.Add(one);
     }

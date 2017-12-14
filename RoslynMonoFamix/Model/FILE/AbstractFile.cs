@@ -14,11 +14,11 @@ namespace FILE
     [FameProperty(Name = "numberOfLinesOfText")]    
     public int numberOfLinesOfText { get; set; }
     
-    [FameProperty(Name = "parentFolder",  Opposite = "childrenFileSystemEntities")]    
-    public Folder parentFolder { get; set; }
-    
     [FameProperty(Name = "name")]    
     public String name { get; set; }
+    
+    [FameProperty(Name = "parentFolder",  Opposite = "childrenFileSystemEntities")]    
+    public FILE.Folder parentFolder { get; set; }
     
   }
 }

@@ -11,24 +11,24 @@ namespace FAMIX
   [FameDescription("AnnotationInstance")]
   public class AnnotationInstance : FAMIX.SourcedEntity
   {
-    private List<AnnotationInstanceAttribute> attributes = new List<AnnotationInstanceAttribute>();
+    private List<FAMIX.AnnotationInstanceAttribute> attributes = new List<FAMIX.AnnotationInstanceAttribute>();
     
     [FameProperty(Name = "attributes",  Opposite = "parentAnnotationInstance")]    
-    public List <AnnotationInstanceAttribute> Attributes
+    public List <FAMIX.AnnotationInstanceAttribute> Attributes
     {
       get { return attributes; }
       set { attributes = value; }
     }
-    public void AddAttribute(AnnotationInstanceAttribute one)
+    public void AddAttribute(FAMIX.AnnotationInstanceAttribute one)
     {
       attributes.Add(one);
     }
     
-    [FameProperty(Name = "annotationType",  Opposite = "instances")]    
-    public AnnotationType annotationType { get; set; }
-    
     [FameProperty(Name = "annotatedEntity",  Opposite = "annotationInstances")]    
-    public NamedEntity annotatedEntity { get; set; }
+    public FAMIX.NamedEntity annotatedEntity { get; set; }
+    
+    [FameProperty(Name = "annotationType",  Opposite = "instances")]    
+    public FAMIX.AnnotationType annotationType { get; set; }
     
   }
 }

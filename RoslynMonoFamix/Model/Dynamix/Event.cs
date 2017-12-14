@@ -11,24 +11,24 @@ namespace Dynamix
   [FameDescription("Event")]
   public class Event : Dynamix.Entity
   {
-    private List<Event> children = new List<Event>();
+    private List<Dynamix.Event> children = new List<Dynamix.Event>();
     
     [FameProperty(Name = "children",  Opposite = "parent")]    
-    public List <Event> Children
+    public List <Dynamix.Event> Children
     {
       get { return children; }
       set { children = value; }
     }
-    public void AddChildren(Event one)
+    public void AddChildren(Dynamix.Event one)
     {
       children.Add(one);
     }
     
+    [FameProperty(Name = "parent",  Opposite = "children")]    
+    public Dynamix.Event parent { get; set; }
+    
     [FameProperty(Name = "accumulatedLeavesDuration")]    
     public int accumulatedLeavesDuration { get; set; }
-    
-    [FameProperty(Name = "parent",  Opposite = "children")]    
-    public Event parent { get; set; }
     
   }
 }

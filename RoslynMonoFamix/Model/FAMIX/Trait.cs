@@ -11,15 +11,15 @@ namespace FAMIX
   [FameDescription("Trait")]
   public class Trait : FAMIX.Type
   {
-    private List<TraitUsage> incomingTraitUsages = new List<TraitUsage>();
+    private List<FAMIX.TraitUsage> incomingTraitUsages = new List<FAMIX.TraitUsage>();
     
     [FameProperty(Name = "incomingTraitUsages",  Opposite = "trait")]    
-    public List <TraitUsage> IncomingTraitUsages
+    public List <FAMIX.TraitUsage> IncomingTraitUsages
     {
       get { return incomingTraitUsages; }
       set { incomingTraitUsages = value; }
     }
-    public void AddIncomingTraitUsage(TraitUsage one)
+    public void AddIncomingTraitUsage(FAMIX.TraitUsage one)
     {
       incomingTraitUsages.Add(one);
     }

@@ -11,21 +11,21 @@ namespace FAMIX
   [FameDescription("AnnotationTypeAttribute")]
   public class AnnotationTypeAttribute : FAMIX.Attribute
   {
-    [FameProperty(Name = "parentAnnotationType")]    
-    public AnnotationType parentAnnotationType { get; set; }
-    
-    private List<AnnotationInstanceAttribute> annotationAttributeInstances = new List<AnnotationInstanceAttribute>();
+    private List<FAMIX.AnnotationInstanceAttribute> annotationAttributeInstances = new List<FAMIX.AnnotationInstanceAttribute>();
     
     [FameProperty(Name = "annotationAttributeInstances",  Opposite = "annotationTypeAttribute")]    
-    public List <AnnotationInstanceAttribute> AnnotationAttributeInstances
+    public List <FAMIX.AnnotationInstanceAttribute> AnnotationAttributeInstances
     {
       get { return annotationAttributeInstances; }
       set { annotationAttributeInstances = value; }
     }
-    public void AddAnnotationAttributeInstance(AnnotationInstanceAttribute one)
+    public void AddAnnotationAttributeInstance(FAMIX.AnnotationInstanceAttribute one)
     {
       annotationAttributeInstances.Add(one);
     }
+    
+    [FameProperty(Name = "parentAnnotationType")]    
+    public FAMIX.AnnotationType parentAnnotationType { get; set; }
     
   }
 }

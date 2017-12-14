@@ -12,7 +12,7 @@ namespace FAMIX
   public class Parameter : FAMIX.StructuralEntity
   {
     [FameProperty(Name = "parentBehaviouralEntity",  Opposite = "parameters")]    
-    public BehaviouralEntity parentBehaviouralEntity { get; set; }
+    public FAMIX.BehaviouralEntity parentBehaviouralEntity { get; set; }
     
   }
 }

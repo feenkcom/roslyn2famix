@@ -11,30 +11,30 @@ namespace FAMIX
   [FameDescription("ParameterizableClass")]
   public class ParameterizableClass : FAMIX.Class
   {
-    private List<ParameterType> parameters = new List<ParameterType>();
-    
-    [FameProperty(Name = "parameters")]    
-    public List <ParameterType> Parameters
-    {
-      get { return parameters; }
-      set { parameters = value; }
-    }
-    public void AddParameter(ParameterType one)
-    {
-      parameters.Add(one);
-    }
-    
-    private List<ParameterizedType> parameterizedTypes = new List<ParameterizedType>();
+    private List<FAMIX.ParameterizedType> parameterizedTypes = new List<FAMIX.ParameterizedType>();
     
     [FameProperty(Name = "parameterizedTypes",  Opposite = "parameterizableClass")]    
-    public List <ParameterizedType> ParameterizedTypes
+    public List <FAMIX.ParameterizedType> ParameterizedTypes
     {
       get { return parameterizedTypes; }
       set { parameterizedTypes = value; }
     }
-    public void AddParameterizedType(ParameterizedType one)
+    public void AddParameterizedType(FAMIX.ParameterizedType one)
     {
       parameterizedTypes.Add(one);
+    }
+    
+    private List<FAMIX.ParameterType> parameters = new List<FAMIX.ParameterType>();
+    
+    [FameProperty(Name = "parameters")]    
+    public List <FAMIX.ParameterType> Parameters
+    {
+      get { return parameters; }
+      set { parameters = value; }
+    }
+    public void AddParameter(FAMIX.ParameterType one)
+    {
+      parameters.Add(one);
     }
     
   }

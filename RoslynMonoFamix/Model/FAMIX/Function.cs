@@ -11,11 +11,11 @@ namespace FAMIX
   [FameDescription("Function")]
   public class Function : FAMIX.BehaviouralEntity
   {
-    [FameProperty(Name = "parentModule")]    
-    public Module parentModule { get; set; }
-    
     [FameProperty(Name = "container",  Opposite = "functions")]    
-    public ContainerEntity container { get; set; }
+    public FAMIX.ContainerEntity container { get; set; }
+    
+    [FameProperty(Name = "parentModule")]    
+    public FAMIX.Module parentModule { get; set; }
     
   }
 }

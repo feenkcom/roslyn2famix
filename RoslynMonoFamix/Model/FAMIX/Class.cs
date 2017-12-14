@@ -14,12 +14,6 @@ namespace FAMIX
     [FameProperty(Name = "numberOfInternalDuplications")]    
     public int numberOfInternalDuplications { get; set; }
     
-    [FameProperty(Name = "isInterface")]    
-    public Boolean isInterface { get; set; }
-    
-    [FameProperty(Name = "lcom3")]    
-    public int lcom3 { get; set; }
-    
     private List<Boolean> isIgnored = new List<Boolean>();
     
     [FameProperty(Name = "isIgnored")]    
@@ -33,24 +27,30 @@ namespace FAMIX
       isIgnored.Add(one);
     }
     
-    private List<Exception> exceptions = new List<Exception>();
+    [FameProperty(Name = "lcom2")]    
+    public int lcom2 { get; set; }
+    
+    private List<FAMIX.Exception> exceptions = new List<FAMIX.Exception>();
     
     [FameProperty(Name = "exceptions",  Opposite = "exceptionClass")]    
-    public List <Exception> Exceptions
+    public List <FAMIX.Exception> Exceptions
     {
       get { return exceptions; }
       set { exceptions = value; }
     }
-    public void AddException(Exception one)
+    public void AddException(FAMIX.Exception one)
     {
       exceptions.Add(one);
     }
     
+    [FameProperty(Name = "isInterface")]    
+    public Boolean isInterface { get; set; }
+    
     [FameProperty(Name = "numberOfExternalDuplications")]    
     public int numberOfExternalDuplications { get; set; }
     
-    [FameProperty(Name = "lcom2")]    
-    public int lcom2 { get; set; }
+    [FameProperty(Name = "lcom3")]    
+    public int lcom3 { get; set; }
     
   }
 }

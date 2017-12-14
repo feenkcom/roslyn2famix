@@ -12,7 +12,7 @@ namespace FAMIX
   public class LocalVariable : FAMIX.StructuralEntity
   {
     [FameProperty(Name = "parentBehaviouralEntity",  Opposite = "localVariables")]    
-    public BehaviouralEntity parentBehaviouralEntity { get; set; }
+    public FAMIX.BehaviouralEntity parentBehaviouralEntity { get; set; }
     
   }
 }

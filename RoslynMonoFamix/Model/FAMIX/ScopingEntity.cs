@@ -11,33 +11,33 @@ namespace FAMIX
   [FameDescription("ScopingEntity")]
   public class ScopingEntity : FAMIX.ContainerEntity
   {
-    private List<GlobalVariable> globalVariables = new List<GlobalVariable>();
-    
-    [FameProperty(Name = "globalVariables",  Opposite = "parentScope")]    
-    public List <GlobalVariable> GlobalVariables
-    {
-      get { return globalVariables; }
-      set { globalVariables = value; }
-    }
-    public void AddGlobalVariable(GlobalVariable one)
-    {
-      globalVariables.Add(one);
-    }
-    
     [FameProperty(Name = "parentScope",  Opposite = "childScopes")]    
-    public ScopingEntity parentScope { get; set; }
+    public FAMIX.ScopingEntity parentScope { get; set; }
     
-    private List<ScopingEntity> childScopes = new List<ScopingEntity>();
+    private List<FAMIX.ScopingEntity> childScopes = new List<FAMIX.ScopingEntity>();
     
     [FameProperty(Name = "childScopes",  Opposite = "parentScope")]    
-    public List <ScopingEntity> ChildScopes
+    public List <FAMIX.ScopingEntity> ChildScopes
     {
       get { return childScopes; }
       set { childScopes = value; }
     }
-    public void AddChildScope(ScopingEntity one)
+    public void AddChildScope(FAMIX.ScopingEntity one)
     {
       childScopes.Add(one);
+    }
+    
+    private List<FAMIX.GlobalVariable> globalVariables = new List<FAMIX.GlobalVariable>();
+    
+    [FameProperty(Name = "globalVariables",  Opposite = "parentScope")]    
+    public List <FAMIX.GlobalVariable> GlobalVariables
+    {
+      get { return globalVariables; }
+      set { globalVariables = value; }
+    }
+    public void AddGlobalVariable(FAMIX.GlobalVariable one)
+    {
+      globalVariables.Add(one);
     }
     
   }

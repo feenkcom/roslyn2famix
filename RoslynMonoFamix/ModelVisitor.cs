@@ -23,13 +23,13 @@ public class ModelVisitor : CSharpSyntaxWalker
     {
         var typeSymbol = semanticModel.GetDeclaredSymbol(node);
         currentClassKey = FullTypeName(typeSymbol);
-        FAMIX.Type type = importer.EnsureType(currentClassKey, typeSymbol);
+        FAMIX.Type type = importer.EnsureType(currentClassKey, typeSymbol, "FAMIX.Class");
         type.name = node.Identifier.ToString();
 
 
-        if (typeSymbol.BaseType != null)
+        if (typeSymbol.BaseType != null && !typeSymbol.BaseType.ContainingNamespace.Name.Equals("System"))
         {
-            FAMIX.Type baseType = importer.EnsureType(FullTypeName(typeSymbol.BaseType), typeSymbol.BaseType);
+            FAMIX.Type baseType = importer.EnsureType(FullTypeName(typeSymbol.BaseType), typeSymbol.BaseType, "FAMIX.Class");
             Inheritance inheritance = importer.CreateNewAssociation<Inheritance>("FAMIX.Inheritance");
             inheritance.subclass = type;
             inheritance.superclass = baseType;
@@ -37,7 +37,34 @@ public class ModelVisitor : CSharpSyntaxWalker
             type.AddSuperInheritance(inheritance);
         }
 
+        AddSuperInterfaces(typeSymbol, type);
+
         base.VisitClassDeclaration(node);
+        currentClassKey = null;
+    }
+
+    private void AddSuperInterfaces(INamedTypeSymbol typeSymbol, FAMIX.Type type)
+    {
+        foreach (var inter in typeSymbol.Interfaces)
+        {
+            FAMIX.Type fInterface = importer.EnsureType(FullTypeName(inter), inter, "CSharp.Interface");
+            Inheritance inheritance = importer.CreateNewAssociation<Inheritance>("FAMIX.Inheritance");
+            inheritance.subclass = type;
+            inheritance.superclass = fInterface;
+            fInterface.AddSubInheritance(inheritance);
+            type.AddSuperInheritance(inheritance);
+        }
+    }
+
+    public override void VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
+    {
+        var typeSymbol = semanticModel.GetDeclaredSymbol(node);
+        currentClassKey = FullTypeName(typeSymbol);
+        FAMIX.Type type = importer.EnsureType(currentClassKey, typeSymbol, "CSharp.Interface");
+        type.name = node.Identifier.ToString();
+        AddSuperInterfaces(typeSymbol, type);
+        base.VisitInterfaceDeclaration(node);
+        currentClassKey = null;
     }
 
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)

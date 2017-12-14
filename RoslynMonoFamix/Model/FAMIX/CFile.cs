@@ -11,56 +11,56 @@ namespace FAMIX
   [FameDescription("CFile")]
   public class CFile : FILE.File
   {
-    private List<Include> outgoingIncludeRelations = new List<Include>();
+    private List<FAMIX.Include> outgoingIncludeRelations = new List<FAMIX.Include>();
     
     [FameProperty(Name = "outgoingIncludeRelations",  Opposite = "source")]    
-    public List <Include> OutgoingIncludeRelations
+    public List <FAMIX.Include> OutgoingIncludeRelations
     {
       get { return outgoingIncludeRelations; }
       set { outgoingIncludeRelations = value; }
     }
-    public void AddOutgoingIncludeRelation(Include one)
+    public void AddOutgoingIncludeRelation(FAMIX.Include one)
     {
       outgoingIncludeRelations.Add(one);
     }
     
-    private List<CFile> includingFiles = new List<CFile>();
-    
-    [FameProperty(Name = "includingFiles")]    
-    public List <CFile> IncludingFiles
-    {
-      get { return includingFiles; }
-      set { includingFiles = value; }
-    }
-    public void AddIncludingFile(CFile one)
-    {
-      includingFiles.Add(one);
-    }
-    
-    private List<CFile> includedFiles = new List<CFile>();
-    
-    [FameProperty(Name = "includedFiles")]    
-    public List <CFile> IncludedFiles
-    {
-      get { return includedFiles; }
-      set { includedFiles = value; }
-    }
-    public void AddIncludedFile(CFile one)
-    {
-      includedFiles.Add(one);
-    }
-    
-    private List<Include> incomingIncludeRelations = new List<Include>();
+    private List<FAMIX.Include> incomingIncludeRelations = new List<FAMIX.Include>();
     
     [FameProperty(Name = "incomingIncludeRelations",  Opposite = "target")]    
-    public List <Include> IncomingIncludeRelations
+    public List <FAMIX.Include> IncomingIncludeRelations
     {
       get { return incomingIncludeRelations; }
       set { incomingIncludeRelations = value; }
     }
-    public void AddIncomingIncludeRelation(Include one)
+    public void AddIncomingIncludeRelation(FAMIX.Include one)
     {
       incomingIncludeRelations.Add(one);
+    }
+    
+    private List<FAMIX.CFile> includingFiles = new List<FAMIX.CFile>();
+    
+    [FameProperty(Name = "includingFiles")]    
+    public List <FAMIX.CFile> IncludingFiles
+    {
+      get { return includingFiles; }
+      set { includingFiles = value; }
+    }
+    public void AddIncludingFile(FAMIX.CFile one)
+    {
+      includingFiles.Add(one);
+    }
+    
+    private List<FAMIX.CFile> includedFiles = new List<FAMIX.CFile>();
+    
+    [FameProperty(Name = "includedFiles")]    
+    public List <FAMIX.CFile> IncludedFiles
+    {
+      get { return includedFiles; }
+      set { includedFiles = value; }
+    }
+    public void AddIncludedFile(FAMIX.CFile one)
+    {
+      includedFiles.Add(one);
     }
     
   }

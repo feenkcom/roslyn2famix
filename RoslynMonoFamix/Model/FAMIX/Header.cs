@@ -12,7 +12,7 @@ namespace FAMIX
   public class Header : FAMIX.CFile
   {
     [FameProperty(Name = "module",  Opposite = "header")]    
-    public Module module { get; set; }
+    public FAMIX.Module module { get; set; }
     
   }
 }

@@ -12,7 +12,7 @@ namespace FAMIX
   public class TypeAlias : FAMIX.Type
   {
     [FameProperty(Name = "aliasedType",  Opposite = "typeAliases")]    
-    public Type aliasedType { get; set; }
+    public FAMIX.Type aliasedType { get; set; }
     
   }
 }

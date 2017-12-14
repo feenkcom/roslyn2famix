@@ -12,7 +12,7 @@ namespace FAMIX
   public class EnumValue : FAMIX.StructuralEntity
   {
     [FameProperty(Name = "parentEnum",  Opposite = "values")]    
-    public Enum parentEnum { get; set; }
+    public FAMIX.Enum parentEnum { get; set; }
     
   }
 }

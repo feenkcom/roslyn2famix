@@ -11,47 +11,47 @@ namespace FAMIX
   [FameDescription("StructuralEntity")]
   public class StructuralEntity : FAMIX.LeafEntity
   {
-    private List<BehaviouralEntity> accessors = new List<BehaviouralEntity>();
+    private List<FAMIX.DereferencedInvocation> dereferencedInvocations = new List<FAMIX.DereferencedInvocation>();
+    
+    [FameProperty(Name = "dereferencedInvocations",  Opposite = "referencer")]    
+    public List <FAMIX.DereferencedInvocation> DereferencedInvocations
+    {
+      get { return dereferencedInvocations; }
+      set { dereferencedInvocations = value; }
+    }
+    public void AddDereferencedInvocation(FAMIX.DereferencedInvocation one)
+    {
+      dereferencedInvocations.Add(one);
+    }
+    
+    private List<FAMIX.Access> incomingAccesses = new List<FAMIX.Access>();
+    
+    [FameProperty(Name = "incomingAccesses",  Opposite = "variable")]    
+    public List <FAMIX.Access> IncomingAccesses
+    {
+      get { return incomingAccesses; }
+      set { incomingAccesses = value; }
+    }
+    public void AddIncomingAccesse(FAMIX.Access one)
+    {
+      incomingAccesses.Add(one);
+    }
+    
+    private List<FAMIX.BehaviouralEntity> accessors = new List<FAMIX.BehaviouralEntity>();
     
     [FameProperty(Name = "accessors")]    
-    public List <BehaviouralEntity> Accessors
+    public List <FAMIX.BehaviouralEntity> Accessors
     {
       get { return accessors; }
       set { accessors = value; }
     }
-    public void AddAccessor(BehaviouralEntity one)
+    public void AddAccessor(FAMIX.BehaviouralEntity one)
     {
       accessors.Add(one);
     }
     
     [FameProperty(Name = "declaredType",  Opposite = "structuresWithDeclaredType")]    
-    public Type declaredType { get; set; }
-    
-    private List<DereferencedInvocation> dereferencedInvocations = new List<DereferencedInvocation>();
-    
-    [FameProperty(Name = "dereferencedInvocations",  Opposite = "referencer")]    
-    public List <DereferencedInvocation> DereferencedInvocations
-    {
-      get { return dereferencedInvocations; }
-      set { dereferencedInvocations = value; }
-    }
-    public void AddDereferencedInvocation(DereferencedInvocation one)
-    {
-      dereferencedInvocations.Add(one);
-    }
-    
-    private List<Access> incomingAccesses = new List<Access>();
-    
-    [FameProperty(Name = "incomingAccesses",  Opposite = "variable")]    
-    public List <Access> IncomingAccesses
-    {
-      get { return incomingAccesses; }
-      set { incomingAccesses = value; }
-    }
-    public void AddIncomingAccesse(Access one)
-    {
-      incomingAccesses.Add(one);
-    }
+    public FAMIX.Type declaredType { get; set; }
     
   }
 }

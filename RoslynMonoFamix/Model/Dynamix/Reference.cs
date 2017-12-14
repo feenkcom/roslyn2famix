@@ -11,41 +11,41 @@ namespace Dynamix
   [FameDescription("Reference")]
   public class Reference : Dynamix.Entity
   {
-    private List<Activation> activationsWithReceiver = new List<Activation>();
-    
-    [FameProperty(Name = "activationsWithReceiver",  Opposite = "receiver")]    
-    public List <Activation> ActivationsWithReceiver
-    {
-      get { return activationsWithReceiver; }
-      set { activationsWithReceiver = value; }
-    }
-    public void AddActivationsWithReceiver(Activation one)
-    {
-      activationsWithReceiver.Add(one);
-    }
-    
-    private List<Activation> activationsWithReturn = new List<Activation>();
+    private List<Dynamix.Activation> activationsWithReturn = new List<Dynamix.Activation>();
     
     [FameProperty(Name = "activationsWithReturn",  Opposite = "return")]    
-    public List <Activation> ActivationsWithReturn
+    public List <Dynamix.Activation> ActivationsWithReturn
     {
       get { return activationsWithReturn; }
       set { activationsWithReturn = value; }
     }
-    public void AddActivationsWithReturn(Activation one)
+    public void AddActivationsWithReturn(Dynamix.Activation one)
     {
       activationsWithReturn.Add(one);
     }
     
-    private List<Activation> activationsWithArgument = new List<Activation>();
+    private List<Dynamix.Activation> activationsWithReceiver = new List<Dynamix.Activation>();
+    
+    [FameProperty(Name = "activationsWithReceiver",  Opposite = "receiver")]    
+    public List <Dynamix.Activation> ActivationsWithReceiver
+    {
+      get { return activationsWithReceiver; }
+      set { activationsWithReceiver = value; }
+    }
+    public void AddActivationsWithReceiver(Dynamix.Activation one)
+    {
+      activationsWithReceiver.Add(one);
+    }
+    
+    private List<Dynamix.Activation> activationsWithArgument = new List<Dynamix.Activation>();
     
     [FameProperty(Name = "activationsWithArgument",  Opposite = "arguments")]    
-    public List <Activation> ActivationsWithArgument
+    public List <Dynamix.Activation> ActivationsWithArgument
     {
       get { return activationsWithArgument; }
       set { activationsWithArgument = value; }
     }
-    public void AddActivationsWithArgument(Activation one)
+    public void AddActivationsWithArgument(Dynamix.Activation one)
     {
       activationsWithArgument.Add(one);
     }

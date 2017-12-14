@@ -11,11 +11,11 @@ namespace FAMIX
   [FameDescription("Module")]
   public class Module : FAMIX.ScopingEntity
   {
-    [FameProperty(Name = "header",  Opposite = "module")]    
-    public Header header { get; set; }
-    
     [FameProperty(Name = "compilationUnit",  Opposite = "module")]    
-    public CompilationUnit compilationUnit { get; set; }
+    public FAMIX.CompilationUnit compilationUnit { get; set; }
+    
+    [FameProperty(Name = "header",  Opposite = "module")]    
+    public FAMIX.Header header { get; set; }
     
   }
 }

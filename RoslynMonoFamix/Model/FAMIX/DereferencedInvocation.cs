@@ -12,7 +12,7 @@ namespace FAMIX
   public class DereferencedInvocation : FAMIX.Invocation
   {
     [FameProperty(Name = "referencer",  Opposite = "dereferencedInvocations")]    
-    public StructuralEntity referencer { get; set; }
+    public FAMIX.StructuralEntity referencer { get; set; }
     
   }
 }

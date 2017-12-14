@@ -12,13 +12,13 @@ namespace FAMIX
   public class AbstractFileAnchor : FAMIX.SourceAnchor
   {
     [FameProperty(Name = "correspondingFile")]    
-    public File correspondingFile { get; set; }
-    
-    [FameProperty(Name = "encoding")]    
-    public String encoding { get; set; }
+    public FILE.File correspondingFile { get; set; }
     
     [FameProperty(Name = "fileName")]    
     public String fileName { get; set; }
+    
+    [FameProperty(Name = "encoding")]    
+    public String encoding { get; set; }
     
   }
 }

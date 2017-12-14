@@ -11,21 +11,21 @@ namespace FAMIX
   [FameDescription("SourceLanguage")]
   public class SourceLanguage : FAMIX.Entity
   {
-    [FameProperty(Name = "name")]    
-    public String name { get; set; }
-    
-    private List<SourcedEntity> sourcedEntities = new List<SourcedEntity>();
+    private List<FAMIX.SourcedEntity> sourcedEntities = new List<FAMIX.SourcedEntity>();
     
     [FameProperty(Name = "sourcedEntities",  Opposite = "declaredSourceLanguage")]    
-    public List <SourcedEntity> SourcedEntities
+    public List <FAMIX.SourcedEntity> SourcedEntities
     {
       get { return sourcedEntities; }
       set { sourcedEntities = value; }
     }
-    public void AddSourcedEntitie(SourcedEntity one)
+    public void AddSourcedEntitie(FAMIX.SourcedEntity one)
     {
       sourcedEntities.Add(one);
     }
+    
+    [FameProperty(Name = "name")]    
+    public String name { get; set; }
     
   }
 }

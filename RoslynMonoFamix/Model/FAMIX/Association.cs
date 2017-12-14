@@ -12,16 +12,16 @@ namespace FAMIX
   public class Association : FAMIX.SourcedEntity
   {
     [FameProperty(Name = "to")]    
-    public NamedEntity to { get; set; }
-    
-    [FameProperty(Name = "next",  Opposite = "previous")]    
-    public Association next { get; set; }
-    
-    [FameProperty(Name = "previous",  Opposite = "next")]    
-    public Association previous { get; set; }
+    public FAMIX.NamedEntity to { get; set; }
     
     [FameProperty(Name = "from")]    
-    public NamedEntity from { get; set; }
+    public FAMIX.NamedEntity from { get; set; }
+    
+    [FameProperty(Name = "previous",  Opposite = "next")]    
+    public FAMIX.Association previous { get; set; }
+    
+    [FameProperty(Name = "next",  Opposite = "previous")]    
+    public FAMIX.Association next { get; set; }
     
   }
 }

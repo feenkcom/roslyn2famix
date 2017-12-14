@@ -12,7 +12,7 @@ namespace FAMIX
   public class Exception : FAMIX.Entity
   {
     [FameProperty(Name = "exceptionClass",  Opposite = "exceptions")]    
-    public Class exceptionClass { get; set; }
+    public FAMIX.Class exceptionClass { get; set; }
     
   }
 }

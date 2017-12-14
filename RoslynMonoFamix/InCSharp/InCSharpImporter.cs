@@ -35,12 +35,12 @@ namespace RoslynMonoFamix.InCSharp
             return method;
         }
 
-        public FAMIX.Type EnsureType(String fullName, INamedTypeSymbol aType)
+        public FAMIX.Type EnsureType(String fullName, INamedTypeSymbol aType, String typeKind)
         {
             if (Types.has(fullName))
                 return Types.Named(fullName);
 
-            FAMIX.Type type = repository.NewInstance<FAMIX.Type>("FAMIX.Class");
+            FAMIX.Type type = repository.NewInstance<FAMIX.Type>(typeKind);
             
             Types.Add(fullName, type);
             return type;
