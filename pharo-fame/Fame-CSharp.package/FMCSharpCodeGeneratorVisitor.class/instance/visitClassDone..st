@@ -1,3 +1,0 @@
-visiting
-visitClassDone: fameClass 
-	fameClass

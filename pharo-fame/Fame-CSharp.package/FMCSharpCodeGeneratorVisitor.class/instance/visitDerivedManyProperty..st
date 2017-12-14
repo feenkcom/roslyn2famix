@@ -1,3 +1,0 @@
-visiting
-visitDerivedManyProperty: fameProperty
-	self visitDerivedProperty: fameProperty

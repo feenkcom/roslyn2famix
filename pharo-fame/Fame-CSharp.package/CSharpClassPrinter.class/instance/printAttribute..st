@@ -5,6 +5,7 @@ printAttribute: fameProperty
 	propType := fameProperty type name.
 	propType = 'Number' ifTrue: [ propType := 'int' ].
 	propName = 'return' ifTrue: [ propName := '_return' ].
+	fameProperty type package ~= nil ifTrue: [ propType:= fameProperty type package name, '.', propType].
 	fameProperty isMultivalued
 		ifTrue: [
 					self writeLine: ('private List%<<2s>> <1s> = new List%<<2s>>();' 
