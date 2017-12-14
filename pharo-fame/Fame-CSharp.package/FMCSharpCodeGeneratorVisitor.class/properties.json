@@ -1,0 +1,17 @@
+{
+	"commentStamp" : "GeorgeGanea 10/28/2017 13:33",
+	"super" : "Object",
+	"category" : "Fame-CSharp",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"directory",
+		"initializeSource",
+		"stream",
+		"fameClass",
+		"instVars"
+	],
+	"name" : "FMCSharpCodeGeneratorVisitor",
+	"type" : "normal"
+}

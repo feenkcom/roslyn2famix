@@ -1,0 +1,16 @@
+{
+	"commentStamp" : "GeorgeGanea 12/4/2017 13:09",
+	"super" : "Object",
+	"category" : "Fame-CSharp",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"classCodeGenerator",
+		"file",
+		"skipDerivedMethods",
+		"stream"
+	],
+	"name" : "FMTraverser",
+	"type" : "normal"
+}

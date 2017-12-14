@@ -5,8 +5,9 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
 using System.Collections.Generic;
 
-using Model;
+
 using Fame;
+using Model;
 
 namespace FamixTest
 {
@@ -15,14 +16,16 @@ namespace FamixTest
 	{
 		protected Repository metamodel = FamixModel.Metamodel();
 
+        protected RoslynMonoFamix.InCSharp.InCSharpImporter importer = null;
+
 		[TestInitialize]
 		public void LoadSampleSystem()
 		{
 			string path = Assembly.GetAssembly(typeof(SampleSystemLoader)).Location;
 			path = path.Replace("FamixTest.dll", "");
 			string solutionPath = path + "../../../SampleCode/SampleCode.sln";
-
-			var msWorkspace = MSBuildWorkspace.Create();
+            importer = new RoslynMonoFamix.InCSharp.InCSharpImporter(metamodel);
+            var msWorkspace = MSBuildWorkspace.Create();
 			msWorkspace.WorkspaceFailed += (o, e) =>
 			{
 				System.Console.WriteLine(e.Diagnostic.Message);
@@ -30,8 +33,7 @@ namespace FamixTest
 
 			var solution = msWorkspace.OpenSolutionAsync(solutionPath).Result;
 
-
-			var documents = new List<Document>();
+            var documents = new List<Document>();
 			foreach (var project in solution.Projects)
 			{
 				foreach (var document in project.Documents)
@@ -43,7 +45,7 @@ namespace FamixTest
 						var syntaxTree = document.GetSyntaxTreeAsync().Result;
 						var compilationAsync = project.GetCompilationAsync().Result;
 						var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);
-						var visitor = new ModelVisitor(semanticModel, new RoslynMonoFamix.InCSharp.InCSharpImporter(metamodel));
+						var visitor = new ModelVisitor(semanticModel, importer);
 						visitor.Visit(syntaxTree.GetRoot());
 					}
 				}
