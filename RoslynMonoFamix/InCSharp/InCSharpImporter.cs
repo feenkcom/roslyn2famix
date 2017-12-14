@@ -1,6 +1,6 @@
 ﻿using Fame;
 using Microsoft.CodeAnalysis;
-using FAMIX;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,46 +17,31 @@ namespace RoslynMonoFamix.InCSharp
         {
             this.repository = repository;
             this.Methods = new NamedEntityAccumulator<Method>();
-            this.Types = new NamedEntityAccumulator<FAMIX.Type>();
-            this.Attributes = new NamedEntityAccumulator<FAMIX.Attribute>();
+            this.Types = new NamedEntityAccumulator<Model.Type>();
         }
 
-        public NamedEntityAccumulator<FAMIX.Type> Types { get; set; }
+        public NamedEntityAccumulator<Model.Type> Types { get; set; }
         public NamedEntityAccumulator<Method> Methods { get; set; }
-        public NamedEntityAccumulator<FAMIX.Attribute> Attributes { get; set; }
+        public NamedEntityAccumulator<Model.Attribute> Attributes { get; set; }
 
-        public Method EnsureMethod(String methodFullName, IMethodSymbol aMethod)
+        public Method EnsureMethod(IMethodSymbol aMethod)
         {
-            if (Methods.has(methodFullName))
-                return Methods.Named(methodFullName);
+            if (Methods.has(aMethod.GetHashCode().ToString()))
+                return Methods.Named(aMethod.GetHashCode().ToString());
             
             Method method = repository.NewInstance<Method>("FAMIX.Method");
-            Methods.Add(methodFullName, method);
+            Methods.Add(aMethod.GetHashCode().ToString(), method);
             return method;
         }
 
-        public FAMIX.Type EnsureType(String fullName, INamedTypeSymbol aType)
+        public Model.Type EnsureType(INamedTypeSymbol aType)
         {
-            if (Types.has(fullName))
-                return Types.Named(fullName);
+            if (Types.has(aType.GetHashCode().ToString()))
+                return Types.Named(aType.GetHashCode().ToString());
 
-            FAMIX.Type type = repository.NewInstance<FAMIX.Type>("FAMIX.Class");
-            
-            Types.Add(fullName, type);
+            Model.Type type = repository.NewInstance<Model.Type>("FAMIX.Class");
+            Types.Add(aType.GetHashCode().ToString(), type);
             return type;
         }
-
-        public FAMIX.Attribute EnsureAttribute (String attributeFullName, IFieldSymbol field)
-        {
-            if (Attributes.has(attributeFullName))
-                return Attributes.Named(attributeFullName);
-            FAMIX.Attribute attribute = repository.NewInstance<FAMIX.Attribute>("FAMIX.Attribute");
-
-            attribute.name = field.Name;
-            Attributes.Add(attributeFullName, attribute);
-            return attribute;
-        }
-
-        public T CreateNewAssociation<T>(String typeName) => repository.NewInstance<T>(typeName);
     }
 }

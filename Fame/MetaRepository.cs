@@ -39,12 +39,9 @@ namespace Fame
 			{
 				MetaDescriptionFactory factory = new MetaDescriptionFactory(type, this);
 				MetaDescription instance = factory.CreateInstance();
-                if (instance != null)
-                {
-                    classes.Add(type, instance);
-                    factory.InitializeInstance();
-                    this.Add(instance);
-                }
+				classes.Add(type, instance);
+				factory.InitializeInstance();
+				this.Add(instance);
 			}
 		}
 

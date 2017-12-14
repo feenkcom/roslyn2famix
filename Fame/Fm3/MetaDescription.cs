@@ -293,7 +293,7 @@ namespace Fame.Fm3
 		[FamePropertyWithDerived]
 		public bool IsPrimitive()
 		{
-			return this == STRING || this == BOOLEAN || this == NUMBER || this == DATE || this.Name.Equals("Int32");
+			return this == STRING || this == BOOLEAN || this == NUMBER || this == DATE;
 		}
 
 		[FamePropertyWithDerived]

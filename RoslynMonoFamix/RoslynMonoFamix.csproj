@@ -29,15 +29,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Build, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Build.15.5.180\lib\net46\Microsoft.Build.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Build.15.5.0-preview-000074-0946838\lib\net46\Microsoft.Build.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Build.Framework, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Build.Framework.15.5.180\lib\net46\Microsoft.Build.Framework.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Build.Framework.15.5.0-preview-000074-0946838\lib\net46\Microsoft.Build.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Build.Utilities.Core, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Build.Utilities.Core.15.5.180\lib\net46\Microsoft.Build.Utilities.Core.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Build.Utilities.Core.15.5.0-preview-000074-0946838\lib\net46\Microsoft.Build.Utilities.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -191,102 +191,79 @@
     <Compile Include="InCSharp\InCSharpImporter.cs" />
     <Compile Include="InCSharp\NamedEntityAccumulator.cs" />
     <Compile Include="ModelVisitor.cs" />
-    <Compile Include="Model\Dynamix\Activation.cs" />
-    <Compile Include="Model\Dynamix\Alias.cs" />
-    <Compile Include="Model\Dynamix\Entity.cs" />
-    <Compile Include="Model\Dynamix\Event.cs" />
-    <Compile Include="Model\Dynamix\FieldAlias.cs" />
-    <Compile Include="Model\Dynamix\HistoricalAlias.cs" />
-    <Compile Include="Model\Dynamix\Instance.cs" />
-    <Compile Include="Model\Dynamix\Reference.cs" />
-    <Compile Include="Model\Dynamix\Trace.cs" />
-    <Compile Include="Model\Dynamix\TraceGroup.cs" />
-    <Compile Include="Model\FamixModel.cs" />
-    <Compile Include="Model\FAMIX\AbstractFileAnchor.cs" />
-    <Compile Include="Model\FAMIX\Access.cs" />
-    <Compile Include="Model\FAMIX\AnnotationInstance.cs" />
-    <Compile Include="Model\FAMIX\AnnotationInstanceAttribute.cs" />
-    <Compile Include="Model\FAMIX\AnnotationInstanceGroup.cs" />
-    <Compile Include="Model\FAMIX\AnnotationType.cs" />
-    <Compile Include="Model\FAMIX\AnnotationTypeAttribute.cs" />
-    <Compile Include="Model\FAMIX\AnnotationTypeGroup.cs" />
-    <Compile Include="Model\FAMIX\Association.cs" />
-    <Compile Include="Model\FAMIX\Attribute.cs" />
-    <Compile Include="Model\FAMIX\BehaviouralEntity.cs" />
-    <Compile Include="Model\FAMIX\CaughtException.cs" />
-    <Compile Include="Model\FAMIX\CFile.cs" />
-    <Compile Include="Model\FAMIX\Class.cs" />
-    <Compile Include="Model\FAMIX\ClassGroup.cs" />
-    <Compile Include="Model\FAMIX\Comment.cs" />
-    <Compile Include="Model\FAMIX\CompilationUnit.cs" />
-    <Compile Include="Model\FAMIX\ContainerEntity.cs" />
-    <Compile Include="Model\FAMIX\CppSourceLanguage.cs" />
-    <Compile Include="Model\FAMIX\CSourceLanguage.cs" />
-    <Compile Include="Model\FAMIX\CustomSourceLanguage.cs" />
-    <Compile Include="Model\FAMIX\DeclaredException.cs" />
-    <Compile Include="Model\FAMIX\DereferencedInvocation.cs" />
-    <Compile Include="Model\FAMIX\Entity.cs" />
-    <Compile Include="Model\FAMIX\Enum.cs" />
-    <Compile Include="Model\FAMIX\EnumValue.cs" />
-    <Compile Include="Model\FAMIX\Exception.cs" />
-    <Compile Include="Model\FAMIX\FileAnchor.cs" />
-    <Compile Include="Model\FAMIX\Function.cs" />
-    <Compile Include="Model\FAMIX\GlobalVariable.cs" />
-    <Compile Include="Model\FAMIX\GlobalVariableGroup.cs" />
-    <Compile Include="Model\FAMIX\Header.cs" />
-    <Compile Include="Model\FAMIX\ImplicitVariable.cs" />
-    <Compile Include="Model\FAMIX\Include.cs" />
-    <Compile Include="Model\FAMIX\IndexedFileAnchor.cs" />
-    <Compile Include="Model\FAMIX\Inheritance.cs" />
-    <Compile Include="Model\FAMIX\Invocation.cs" />
-    <Compile Include="Model\FAMIX\JavaSourceLanguage.cs" />
-    <Compile Include="Model\FAMIX\LeafEntity.cs" />
-    <Compile Include="Model\FAMIX\LocalVariable.cs" />
-    <Compile Include="Model\FAMIX\Method.cs" />
-    <Compile Include="Model\FAMIX\MethodGroup.cs" />
-    <Compile Include="Model\FAMIX\Module.cs" />
-    <Compile Include="Model\FAMIX\MultipleFileAnchor.cs" />
-    <Compile Include="Model\FAMIX\NamedEntity.cs" />
-    <Compile Include="Model\FAMIX\Namespace.cs" />
-    <Compile Include="Model\FAMIX\NamespaceGroup.cs" />
-    <Compile Include="Model\FAMIX\Package.cs" />
-    <Compile Include="Model\FAMIX\PackageGroup.cs" />
-    <Compile Include="Model\FAMIX\Parameter.cs" />
-    <Compile Include="Model\FAMIX\ParameterizableClass.cs" />
-    <Compile Include="Model\FAMIX\ParameterizedType.cs" />
-    <Compile Include="Model\FAMIX\ParameterType.cs" />
-    <Compile Include="Model\FAMIX\PharoAnchor.cs" />
-    <Compile Include="Model\FAMIX\PreprocessorDefine.cs" />
-    <Compile Include="Model\FAMIX\PreprocessorIfdef.cs" />
-    <Compile Include="Model\FAMIX\PreprocessorStatement.cs" />
-    <Compile Include="Model\FAMIX\PrimitiveType.cs" />
-    <Compile Include="Model\FAMIX\Reference.cs" />
-    <Compile Include="Model\FAMIX\ScopingEntity.cs" />
-    <Compile Include="Model\FAMIX\SmalltalkMonticelloSourceLanguage.cs" />
-    <Compile Include="Model\FAMIX\SmalltalkSourceLanguage.cs" />
-    <Compile Include="Model\FAMIX\SourceAnchor.cs" />
-    <Compile Include="Model\FAMIX\SourcedEntity.cs" />
-    <Compile Include="Model\FAMIX\SourceLanguage.cs" />
-    <Compile Include="Model\FAMIX\SourceTextAnchor.cs" />
-    <Compile Include="Model\FAMIX\StructuralEntity.cs" />
-    <Compile Include="Model\FAMIX\ThrownException.cs" />
-    <Compile Include="Model\FAMIX\Trait.cs" />
-    <Compile Include="Model\FAMIX\TraitUsage.cs" />
-    <Compile Include="Model\FAMIX\Type.cs" />
-    <Compile Include="Model\FAMIX\TypeAlias.cs" />
-    <Compile Include="Model\FAMIX\TypeGroup.cs" />
-    <Compile Include="Model\FAMIX\UnknownSourceLanguage.cs" />
-    <Compile Include="Model\FAMIX\UnknownVariable.cs" />
-    <Compile Include="Model\FILE\AbstractFile.cs" />
-    <Compile Include="Model\FILE\File.cs" />
-    <Compile Include="Model\FILE\FileGroup.cs" />
-    <Compile Include="Model\FILE\Folder.cs" />
-    <Compile Include="Model\FILE\FolderGroup.cs" />
-    <Compile Include="Model\Moose\AbstractGroup.cs" />
-    <Compile Include="Model\Moose\Entity.cs" />
-    <Compile Include="Model\Moose\Group.cs" />
-    <Compile Include="Model\Moose\Model.cs" />
-    <Compile Include="Model\Moose\PropertyGroup.cs" />
+    <Compile Include="Model\AbstractFileAnchor.cs" />
+    <Compile Include="Model\Access.cs" />
+    <Compile Include="Model\AnnotationInstance.cs" />
+    <Compile Include="Model\AnnotationInstanceAttribute.cs" />
+    <Compile Include="Model\AnnotationInstanceGroup.cs" />
+    <Compile Include="Model\AnnotationType.cs" />
+    <Compile Include="Model\AnnotationTypeAttribute.cs" />
+    <Compile Include="Model\AnnotationTypeGroup.cs" />
+    <Compile Include="Model\Association.cs" />
+    <Compile Include="Model\Attribute.cs" />
+    <Compile Include="Model\BehaviouralEntity.cs" />
+    <Compile Include="Model\CaughtException.cs" />
+    <Compile Include="Model\CFile.cs" />
+    <Compile Include="Model\Class.cs" />
+    <Compile Include="Model\ClassGroup.cs" />
+    <Compile Include="Model\Comment.cs" />
+    <Compile Include="Model\CompilationUnit.cs" />
+    <Compile Include="Model\ContainerEntity.cs" />
+    <Compile Include="Model\CppSourceLanguage.cs" />
+    <Compile Include="Model\CSourceLanguage.cs" />
+    <Compile Include="Model\CustomSourceLanguage.cs" />
+    <Compile Include="Model\DeclaredException.cs" />
+    <Compile Include="Model\DereferencedInvocation.cs" />
+    <Compile Include="Model\Entity.cs" />
+    <Compile Include="Model\Enum.cs" />
+    <Compile Include="Model\EnumValue.cs" />
+    <Compile Include="Model\Exception.cs" />
+    <Compile Include="Model\FileAnchor.cs" />
+    <Compile Include="Model\Function.cs" />
+    <Compile Include="Model\GlobalVariable.cs" />
+    <Compile Include="Model\GlobalVariableGroup.cs" />
+    <Compile Include="Model\Header.cs" />
+    <Compile Include="Model\ImplicitVariable.cs" />
+    <Compile Include="Model\Include.cs" />
+    <Compile Include="Model\IndexedFileAnchor.cs" />
+    <Compile Include="Model\Inheritance.cs" />
+    <Compile Include="Model\Invocation.cs" />
+    <Compile Include="Model\JavaSourceLanguage.cs" />
+    <Compile Include="Model\LeafEntity.cs" />
+    <Compile Include="Model\LocalVariable.cs" />
+    <Compile Include="Model\Method.cs" />
+    <Compile Include="Model\MethodGroup.cs" />
+    <Compile Include="Model\Module.cs" />
+    <Compile Include="Model\MultipleFileAnchor.cs" />
+    <Compile Include="Model\NamedEntity.cs" />
+    <Compile Include="Model\Namespace.cs" />
+    <Compile Include="Model\NamespaceGroup.cs" />
+    <Compile Include="Model\Package.cs" />
+    <Compile Include="Model\PackageGroup.cs" />
+    <Compile Include="Model\Parameter.cs" />
+    <Compile Include="Model\ParameterizableClass.cs" />
+    <Compile Include="Model\ParameterizedType.cs" />
+    <Compile Include="Model\ParameterType.cs" />
+    <Compile Include="Model\PharoAnchor.cs" />
+    <Compile Include="Model\PreprocessorDefine.cs" />
+    <Compile Include="Model\PreprocessorIfdef.cs" />
+    <Compile Include="Model\PreprocessorStatement.cs" />
+    <Compile Include="Model\PrimitiveType.cs" />
+    <Compile Include="Model\Reference.cs" />
+    <Compile Include="Model\ScopingEntity.cs" />
+    <Compile Include="Model\SmalltalkMonticelloSourceLanguage.cs" />
+    <Compile Include="Model\SmalltalkSourceLanguage.cs" />
+    <Compile Include="Model\SourceAnchor.cs" />
+    <Compile Include="Model\SourcedEntity.cs" />
+    <Compile Include="Model\SourceLanguage.cs" />
+    <Compile Include="Model\SourceTextAnchor.cs" />
+    <Compile Include="Model\StructuralEntity.cs" />
+    <Compile Include="Model\ThrownException.cs" />
+    <Compile Include="Model\Type.cs" />
+    <Compile Include="Model\TypeAlias.cs" />
+    <Compile Include="Model\TypeGroup.cs" />
+    <Compile Include="Model\UnknownSourceLanguage.cs" />
+    <Compile Include="Model\UnknownVariable.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="MainClass.cs" />
     <Compile Include="CustomWalker.cs" />
