@@ -11,12 +11,6 @@ namespace Dynamix
   [FameDescription("Activation")]
   public class Activation : Dynamix.Event
   {
-    [FameProperty(Name = "behaviour",  Opposite = "activations")]    
-    public FAMIX.BehaviouralEntity behaviour { get; set; }
-    
-    [FameProperty(Name = "receiver",  Opposite = "activationsWithReceiver")]    
-    public Dynamix.Reference receiver { get; set; }
-    
     private List<Dynamix.Reference> arguments = new List<Dynamix.Reference>();
     
     [FameProperty(Name = "arguments",  Opposite = "activationsWithArgument")]    
@@ -29,6 +23,12 @@ namespace Dynamix
     {
       arguments.Add(one);
     }
+    
+    [FameProperty(Name = "receiver",  Opposite = "activationsWithReceiver")]    
+    public Dynamix.Reference receiver { get; set; }
+    
+    [FameProperty(Name = "behaviour",  Opposite = "activations")]    
+    public FAMIX.BehaviouralEntity behaviour { get; set; }
     
     [FameProperty(Name = "return",  Opposite = "activationsWithReturn")]    
     public Dynamix.Reference _return { get; set; }

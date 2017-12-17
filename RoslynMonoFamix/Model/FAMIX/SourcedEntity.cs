@@ -11,6 +11,9 @@ namespace FAMIX
   [FameDescription("SourcedEntity")]
   public class SourcedEntity : FAMIX.Entity
   {
+    [FameProperty(Name = "declaredSourceLanguage",  Opposite = "sourcedEntities")]    
+    public FAMIX.SourceLanguage declaredSourceLanguage { get; set; }
+    
     private List<FAMIX.Comment> comments = new List<FAMIX.Comment>();
     
     [FameProperty(Name = "comments",  Opposite = "container")]    
@@ -23,12 +26,6 @@ namespace FAMIX
     {
       comments.Add(one);
     }
-    
-    [FameProperty(Name = "declaredSourceLanguage",  Opposite = "sourcedEntities")]    
-    public FAMIX.SourceLanguage declaredSourceLanguage { get; set; }
-    
-    [FameProperty(Name = "numberOfLinesOfCodeWithMoreThanOneCharacter")]    
-    public int numberOfLinesOfCodeWithMoreThanOneCharacter { get; set; }
     
     [FameProperty(Name = "sourceAnchor",  Opposite = "element")]    
     public FAMIX.SourceAnchor sourceAnchor { get; set; }
@@ -45,9 +42,6 @@ namespace FAMIX
     {
       containerFiles.Add(one);
     }
-    
-    [FameProperty(Name = "numberOfJavaNullChecks")]    
-    public int numberOfJavaNullChecks { get; set; }
     
   }
 }

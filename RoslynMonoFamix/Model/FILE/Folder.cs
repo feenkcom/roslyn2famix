@@ -24,17 +24,5 @@ namespace FILE
       childrenFileSystemEntities.Add(one);
     }
     
-    [FameProperty(Name = "numberOfFiles")]    
-    public int numberOfFiles { get; set; }
-    
-    [FameProperty(Name = "numberOfFolders")]    
-    public int numberOfFolders { get; set; }
-    
-    [FameProperty(Name = "totalNumberOfLinesOfText")]    
-    public int totalNumberOfLinesOfText { get; set; }
-    
-    [FameProperty(Name = "numberOfEmptyLinesOfText")]    
-    public int numberOfEmptyLinesOfText { get; set; }
-    
   }
 }

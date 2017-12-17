@@ -11,9 +11,6 @@ namespace FILE
   [FameDescription("AbstractFile")]
   public class AbstractFile : FAMIX.Entity
   {
-    [FameProperty(Name = "numberOfLinesOfText")]    
-    public int numberOfLinesOfText { get; set; }
-    
     [FameProperty(Name = "name")]    
     public String name { get; set; }
     

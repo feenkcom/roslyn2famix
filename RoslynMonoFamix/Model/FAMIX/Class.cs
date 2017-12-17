@@ -11,22 +11,6 @@ namespace FAMIX
   [FameDescription("Class")]
   public class Class : FAMIX.Type
   {
-    [FameProperty(Name = "numberOfInternalDuplications")]    
-    public int numberOfInternalDuplications { get; set; }
-    
-    private List<Boolean> isIgnored = new List<Boolean>();
-    
-    [FameProperty(Name = "isIgnored")]    
-    public List <Boolean> IsIgnored
-    {
-      get { return isIgnored; }
-      set { isIgnored = value; }
-    }
-    public void AddIsIgnored(Boolean one)
-    {
-      isIgnored.Add(one);
-    }
-    
     [FameProperty(Name = "lcom2")]    
     public int lcom2 { get; set; }
     
@@ -45,9 +29,6 @@ namespace FAMIX
     
     [FameProperty(Name = "isInterface")]    
     public Boolean isInterface { get; set; }
-    
-    [FameProperty(Name = "numberOfExternalDuplications")]    
-    public int numberOfExternalDuplications { get; set; }
     
     [FameProperty(Name = "lcom3")]    
     public int lcom3 { get; set; }

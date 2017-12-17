@@ -24,8 +24,5 @@ namespace FAMIX
       sourcedEntities.Add(one);
     }
     
-    [FameProperty(Name = "name")]    
-    public String name { get; set; }
-    
   }
 }

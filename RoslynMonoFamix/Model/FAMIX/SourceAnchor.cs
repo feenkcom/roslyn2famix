@@ -11,9 +11,6 @@ namespace FAMIX
   [FameDescription("SourceAnchor")]
   public class SourceAnchor : FAMIX.Entity
   {
-    [FameProperty(Name = "lineCount")]    
-    public int lineCount { get; set; }
-    
     [FameProperty(Name = "element",  Opposite = "sourceAnchor")]    
     public FAMIX.SourcedEntity element { get; set; }
     

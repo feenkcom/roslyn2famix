@@ -22,11 +22,11 @@ namespace RoslynMonoFamix
 
         public static async Task MainAsync(string[] args)
         {
-           
+            ValidateArgs(args);//validates arguments
 			string path = Assembly.GetAssembly(typeof(MainClass)).Location;
 			Console.WriteLine("--->>>" + path);
 			path = path.Replace("RoslynMonoFamix.exe", "");
-			string solutionPath = path+"../../../SampleCode/SampleCode.sln";
+			string solutionPath = args[0];
 	
 			var metamodel = FamixModel.Metamodel();
 
@@ -49,8 +49,13 @@ namespace RoslynMonoFamix
                 }
             }
 
-            metamodel.ExportMSEFile("SampleCode.mse");
-            Console.ReadKey();
+            metamodel.ExportMSEFile(args[1]);
+        }
+
+        private static void ValidateArgs(string[] args)
+        {
+            //validate we receive solution file path and output file path
+
         }
     }
 }

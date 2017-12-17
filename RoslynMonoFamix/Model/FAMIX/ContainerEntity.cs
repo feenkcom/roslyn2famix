@@ -11,19 +11,6 @@ namespace FAMIX
   [FameDescription("ContainerEntity")]
   public class ContainerEntity : FAMIX.NamedEntity
   {
-    private List<FAMIX.AnnotationType> definedAnnotationTypes = new List<FAMIX.AnnotationType>();
-    
-    [FameProperty(Name = "definedAnnotationTypes",  Opposite = "container")]    
-    public List <FAMIX.AnnotationType> DefinedAnnotationTypes
-    {
-      get { return definedAnnotationTypes; }
-      set { definedAnnotationTypes = value; }
-    }
-    public void AddDefinedAnnotationType(FAMIX.AnnotationType one)
-    {
-      definedAnnotationTypes.Add(one);
-    }
-    
     private List<FAMIX.Type> types = new List<FAMIX.Type>();
     
     [FameProperty(Name = "types",  Opposite = "container")]    
@@ -35,6 +22,19 @@ namespace FAMIX
     public void AddType(FAMIX.Type one)
     {
       types.Add(one);
+    }
+    
+    private List<FAMIX.AnnotationType> definedAnnotationTypes = new List<FAMIX.AnnotationType>();
+    
+    [FameProperty(Name = "definedAnnotationTypes",  Opposite = "container")]    
+    public List <FAMIX.AnnotationType> DefinedAnnotationTypes
+    {
+      get { return definedAnnotationTypes; }
+      set { definedAnnotationTypes = value; }
+    }
+    public void AddDefinedAnnotationType(FAMIX.AnnotationType one)
+    {
+      definedAnnotationTypes.Add(one);
     }
     
     private List<FAMIX.Function> functions = new List<FAMIX.Function>();

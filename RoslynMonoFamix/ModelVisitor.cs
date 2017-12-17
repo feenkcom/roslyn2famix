@@ -123,7 +123,7 @@ public class ModelVisitor : CSharpSyntaxWalker
         access.accessor = currentMethod;
         access.variable = attribute;
         clientMethod.AddAccesse(access);
-        attribute.AddAccessor(clientMethod);
+        attribute.AddIncomingAccesse(access);
     }
 
     private void AddMethodCall(IdentifierNameSyntax node, Method clientMethod, Method referencedEntity)
