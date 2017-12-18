@@ -109,7 +109,6 @@ public class ModelVisitor : CSharpSyntaxWalker
     {
         if (currentMethod != null)
         {
-            Console.WriteLine("node+++ " + node.Identifier);
             FAMIX.NamedEntity referencedEntity = FindReferencedEntity(node);
             if (referencedEntity is FAMIX.Method) AddMethodCall(node, currentMethod, referencedEntity as FAMIX.Method);
             if (referencedEntity is FAMIX.Attribute) AddAttributeAccess(currentMethod, referencedEntity as FAMIX.Attribute);
