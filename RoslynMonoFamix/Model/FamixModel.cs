@@ -15,7 +15,11 @@ namespace Model
             metaRepo.With(typeof(Class));
             metaRepo.With(typeof(Method));
             metaRepo.With(typeof(Type));
-            metaRepo.With(typeof(CSharp.Interface));
+            metaRepo.With(typeof(CSharp.CSharpProperty));
+            metaRepo.With(typeof(AnnotationType));
+            metaRepo.With(typeof(AnnotationTypeAttribute));
+            metaRepo.With(typeof(AnnotationInstance));
+            metaRepo.With(typeof(AnnotationInstanceAttribute));
             return t.model;
         }
     }

@@ -11,9 +11,6 @@ namespace FAMIX
   [FameDescription("ScopingEntity")]
   public class ScopingEntity : FAMIX.ContainerEntity
   {
-    [FameProperty(Name = "parentScope",  Opposite = "childScopes")]    
-    public FAMIX.ScopingEntity parentScope { get; set; }
-    
     private List<FAMIX.ScopingEntity> childScopes = new List<FAMIX.ScopingEntity>();
     
     [FameProperty(Name = "childScopes",  Opposite = "parentScope")]    
@@ -39,6 +36,9 @@ namespace FAMIX
     {
       globalVariables.Add(one);
     }
+    
+    [FameProperty(Name = "parentScope",  Opposite = "childScopes")]    
+    public FAMIX.ScopingEntity parentScope { get; set; }
     
   }
 }

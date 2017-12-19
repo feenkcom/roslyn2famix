@@ -11,11 +11,11 @@ namespace FAMIX
   [FameDescription("Inheritance")]
   public class Inheritance : FAMIX.Association
   {
-    [FameProperty(Name = "superclass",  Opposite = "subInheritances")]    
-    public FAMIX.Type superclass { get; set; }
-    
     [FameProperty(Name = "subclass",  Opposite = "superInheritances")]    
     public FAMIX.Type subclass { get; set; }
+    
+    [FameProperty(Name = "superclass",  Opposite = "subInheritances")]    
+    public FAMIX.Type superclass { get; set; }
     
   }
 }

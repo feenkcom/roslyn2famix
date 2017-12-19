@@ -15,5 +15,9 @@ namespace FamixTest
         public void MethodWasIngested() =>
             Assert.IsNotNull(importer.Methods.Named(".SampleProject.Basic.Called.CalledMethod()"));
 
+        [TestMethod]
+        public void MethodBelongsToClass() =>
+            Assert.AreEqual(1, importer.Types.Named(".SampleProject.Basic.Called").Methods.Count);
+
     }
 }
