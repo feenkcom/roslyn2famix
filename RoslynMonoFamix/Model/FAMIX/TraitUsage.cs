@@ -11,11 +11,11 @@ namespace FAMIX
   [FameDescription("TraitUsage")]
   public class TraitUsage : FAMIX.Association
   {
-    [FameProperty(Name = "user",  Opposite = "outgoingTraitUsages")]    
-    public FAMIX.Type user { get; set; }
-    
     [FameProperty(Name = "trait",  Opposite = "incomingTraitUsages")]    
     public FAMIX.Trait trait { get; set; }
+    
+    [FameProperty(Name = "user",  Opposite = "outgoingTraitUsages")]    
+    public FAMIX.Type user { get; set; }
     
   }
 }

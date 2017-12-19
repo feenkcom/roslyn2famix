@@ -22,20 +22,13 @@ public class ModelVisitor : CSharpSyntaxWalker
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
     {
         var typeSymbol = semanticModel.GetDeclaredSymbol(node);
-        
         currentClassKey = FullTypeName(typeSymbol);
-        FAMIX.Type type = null;
-        var superType = typeSymbol.BaseType;
+        FAMIX.Type type = importer.EnsureType(currentClassKey, typeSymbol, "FAMIX.Class");
+        type.name = node.Identifier.ToString();
 
-        //EnsureType also creates an instance and adds it to the model, we can't just overwrite the object here,
-        //that is why the code below looks fishy
-        if (superType != null && !(superType.ContainingNamespace.Name.Equals("System") && superType.Name.Equals("Object")))
+
+        if (typeSymbol.BaseType != null && !typeSymbol.BaseType.ContainingNamespace.Name.Equals("System"))
         {
-            if (superType.Name.Equals("Attribute") && superType.ContainingNamespace.Name.Equals("System"))
-                type = importer.EnsureType(currentClassKey, typeSymbol, "FAMIX.AnnotationType");
-            else
-                type = importer.EnsureType(currentClassKey, typeSymbol, "FAMIX.Class");
-            
             FAMIX.Type baseType = importer.EnsureType(FullTypeName(typeSymbol.BaseType), typeSymbol.BaseType, "FAMIX.Class");
             Inheritance inheritance = importer.CreateNewAssociation<Inheritance>("FAMIX.Inheritance");
             inheritance.subclass = type;
@@ -43,53 +36,18 @@ public class ModelVisitor : CSharpSyntaxWalker
             baseType.AddSubInheritance(inheritance);
             type.AddSuperInheritance(inheritance);
         }
-        if (type == null)
-            type = importer.EnsureType(currentClassKey, typeSymbol, "FAMIX.Class");
 
-        type.name = node.Identifier.ToString();
         AddSuperInterfaces(typeSymbol, type);
-        AddAnnotations(typeSymbol, type);
 
         base.VisitClassDeclaration(node);
         currentClassKey = null;
-    }
-
-
-    //TODO add AnnotationInstanceAttribute link to AnnotationAttribute is not implemented
-    //because in C# there are AnnotationAttributes that are initilized via constructors
-    private void AddAnnotations(INamedTypeSymbol typeSymbol, FAMIX.Type type)
-    {
-        var attributes = typeSymbol.GetAttributes();
-        foreach (var attr in attributes)
-        {
-            FAMIX.AnnotationInstance annotationInstance = importer.NewInstance<FAMIX.AnnotationInstance>("FAMIX.AnnotationInstance");
-            
-            FAMIX.AnnotationType annonType = (FAMIX.AnnotationType) importer.EnsureType(FullTypeName(attr.AttributeClass), attr.AttributeClass, "FAMIX.AnnotationType");
-            annotationInstance.annotatedEntity = type;
-            annotationInstance.annotationType = annonType;
-
-            foreach (var constrArgument in attr.ConstructorArguments)
-            {
-                AnnotationInstanceAttribute annotationInstanceAttribute = importer.NewInstance<FAMIX.AnnotationInstanceAttribute>("FAMIX.AnnotationInstanceAttribute");
-                annotationInstanceAttribute.value = constrArgument.Value.ToString();
-                annotationInstance.AddAttribute(annotationInstanceAttribute);
-            }
-
-            foreach (var namedArgument in attr.NamedArguments)
-            {
-                AnnotationInstanceAttribute annotationInstanceAttribute = importer.NewInstance<FAMIX.AnnotationInstanceAttribute>("FAMIX.AnnotationInstanceAttribute");
-                annotationInstanceAttribute.value = namedArgument.Value.ToString();
-                annotationInstance.AddAttribute(annotationInstanceAttribute);
-            }
-        }
     }
 
     private void AddSuperInterfaces(INamedTypeSymbol typeSymbol, FAMIX.Type type)
     {
         foreach (var inter in typeSymbol.Interfaces)
         {
-            FAMIX.Class fInterface = (FAMIX.Class)importer.EnsureType(FullTypeName(inter), inter, "FAMIX.Class");
-            fInterface.isInterface = true;
+            FAMIX.Type fInterface = importer.EnsureType(FullTypeName(inter), inter, "CSharp.Interface");
             Inheritance inheritance = importer.CreateNewAssociation<Inheritance>("FAMIX.Inheritance");
             inheritance.subclass = type;
             inheritance.superclass = fInterface;
@@ -102,65 +60,22 @@ public class ModelVisitor : CSharpSyntaxWalker
     {
         var typeSymbol = semanticModel.GetDeclaredSymbol(node);
         currentClassKey = FullTypeName(typeSymbol);
-        FAMIX.Class type = (FAMIX.Class) importer.EnsureType(currentClassKey, typeSymbol, "FAMIX.Class");
-        type.isInterface = true;
+        FAMIX.Type type = importer.EnsureType(currentClassKey, typeSymbol, "CSharp.Interface");
         type.name = node.Identifier.ToString();
         AddSuperInterfaces(typeSymbol, type);
         base.VisitInterfaceDeclaration(node);
         currentClassKey = null;
     }
 
-    public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
-    {
-        string methodName = node.Identifier.ToString();
-        AddMethod(node, methodName);
-
-        if (currentMethod != null) currentMethod.isConstructor = true;
-
-        base.VisitConstructorDeclaration(node);
-        currentMethod = null;
-    }
-
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         string methodName = node.Identifier.ToString();
-        AddMethod(node, methodName);
+        var methodSymbol = semanticModel.GetDeclaredSymbol(node);
+        String fullMethodName = FullMethodName(methodSymbol);
+        Method aMethod = importer.EnsureMethod(fullMethodName, methodSymbol);
+        currentMethod = aMethod;
         base.VisitMethodDeclaration(node);
         currentMethod = null;
-    }
-
-    private Method AddMethod(BaseMethodDeclarationSyntax node, string name)
-    {
-        var currentClass = importer.Types.Named(currentClassKey);
-        if (currentClass != null)
-        {
-            var methodSymbol = semanticModel.GetDeclaredSymbol(node);
-            String fullMethodName = FullMethodName(methodSymbol);
-            Method aMethod = importer.EnsureMethod(fullMethodName, methodSymbol);
-            currentClass.AddMethod(aMethod);
-            aMethod.isConstructor = true;
-            aMethod.parentType = currentClass;
-            currentMethod = aMethod;
-        }
-        return currentMethod;
-    }
-
-    public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
-    {
-        string propertyName = node.Identifier.ToString();
-        ISymbol symbol = semanticModel.GetDeclaredSymbol(node);
-        FAMIX.Attribute propertyAttribute = null; 
-        var currentClass = importer.Types.Named(currentClassKey);
-        if (currentClass != null)
-        {
-            if (currentClass is AnnotationType)
-                propertyAttribute = importer.EnsureAttribute<FAMIX.AnnotationTypeAttribute>(currentClassKey + "." + propertyName, symbol, "FAMIX.AnnotationTypeAttribute");
-            else
-                propertyAttribute = importer.EnsureAttribute<CSharp.CSharpProperty>(currentClassKey + "." + propertyName, symbol, "CSharp.CSharpProperty");
-            currentClass.AddAttribute(propertyAttribute);
-            propertyAttribute.parentType = currentClass;
-        }
-        base.VisitPropertyDeclaration(node);
     }
 
     public override void VisitFieldDeclaration(FieldDeclarationSyntax node)
@@ -171,13 +86,9 @@ public class ModelVisitor : CSharpSyntaxWalker
             var symbol =  semanticModel.GetDeclaredSymbol(variable);
             if (symbol is IFieldSymbol)
             {
-                FAMIX.Attribute anAttribute = importer.EnsureAttribute<FAMIX.Attribute>(currentClassKey + "." + attributeName, (IFieldSymbol) symbol, "FAMIX.Attribute");
-                var currentClass = importer.Types.Named(currentClassKey);
-                if (currentClass != null) {
-                    currentClass.AddAttribute(anAttribute);
-                    anAttribute.parentType = currentClass;
-                }
+                FAMIX.Attribute anAttribute = importer.EnsureAttribute(currentClassKey + "." + attributeName, (IFieldSymbol) symbol);
             }
+            
         }
         base.VisitFieldDeclaration(node);
     }
@@ -198,6 +109,7 @@ public class ModelVisitor : CSharpSyntaxWalker
     {
         if (currentMethod != null)
         {
+            Console.WriteLine("node+++ " + node.Identifier);
             FAMIX.NamedEntity referencedEntity = FindReferencedEntity(node);
             if (referencedEntity is FAMIX.Method) AddMethodCall(node, currentMethod, referencedEntity as FAMIX.Method);
             if (referencedEntity is FAMIX.Attribute) AddAttributeAccess(currentMethod, referencedEntity as FAMIX.Attribute);
@@ -230,9 +142,7 @@ public class ModelVisitor : CSharpSyntaxWalker
         if (symbol is IMethodSymbol)
             return importer.EnsureMethod(FullMethodName(symbol as IMethodSymbol), symbol as IMethodSymbol);
         if (symbol is IFieldSymbol)
-            return importer.EnsureAttribute<FAMIX.Attribute>(currentClassKey + "." + symbol.Name, symbol, "FAMIX.Attribute");
-        if (symbol is IPropertySymbol)
-            return importer.EnsureAttribute<CSharp.CSharpProperty>(currentClassKey + "." + symbol.Name, symbol, "CSharp.CSharpProperty");
+            return importer.EnsureAttribute(currentClassKey + "." + symbol.Name, symbol as IFieldSymbol);
         return null;
     }
 

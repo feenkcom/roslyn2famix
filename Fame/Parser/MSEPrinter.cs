@@ -86,6 +86,7 @@ namespace Fame.Parser
 		private void Close()
 		{
 			string s = stream.ToString();
+			Console.WriteLine(s);
 			if (filepath != null)
 				System.IO.File.WriteAllText(filepath, stream.ToString());
 		}

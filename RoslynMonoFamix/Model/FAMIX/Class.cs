@@ -11,8 +11,8 @@ namespace FAMIX
   [FameDescription("Class")]
   public class Class : FAMIX.Type
   {
-    [FameProperty(Name = "isInterface")]    
-    public Boolean isInterface { get; set; }
+    [FameProperty(Name = "lcom2")]    
+    public int lcom2 { get; set; }
     
     private List<FAMIX.Exception> exceptions = new List<FAMIX.Exception>();
     
@@ -26,6 +26,12 @@ namespace FAMIX
     {
       exceptions.Add(one);
     }
+    
+    [FameProperty(Name = "isInterface")]    
+    public Boolean isInterface { get; set; }
+    
+    [FameProperty(Name = "lcom3")]    
+    public int lcom3 { get; set; }
     
   }
 }
