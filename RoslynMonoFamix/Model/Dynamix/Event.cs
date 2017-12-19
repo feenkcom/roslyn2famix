@@ -11,9 +11,6 @@ namespace Dynamix
   [FameDescription("Event")]
   public class Event : Dynamix.Entity
   {
-    [FameProperty(Name = "parent",  Opposite = "children")]    
-    public Dynamix.Event parent { get; set; }
-    
     private List<Dynamix.Event> children = new List<Dynamix.Event>();
     
     [FameProperty(Name = "children",  Opposite = "parent")]    
@@ -26,6 +23,9 @@ namespace Dynamix
     {
       children.Add(one);
     }
+    
+    [FameProperty(Name = "parent",  Opposite = "children")]    
+    public Dynamix.Event parent { get; set; }
     
   }
 }

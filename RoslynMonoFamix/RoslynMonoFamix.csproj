@@ -206,6 +206,7 @@
     <Compile Include="InCSharp\InCSharpImporter.cs" />
     <Compile Include="InCSharp\NamedEntityAccumulator.cs" />
     <Compile Include="ModelVisitor.cs" />
+    <Compile Include="Model\CSharp\CSharpProperty.cs" />
     <Compile Include="Model\CSharp\Interface.cs" />
     <Compile Include="Model\Dynamix\Activation.cs" />
     <Compile Include="Model\Dynamix\Alias.cs" />
