@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CSharp;
 
 namespace RoslynMonoFamix.InCSharp
 {
@@ -46,11 +47,11 @@ namespace RoslynMonoFamix.InCSharp
             return type;
         }
 
-        public FAMIX.Attribute EnsureAttribute (String attributeFullName, IFieldSymbol field)
+        public T EnsureAttribute<T>  (String attributeFullName, ISymbol field, String attributeKind) where T : FAMIX.Attribute
         {
             if (Attributes.has(attributeFullName))
-                return Attributes.Named(attributeFullName);
-            FAMIX.Attribute attribute = repository.NewInstance<FAMIX.Attribute>("FAMIX.Attribute");
+                return (T)Attributes.Named(attributeFullName);
+            T attribute = repository.NewInstance<T>(attributeKind);
 
             attribute.name = field.Name;
             Attributes.Add(attributeFullName, attribute);
@@ -58,5 +59,10 @@ namespace RoslynMonoFamix.InCSharp
         }
 
         public T CreateNewAssociation<T>(String typeName) => repository.NewInstance<T>(typeName);
+
+        internal T NewInstance<T>(string typeName)
+        {
+            return repository.NewInstance<T>(typeName);
+        }
     }
 }

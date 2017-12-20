@@ -34,12 +34,17 @@ namespace RoslynMonoFamix
             var solution = await msWorkspace.OpenSolutionAsync(solutionPath);
             var importer = new InCSharp.InCSharpImporter(metamodel);
             var documents = new List<Document>();
-            foreach (var project in solution.Projects)
+
+            for (int i = 0; i < solution.Projects.Count<Project>(); i++ )
             {
-                foreach (var document in project.Documents)
+                var project = solution.Projects.ElementAt<Project>(i);
+                for (int j = 0; j < project.Documents.Count<Document>(); j++)
                 {
+                    var document = project.Documents.ElementAt<Document>(j);
                     if (document.SupportsSyntaxTree)
                     {
+                        System.Console.Write("(project " + (i+1) + " / " + solution.Projects.Count<Project>()+")");
+                        System.Console.WriteLine("(document " + (j+1) + " / " + project.Documents.Count<Document>() + " " + document.FilePath+")");
                         var syntaxTree = await document.GetSyntaxTreeAsync();
                         var compilationAsync = await project.GetCompilationAsync();
                         var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);

@@ -172,6 +172,7 @@
     <Compile Include="SubClassTest.cs" />
     <Compile Include="ISimpleInterfaceTest.cs" />
     <Compile Include="ImplementorTest.cs" />
+    <Compile Include="AnnotationAttributeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
