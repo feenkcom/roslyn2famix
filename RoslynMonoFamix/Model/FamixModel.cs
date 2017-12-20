@@ -20,6 +20,9 @@ namespace Model
             metaRepo.With(typeof(AnnotationTypeAttribute));
             metaRepo.With(typeof(AnnotationInstance));
             metaRepo.With(typeof(AnnotationInstanceAttribute));
+            metaRepo.With(typeof(Exception));
+            metaRepo.With(typeof(CaughtException));
+            metaRepo.With(typeof(ThrownException));
             return t.model;
         }
     }

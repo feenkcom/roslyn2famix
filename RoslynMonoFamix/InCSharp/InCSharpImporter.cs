@@ -36,7 +36,7 @@ namespace RoslynMonoFamix.InCSharp
             return method;
         }
 
-        public FAMIX.Type EnsureType(String fullName, INamedTypeSymbol aType, String typeKind)
+        public FAMIX.Type EnsureType(String fullName, String typeKind)
         {
             if (Types.has(fullName))
                 return Types.Named(fullName);
@@ -64,5 +64,10 @@ namespace RoslynMonoFamix.InCSharp
         {
             return repository.NewInstance<T>(typeName);
         }
+
+        public IEnumerable<T> AllElementsOfType<T>()
+        {
+            return repository.GetElements().OfType<T>();
+        } 
     }
 }

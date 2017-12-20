@@ -33,12 +33,11 @@ namespace FamixTest
 
 			var solution = msWorkspace.OpenSolutionAsync(solutionPath).Result;
 
-            var documents = new List<Document>();
+            Boolean fileWasFound = false;
 			foreach (var project in solution.Projects)
 			{
 				foreach (var document in project.Documents)
 				{
-					Console.WriteLine("--->>>" + this.GetType().Name);
 					var targetFile = this.GetType().Name.Replace("Test", ".cs"); 
 					if (document.SupportsSyntaxTree && document.FilePath.EndsWith(targetFile))
 					{
@@ -47,9 +46,11 @@ namespace FamixTest
 						var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);
 						var visitor = new ModelVisitor(semanticModel, importer);
 						visitor.Visit(syntaxTree.GetRoot());
+                        fileWasFound = true;
 					}
 				}
 			}
+            if (!fileWasFound) throw new Exception("File was not found!");
 			metamodel.ExportMSEFile("SampleCode.mse");
 		}
 

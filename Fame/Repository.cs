@@ -15,7 +15,7 @@ namespace Fame
 
 		private MetaRepository metamodel;
 
-		internal IList GetElements()
+		public IList GetElements()
 		{
 			return elements;
 		}
