@@ -1,1 +1,0 @@
-Class that models a C# interface
