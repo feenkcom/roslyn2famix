@@ -7,6 +7,6 @@ namespace FamixTest
     public class ISimpleInterfaceTest : SampleSystemLoader
     {
         [TestMethod]
-        public void InterfaceWasIngested() => Assert.IsNotNull(importer.Types.Named(".SampleProject.Basic.ISimpleInterface"));
+        public void InterfaceWasIngested() => Assert.IsNotNull(importer.Types.Named("SampleProject.Basic.ISimpleInterface"));
     }
 }

@@ -8,16 +8,18 @@ namespace SampleProject.Basic
 {
     class Called
     {
-        public void CalledMethod()
+        public int CalledMethod()
         {
+            return 1;
         }
     }
 
     class StandardCaller
     {
-        public void CallerMethod()
+        public StandardCaller CallerMethod()
         {
             new Called().CalledMethod();
+            return null;
         }
     }
 

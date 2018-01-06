@@ -23,6 +23,12 @@ namespace Model
             metaRepo.With(typeof(Exception));
             metaRepo.With(typeof(CaughtException));
             metaRepo.With(typeof(ThrownException));
+            metaRepo.With(typeof(CSharp.Delegate));
+            metaRepo.With(typeof(CSharp.CSharpStruct));
+            metaRepo.With(typeof(ParameterizableClass));
+            metaRepo.With(typeof(ParameterizedType));
+            metaRepo.With(typeof(ParameterType));
+            metaRepo.With(typeof(Enum));
             return t.model;
         }
     }

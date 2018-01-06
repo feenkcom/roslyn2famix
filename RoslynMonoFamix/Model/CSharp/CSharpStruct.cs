@@ -8,8 +8,8 @@ using System.Collections.Generic;
 namespace CSharp
 {
   [FamePackage("CSharp")]
-  [FameDescription("Interface")]
-  public class Interface : FAMIX.Type
+  [FameDescription("CSharpStruct")]
+  public class CSharpStruct : FAMIX.Type
   {
   }
 }

@@ -13,6 +13,6 @@ namespace FamixTest
 	public class Class1Test : SampleSystemLoader
 	{     
 		[TestMethod]
-		public void ClassWasIngested() => Assert.IsNotNull(importer.Types.Named(".SampleProject.Basic.Class1"));
+		public void ClassWasIngested() => Assert.IsNotNull(importer.Types.Named("SampleProject.Basic.Class1"));
     }
 }

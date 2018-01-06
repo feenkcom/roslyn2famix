@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace SampleProject.Basic
 {
-    class Class1
+    class Enum
     {
+        enum MyFavoriteEnum
+        {
+            ONE,
+            TWO,
+            FOUR
+        }
     }
 }

@@ -8,16 +8,16 @@ namespace FamixTest
     {
         [TestMethod]
         public void TestStandardCall() =>
-            Assert.AreEqual(1, importer.Methods.Named(".SampleProject.Basic.StandardCaller.CallerMethod()").OutgoingInvocations.Count);
+            Assert.AreEqual(1, importer.Methods.Named("SampleProject.Basic.StandardCaller.CallerMethod()").OutgoingInvocations.Count);
 
 
         [TestMethod]
         public void MethodWasIngested() =>
-            Assert.IsNotNull(importer.Methods.Named(".SampleProject.Basic.Called.CalledMethod()"));
+            Assert.IsNotNull(importer.Methods.Named("SampleProject.Basic.Called.CalledMethod()"));
 
         [TestMethod]
         public void MethodBelongsToClass() =>
-            Assert.AreEqual(1, importer.Types.Named(".SampleProject.Basic.Called").Methods.Count);
+            Assert.AreEqual(1, importer.Types.Named("SampleProject.Basic.Called").Methods.Count);
 
     }
 }

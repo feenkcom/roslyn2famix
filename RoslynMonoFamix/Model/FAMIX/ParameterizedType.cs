@@ -11,9 +11,6 @@ namespace FAMIX
   [FameDescription("ParameterizedType")]
   public class ParameterizedType : FAMIX.Type
   {
-    [FameProperty(Name = "parameterizableClass",  Opposite = "parameterizedTypes")]    
-    public FAMIX.ParameterizableClass parameterizableClass { get; set; }
-    
     private List<FAMIX.Type> arguments = new List<FAMIX.Type>();
     
     [FameProperty(Name = "arguments",  Opposite = "argumentsInParameterizedTypes")]    
@@ -26,6 +23,9 @@ namespace FAMIX
     {
       arguments.Add(one);
     }
+    
+    [FameProperty(Name = "parameterizableClass",  Opposite = "parameterizedTypes")]    
+    public FAMIX.ParameterizableClass parameterizableClass { get; set; }
     
   }
 }

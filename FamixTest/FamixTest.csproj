@@ -174,6 +174,11 @@
     <Compile Include="ImplementorTest.cs" />
     <Compile Include="AnnotationAttributeTest.cs" />
     <Compile Include="ExceptionsTest.cs" />
+    <Compile Include="DelegateEventTest.cs" />
+    <Compile Include="SimpleStructTest.cs" />
+    <Compile Include="GenericsTest.cs" />
+    <Compile Include="ReturnTypeTest.cs" />
+    <Compile Include="EnumTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

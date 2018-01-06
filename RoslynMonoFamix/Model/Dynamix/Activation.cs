@@ -11,9 +11,6 @@ namespace Dynamix
   [FameDescription("Activation")]
   public class Activation : Dynamix.Event
   {
-    [FameProperty(Name = "receiver",  Opposite = "activationsWithReceiver")]    
-    public Dynamix.Reference receiver { get; set; }
-    
     [FameProperty(Name = "return",  Opposite = "activationsWithReturn")]    
     public Dynamix.Reference _return { get; set; }
     
@@ -32,6 +29,9 @@ namespace Dynamix
     {
       arguments.Add(one);
     }
+    
+    [FameProperty(Name = "receiver",  Opposite = "activationsWithReceiver")]    
+    public Dynamix.Reference receiver { get; set; }
     
   }
 }

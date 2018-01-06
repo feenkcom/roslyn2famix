@@ -44,7 +44,12 @@
     <Compile Include="Basic\Attribute.cs" />
     <Compile Include="Basic\BaseClass.cs" />
     <Compile Include="Basic\Class1.cs" />
+    <Compile Include="Basic\Enum.cs" />
+    <Compile Include="Basic\Generics.cs" />
     <Compile Include="Basic\Calls.cs" />
+    <Compile Include="Basic\ReturnType.cs" />
+    <Compile Include="Basic\SimpleStruct.cs" />
+    <Compile Include="Basic\DelegateEvent.cs" />
     <Compile Include="Basic\Exceptions.cs" />
     <Compile Include="Basic\Implementor.cs" />
     <Compile Include="Basic\ISimpleInterface.cs" />

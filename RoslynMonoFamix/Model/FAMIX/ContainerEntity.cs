@@ -24,19 +24,6 @@ namespace FAMIX
       types.Add(one);
     }
     
-    private List<FAMIX.AnnotationType> definedAnnotationTypes = new List<FAMIX.AnnotationType>();
-    
-    [FameProperty(Name = "definedAnnotationTypes",  Opposite = "container")]    
-    public List <FAMIX.AnnotationType> DefinedAnnotationTypes
-    {
-      get { return definedAnnotationTypes; }
-      set { definedAnnotationTypes = value; }
-    }
-    public void AddDefinedAnnotationType(FAMIX.AnnotationType one)
-    {
-      definedAnnotationTypes.Add(one);
-    }
-    
     private List<FAMIX.Function> functions = new List<FAMIX.Function>();
     
     [FameProperty(Name = "functions",  Opposite = "container")]    
@@ -48,6 +35,19 @@ namespace FAMIX
     public void AddFunction(FAMIX.Function one)
     {
       functions.Add(one);
+    }
+    
+    private List<FAMIX.AnnotationType> definedAnnotationTypes = new List<FAMIX.AnnotationType>();
+    
+    [FameProperty(Name = "definedAnnotationTypes",  Opposite = "container")]    
+    public List <FAMIX.AnnotationType> DefinedAnnotationTypes
+    {
+      get { return definedAnnotationTypes; }
+      set { definedAnnotationTypes = value; }
+    }
+    public void AddDefinedAnnotationType(FAMIX.AnnotationType one)
+    {
+      definedAnnotationTypes.Add(one);
     }
     
   }

@@ -207,7 +207,8 @@
     <Compile Include="InCSharp\NamedEntityAccumulator.cs" />
     <Compile Include="ModelVisitor.cs" />
     <Compile Include="Model\CSharp\CSharpProperty.cs" />
-    <Compile Include="Model\CSharp\Interface.cs" />
+    <Compile Include="Model\CSharp\CSharpStruct.cs" />
+    <Compile Include="Model\CSharp\Delegate.cs" />
     <Compile Include="Model\Dynamix\Activation.cs" />
     <Compile Include="Model\Dynamix\Alias.cs" />
     <Compile Include="Model\Dynamix\Entity.cs" />
@@ -328,6 +329,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.0\build\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.0\build\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -10,11 +10,13 @@ namespace RoslynMonoFamix.InCSharp
     public class NamedEntityAccumulator<T>
     {
 
-        private Dictionary<String, T> entities;
+        private Dictionary<string, T> entities;
+        private Dictionary<T, string> names;
 
         public NamedEntityAccumulator()
         {
-            entities = new Dictionary<String, T>();
+            entities = new Dictionary<string, T>();
+            names = new Dictionary<T, string>();
         }
 
         public List<T> get()
@@ -25,9 +27,10 @@ namespace RoslynMonoFamix.InCSharp
         public T Add(String qualifiedName, T entity)
         {
             entities.Add(qualifiedName, entity);
-            
+            names.Add(entity, qualifiedName);
             return entity;
         }
+
         public T Named(String qualifiedName)
         {
             if (entities.ContainsKey(qualifiedName))
@@ -36,6 +39,9 @@ namespace RoslynMonoFamix.InCSharp
             }
             return default(T);
         }
+
+        public string QualifiedName(T entity) => names[entity];
+
         public Boolean has(String qualifiedName)
         {
             return entities.ContainsKey(qualifiedName);

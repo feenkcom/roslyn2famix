@@ -11,19 +11,6 @@ namespace FAMIX
   [FameDescription("CFile")]
   public class CFile : FILE.File
   {
-    private List<FAMIX.Include> incomingIncludeRelations = new List<FAMIX.Include>();
-    
-    [FameProperty(Name = "incomingIncludeRelations",  Opposite = "target")]    
-    public List <FAMIX.Include> IncomingIncludeRelations
-    {
-      get { return incomingIncludeRelations; }
-      set { incomingIncludeRelations = value; }
-    }
-    public void AddIncomingIncludeRelation(FAMIX.Include one)
-    {
-      incomingIncludeRelations.Add(one);
-    }
-    
     private List<FAMIX.Include> outgoingIncludeRelations = new List<FAMIX.Include>();
     
     [FameProperty(Name = "outgoingIncludeRelations",  Opposite = "source")]    
@@ -35,6 +22,19 @@ namespace FAMIX
     public void AddOutgoingIncludeRelation(FAMIX.Include one)
     {
       outgoingIncludeRelations.Add(one);
+    }
+    
+    private List<FAMIX.Include> incomingIncludeRelations = new List<FAMIX.Include>();
+    
+    [FameProperty(Name = "incomingIncludeRelations",  Opposite = "target")]    
+    public List <FAMIX.Include> IncomingIncludeRelations
+    {
+      get { return incomingIncludeRelations; }
+      set { incomingIncludeRelations = value; }
+    }
+    public void AddIncomingIncludeRelation(FAMIX.Include one)
+    {
+      incomingIncludeRelations.Add(one);
     }
     
   }
