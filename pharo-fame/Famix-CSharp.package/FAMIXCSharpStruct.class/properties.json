@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "GeorgeGanea 1/8/2018 10:21",
+	"super" : "FAMIXType",
+	"category" : "Famix-CSharp",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "FAMIXCSharpStruct",
+	"type" : "normal"
+}
