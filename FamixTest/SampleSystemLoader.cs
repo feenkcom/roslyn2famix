@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
-using System.Collections.Generic;
+using System.IO;
 
 
 using Fame;
@@ -24,7 +24,7 @@ namespace FamixTest
 			string path = Assembly.GetAssembly(typeof(SampleSystemLoader)).Location;
 			path = path.Replace("FamixTest.dll", "");
 			string solutionPath = path + "../../../SampleCode/SampleCode.sln";
-            importer = new RoslynMonoFamix.InCSharp.InCSharpImporter(metamodel);
+            importer = new RoslynMonoFamix.InCSharp.InCSharpImporter(metamodel, Path.GetDirectoryName(new Uri(solutionPath).AbsolutePath));
             var msWorkspace = MSBuildWorkspace.Create();
 			msWorkspace.WorkspaceFailed += (o, e) =>
 			{

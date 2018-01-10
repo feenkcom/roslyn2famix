@@ -47,9 +47,10 @@ namespace Fame
 			this.elements = new List<object>();
 		}
 
-		public T NewInstance<T>(string qname)
+		public T New<T>(string qname)
 		{
 			Element m = metamodel.Get(qname);
+
 			if (m != null)
 			{
 				if (m.GetType() == typeof(MetaDescription))

@@ -26,8 +26,15 @@ namespace RoslynMonoFamix.InCSharp
 
         public T Add(String qualifiedName, T entity)
         {
-            entities.Add(qualifiedName, entity);
-            names.Add(entity, qualifiedName);
+            try
+            {
+                entities.Add(qualifiedName, entity);
+                names.Add(entity, qualifiedName);
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e);
+            } 
             return entity;
         }
 

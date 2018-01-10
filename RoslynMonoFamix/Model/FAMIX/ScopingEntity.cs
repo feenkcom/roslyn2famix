@@ -35,6 +35,7 @@ namespace FAMIX
       get { return childScopes; }
       set { childScopes = value; }
     }
+
     public void AddChildScope(FAMIX.ScopingEntity one)
     {
       childScopes.Add(one);

@@ -7,7 +7,9 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 using System.Collections.Generic;
+using System.IO;
 using Model;
+using System.Linq;
 
 using FAMIX;
 
@@ -31,9 +33,28 @@ namespace RoslynMonoFamix
 			var metamodel = FamixModel.Metamodel();
 
             var msWorkspace = MSBuildWorkspace.Create();
+
             var solution = await msWorkspace.OpenSolutionAsync(solutionPath);
-            var importer = new InCSharp.InCSharpImporter(metamodel);
+            Uri uri = null;
+            try
+            {
+                uri = new Uri( solutionPath); ;
+            }
+            catch (UriFormatException e)
+            {
+                var currentFolder = new Uri(Environment.CurrentDirectory+"\\");
+                uri = new Uri(currentFolder, solutionPath.Replace("\\","/"));
+                Console.WriteLine(e.StackTrace);
+            }
+             
+            var ignoreFolder = Path.GetDirectoryName(uri.AbsolutePath);
+
+            Console.WriteLine("ignore foler " + ignoreFolder);
+
+            var importer = new InCSharp.InCSharpImporter(metamodel, ignoreFolder);
             var documents = new List<Document>();
+
+            
 
             for (int i = 0; i < solution.Projects.Count<Project>(); i++ )
             {
@@ -46,6 +67,10 @@ namespace RoslynMonoFamix
                         System.Console.Write("(project " + (i+1) + " / " + solution.Projects.Count<Project>()+")");
                         System.Console.WriteLine("(document " + (j+1) + " / " + project.Documents.Count<Document>() + " " + document.FilePath+")");
                         var syntaxTree = await document.GetSyntaxTreeAsync();
+
+                        var sinstaxPath = document.FilePath+".ast";
+                        System.IO.File.WriteAllText(sinstaxPath, syntaxTree.ToString());
+                        
                         var compilationAsync = await project.GetCompilationAsync();
                         var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);
                         var visitor = new ModelVisitor(semanticModel, importer);

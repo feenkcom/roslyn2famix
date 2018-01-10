@@ -10,6 +10,10 @@ namespace Model
         {
             Tower t = new Fame.Tower();
             MetaRepository metaRepo = t.metamodel;
+            metaRepo.With(typeof(Entity));
+            metaRepo.With(typeof(SourcedEntity));
+            metaRepo.With(typeof(ContainerEntity));
+            metaRepo.With(typeof(NamedEntity));
             metaRepo.With(typeof(Attribute));
             metaRepo.With(typeof(BehaviouralEntity));
             metaRepo.With(typeof(Class));
@@ -29,6 +33,10 @@ namespace Model
             metaRepo.With(typeof(ParameterizedType));
             metaRepo.With(typeof(ParameterType));
             metaRepo.With(typeof(Enum));
+            metaRepo.With(typeof(SourceAnchor));
+            metaRepo.With(typeof(AbstractFileAnchor));
+            metaRepo.With(typeof(FileAnchor));
+            metaRepo.With(typeof(Namespace));
             return t.model;
         }
     }

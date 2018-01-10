@@ -22,7 +22,7 @@ public class ModelVisitor : CSharpSyntaxWalker
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
     {
         var typeSymbol = semanticModel.GetDeclaredSymbol(node);
-        
+       
         FAMIX.Type type = type = importer.EnsureType(typeSymbol);
         var superType = typeSymbol.BaseType;
 
@@ -37,12 +37,17 @@ public class ModelVisitor : CSharpSyntaxWalker
             baseType.AddSubInheritance(inheritance);
             type.AddSuperInheritance(inheritance);
         }
+       
 
         //type.name = node.Identifier.ToString();
         AddSuperInterfaces(typeSymbol, type);
         AddAnnotations(typeSymbol, type);
         AddParameterTypes(typeSymbol, type);
         currentType = type;
+        importer.CreateSourceAnchor(type, node);
+        type.isStub = false;
+        if (type.container != null)
+            type.container.isStub = false;
         base.VisitClassDeclaration(node);
         currentType = null;
     }
@@ -61,6 +66,8 @@ public class ModelVisitor : CSharpSyntaxWalker
         FAMIX.Type type = importer.EnsureType(typeSymbol);
     
         currentType = type;
+        importer.CreateSourceAnchor(type, node);
+        type.isStub = false;
         base.VisitStructDeclaration(node);
         currentType = null;
     }
@@ -71,6 +78,8 @@ public class ModelVisitor : CSharpSyntaxWalker
         FAMIX.Type type = importer.EnsureType(typeSymbol);
         
         currentType = type;
+        importer.CreateSourceAnchor(type, node);
+        type.isStub = false;
         base.VisitEnumDeclaration(node);
         currentType = null;
     }
@@ -80,10 +89,12 @@ public class ModelVisitor : CSharpSyntaxWalker
         string attributeName = node.Identifier.ToString();
         var symbol = semanticModel.GetDeclaredSymbol(node);
         FAMIX.EnumValue anEnumValue = importer.EnsureAttribute<FAMIX.EnumValue>(importer.Types.QualifiedName(currentType) + "." + attributeName, (ISymbol)symbol, "FAMIX.EnumValue");
+        importer.CreateSourceAnchor(anEnumValue, node);
         if (currentType is FAMIX.Enum)
         {
             (currentType as FAMIX.Enum).AddValue(anEnumValue);
             anEnumValue.parentEnum = currentType as FAMIX.Enum;
+            anEnumValue.isStub = false;
         }
       
     }
@@ -95,24 +106,31 @@ public class ModelVisitor : CSharpSyntaxWalker
         var attributes = typeSymbol.GetAttributes();
         foreach (var attr in attributes)
         {
-            FAMIX.AnnotationInstance annotationInstance = importer.NewInstance<FAMIX.AnnotationInstance>("FAMIX.AnnotationInstance");
-            
-            FAMIX.AnnotationType annonType = (FAMIX.AnnotationType) importer.EnsureType(attr.AttributeClass);
-            annotationInstance.annotatedEntity = type;
-            annotationInstance.annotationType = annonType;
-
-            foreach (var constrArgument in attr.ConstructorArguments)
+            try
             {
-                AnnotationInstanceAttribute annotationInstanceAttribute = importer.NewInstance<FAMIX.AnnotationInstanceAttribute>("FAMIX.AnnotationInstanceAttribute");
-                annotationInstanceAttribute.value = constrArgument.Value.ToString();
-                annotationInstance.AddAttribute(annotationInstanceAttribute);
+                FAMIX.AnnotationInstance annotationInstance = importer.New<FAMIX.AnnotationInstance>();
+
+                FAMIX.AnnotationType annonType = (FAMIX.AnnotationType)importer.EnsureType(attr.AttributeClass);
+                annotationInstance.annotatedEntity = type;
+                annotationInstance.annotationType = annonType;
+
+                foreach (var constrArgument in attr.ConstructorArguments)
+                {
+                    AnnotationInstanceAttribute annotationInstanceAttribute = importer.New<FAMIX.AnnotationInstanceAttribute>();
+                    annotationInstanceAttribute.value = constrArgument.Value.ToString();
+                    annotationInstance.AddAttribute(annotationInstanceAttribute);
+                }
+
+                foreach (var namedArgument in attr.NamedArguments)
+                {
+                    AnnotationInstanceAttribute annotationInstanceAttribute = importer.New<FAMIX.AnnotationInstanceAttribute>();
+                    annotationInstanceAttribute.value = namedArgument.Value.ToString();
+                    annotationInstance.AddAttribute(annotationInstanceAttribute);
+                }
             }
-
-            foreach (var namedArgument in attr.NamedArguments)
+            catch (InvalidCastException c)
             {
-                AnnotationInstanceAttribute annotationInstanceAttribute = importer.NewInstance<FAMIX.AnnotationInstanceAttribute>("FAMIX.AnnotationInstanceAttribute");
-                annotationInstanceAttribute.value = namedArgument.Value.ToString();
-                annotationInstance.AddAttribute(annotationInstanceAttribute);
+                Console.WriteLine(c.Message);
             }
         }
     }
@@ -140,6 +158,8 @@ public class ModelVisitor : CSharpSyntaxWalker
         AddSuperInterfaces(typeSymbol, type);
 
         currentType = type;
+        importer.CreateSourceAnchor(type, node);
+        type.isStub = false;
         base.VisitInterfaceDeclaration(node);
         currentType = null;
     }
@@ -147,10 +167,11 @@ public class ModelVisitor : CSharpSyntaxWalker
     public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
     {
         string methodName = node.Identifier.ToString();
+
         AddMethod(node, methodName);
-
+        
         if (currentMethod != null) currentMethod.isConstructor = true;
-
+        
         base.VisitConstructorDeclaration(node);
         currentMethod = null;
     }
@@ -179,6 +200,8 @@ public class ModelVisitor : CSharpSyntaxWalker
 
             var returnType = importer.EnsureType(methodSymbol.ReturnType);
             currentMethod.declaredType = returnType;
+            importer.CreateSourceAnchor(aMethod, node);
+            currentMethod.isStub = false;
         }
         return currentMethod;
     }
@@ -203,6 +226,8 @@ public class ModelVisitor : CSharpSyntaxWalker
                 propertyAttribute = importer.EnsureAttribute<CSharp.CSharpProperty>(importer.Types.QualifiedName(currentType) + "." + propertyName, symbol, "CSharp.CSharpProperty");
             currentType.AddAttribute(propertyAttribute);
             propertyAttribute.parentType = currentType;
+            propertyAttribute.isStub = false;
+            importer.CreateSourceAnchor(propertyAttribute, node);
         }
     }
 
@@ -222,7 +247,7 @@ public class ModelVisitor : CSharpSyntaxWalker
     public override void VisitDelegateDeclaration(DelegateDeclarationSyntax node)
     {
         var typeSymbol = semanticModel.GetDeclaredSymbol(node);
-        CSharp.Delegate type = (CSharp.Delegate) importer.EnsureType(typeSymbol);
+        importer.EnsureType(typeSymbol);
         base.VisitDelegateDeclaration(node);
     }
 
@@ -242,11 +267,14 @@ public class ModelVisitor : CSharpSyntaxWalker
             var symbol = semanticModel.GetDeclaredSymbol(variable);
             if (symbol is IFieldSymbol || symbol is IEventSymbol)
             {
-                FAMIX.Attribute anAttribute = importer.EnsureAttribute<FAMIX.Attribute>(importer.Types.QualifiedName(currentType) + "." + attributeName, (ISymbol)symbol, "FAMIX.Attribute");
                 if (currentType != null)
                 {
+                    FAMIX.Attribute anAttribute = importer.EnsureAttribute<FAMIX.Attribute>(importer.Types.QualifiedName(currentType) + "." + attributeName, (ISymbol)symbol, "FAMIX.Attribute");
+                
                     currentType.AddAttribute(anAttribute);
                     anAttribute.parentType = currentType;
+                    importer.CreateSourceAnchor(anAttribute, node);
+                    anAttribute.isStub = false;
                 }
             }
         }
@@ -256,7 +284,7 @@ public class ModelVisitor : CSharpSyntaxWalker
     {
         ISymbol typeSymbol = semanticModel.GetTypeInfo(node.Type).Type;
         var exceptionClass = (FAMIX.Class) importer.EnsureType(typeSymbol);
-        FAMIX.CaughtException caughtException = importer.NewInstance<FAMIX.CaughtException>("FAMIX.CaughtException");
+        FAMIX.CaughtException caughtException = importer.New<FAMIX.CaughtException>();
         caughtException.definingMethod = currentMethod;
         caughtException.exceptionClass = exceptionClass;
         base.VisitCatchDeclaration(node);
@@ -264,11 +292,15 @@ public class ModelVisitor : CSharpSyntaxWalker
 
     public override void VisitThrowStatement(ThrowStatementSyntax node)
     {
-        var symbolInfo = semanticModel.GetTypeInfo(node.Expression).Type;
-        var exceptionClass = (FAMIX.Class)importer.EnsureType(symbolInfo);
-        FAMIX.ThrownException thrownException = importer.NewInstance<FAMIX.ThrownException>("FAMIX.ThrownException");
-        thrownException.definingMethod = currentMethod;
-        thrownException.exceptionClass = exceptionClass;
+        if (node.Expression != null)
+        {
+            var symbolInfo = semanticModel.GetTypeInfo(node.Expression).Type;
+        
+            var exceptionClass = (FAMIX.Class)importer.EnsureType(symbolInfo);
+            FAMIX.ThrownException thrownException = importer.New<FAMIX.ThrownException>();
+            thrownException.definingMethod = currentMethod;
+            thrownException.exceptionClass = exceptionClass;
+        }
         base.VisitThrowStatement(node);
     }
 
@@ -286,22 +318,30 @@ public class ModelVisitor : CSharpSyntaxWalker
      */
     public override void VisitIdentifierName(IdentifierNameSyntax node)
     {
-        if (currentMethod != null)
+        try
         {
-            FAMIX.NamedEntity referencedEntity = FindReferencedEntity(node);
-            if (referencedEntity is FAMIX.Method) AddMethodCall(node, currentMethod, referencedEntity as FAMIX.Method);
-            if (referencedEntity is FAMIX.Attribute) AddAttributeAccess(currentMethod, referencedEntity as FAMIX.Attribute);
+            if (currentMethod != null)
+            {
+                FAMIX.NamedEntity referencedEntity = FindReferencedEntity(node);
+                if (referencedEntity is FAMIX.Method) AddMethodCall(node, currentMethod, referencedEntity as FAMIX.Method);
+                if (referencedEntity is FAMIX.Attribute) AddAttributeAccess(node, currentMethod, referencedEntity as FAMIX.Attribute);
+            }
+        }
+        catch (InvalidCastException e)
+        {
+            Console.WriteLine(e.Message);
         }
         base.VisitIdentifierName(node);
     }
 
-    private void AddAttributeAccess(Method clientMethod, FAMIX.Attribute attribute)
+    private void AddAttributeAccess(SyntaxNode node, Method clientMethod, FAMIX.Attribute attribute)
     {
         Access access = importer.CreateNewAssociation<Access>("FAMIX.Access");
         access.accessor = currentMethod;
         access.variable = attribute;
         clientMethod.AddAccesse(access);
         attribute.AddIncomingAccesse(access);
+        importer.CreateSourceAnchor(access, node);
     }
 
     private void AddMethodCall(IdentifierNameSyntax node, Method clientMethod, Method referencedEntity)
@@ -310,8 +350,10 @@ public class ModelVisitor : CSharpSyntaxWalker
         invocation.sender = clientMethod;
         invocation.AddCandidate(referencedEntity);
         invocation.signature = node.Span.ToString();
+        invocation.receiver = referencedEntity;
         clientMethod.AddOutgoingInvocation(invocation);
         referencedEntity.AddIncomingInvocation(invocation);
+        importer.CreateSourceAnchor(invocation, node);
     }
 
     private NamedEntity FindReferencedEntity(IdentifierNameSyntax node)

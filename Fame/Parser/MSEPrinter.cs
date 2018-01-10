@@ -117,7 +117,11 @@ namespace Fame.Parser
 					Append(ch);
 				}
 				Append('\'');
-			} else if (value.GetType() == typeof(bool) || Number.IsNumber(value)) {
+			} else if (value is bool)
+            {
+                Append(value.ToString().ToLower());
+            }
+            else if( Number.IsNumber(value)) {
 				Append(value.ToString());
 			}
 		}

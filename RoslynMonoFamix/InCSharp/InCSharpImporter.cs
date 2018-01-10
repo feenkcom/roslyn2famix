@@ -4,15 +4,14 @@ using FAMIX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CSharp;
 
 namespace RoslynMonoFamix.InCSharp
 {
     public class InCSharpImporter
     {
         private Repository repository;
+        private string ignoreFolder;
+        //TODO map to type
         private Dictionary<string, string> typeNameMap = new Dictionary<string, string>()
             {
                 { "Struct", "CSharp.CSharpStruct" },
@@ -23,14 +22,16 @@ namespace RoslynMonoFamix.InCSharp
                 { "Enum", "FAMIX.Enum" },
             };
 
-        public InCSharpImporter(Repository repository)
+        public InCSharpImporter(Repository repository, string ignoreFolder)
         {
             this.repository = repository;
             this.Methods = new NamedEntityAccumulator<Method>();
             this.Types = new NamedEntityAccumulator<FAMIX.Type>();
+            this.Namespaces = new NamedEntityAccumulator<Namespace>();
             this.Attributes = new NamedEntityAccumulator<FAMIX.StructuralEntity>();
+            this.ignoreFolder = ignoreFolder;
         }
-
+        public NamedEntityAccumulator<FAMIX.Namespace> Namespaces { get; set; }
         public NamedEntityAccumulator<FAMIX.Type> Types { get; set; }
         public NamedEntityAccumulator<Method> Methods { get; set; }
         public NamedEntityAccumulator<FAMIX.StructuralEntity> Attributes { get; set; }
@@ -40,7 +41,8 @@ namespace RoslynMonoFamix.InCSharp
             if (Methods.has(methodFullName))
                 return Methods.Named(methodFullName);
             
-            Method method = repository.NewInstance<Method>("FAMIX.Method");
+            Method method = repository.New<Method>("FAMIX.Method");
+            method.isStub = true;
             Methods.Add(methodFullName, method);
             return method;
         }
@@ -59,6 +61,17 @@ namespace RoslynMonoFamix.InCSharp
             return fullyQualifiedName;
         }
 
+        private FAMIX.Namespace EnsureNamespace(INamespaceSymbol ns)
+        {
+            if (Namespaces.has(ns.Name))
+                return Namespaces.Named(ns.Name);
+            FAMIX.Namespace newNs = repository.New<FAMIX.Namespace>(typeof(FAMIX.Namespace).FullName);
+            newNs.name = ns.Name;
+            newNs.isStub = true;
+            Namespaces.Add(ns.Name, newNs);
+            return newNs;
+        }
+
         public FAMIX.Type EnsureType(ISymbol aType)
         {
 
@@ -69,16 +82,27 @@ namespace RoslynMonoFamix.InCSharp
 
             string typeKind = ResolveFAMIXTypeName(aType);
 
-            FAMIX.Type type = repository.NewInstance<FAMIX.Type>(typeKind);
+            FAMIX.Type type = repository.New<FAMIX.Type>(typeKind);
 
-            if (typeKind.Equals("FAMIX.ParameterizedType"))
+            if (typeKind.Equals(typeof(FAMIX.ParameterizedType).FullName))
             {
                 var parameterizedClass = EnsureType(aType.OriginalDefinition);
                 (type as FAMIX.ParameterizedType).parameterizableClass = parameterizedClass as FAMIX.ParameterizableClass;
             }
 
             type.name = TypeName(aType);
-            
+            if (aType.ContainingType != null)
+            {
+                var containingType = EnsureType(aType.ContainingType);
+                type.container = containingType;
+            }
+            else 
+            if (aType.ContainingNamespace != null)
+            {
+                var ns = EnsureNamespace(aType.ContainingNamespace);
+                type.container = ns;
+            }
+            type.isStub = true;
             Types.Add(fullName, type);
            
             return type;
@@ -103,6 +127,11 @@ namespace RoslynMonoFamix.InCSharp
                 }
                     
             }
+            if (result == null)
+            {
+                Console.WriteLine(" -------- " + ((ITypeSymbol)aType).TypeKind);
+                result = "FAMIX.Class";
+            }
             return result;
         }
 
@@ -110,23 +139,40 @@ namespace RoslynMonoFamix.InCSharp
         {
             if (Attributes.has(attributeFullName))
                 return (T)Attributes.Named(attributeFullName);
-            T attribute = repository.NewInstance<T>(attributeKind);
-
+            T attribute = repository.New<T>(attributeKind);
+            attribute.isStub = true;
             attribute.name = field.Name;
             Attributes.Add(attributeFullName, attribute);
             return attribute;
         }
 
-        public T CreateNewAssociation<T>(String typeName) => repository.NewInstance<T>(typeName);
+        public T CreateNewAssociation<T>(String typeName) => repository.New<T>(typeName);
 
-        internal T NewInstance<T>(string typeName)
+        internal T New<T>()
         {
-            return repository.NewInstance<T>(typeName);
+            return repository.New<T>(typeof(T).FullName);
         }
 
         public IEnumerable<T> AllElementsOfType<T>()
         {
             return repository.GetElements().OfType<T>();
-        } 
+        }
+
+        public void CreateSourceAnchor(SourcedEntity sourcedEntity, SyntaxNode node)
+        {
+            
+            var lineSpan = node.SyntaxTree.GetLineSpan(node.Span);
+            var relativePath = node.SyntaxTree.FilePath.Substring(ignoreFolder.Length+1);
+            FileAnchor fileAnchor = new FileAnchor
+            {
+                startLine = lineSpan.StartLinePosition.Line+1,
+                startColumn = lineSpan.StartLinePosition.Character,
+                endLine = lineSpan.EndLinePosition.Line+1,
+                endColumn = lineSpan.EndLinePosition.Character+1,
+                fileName = relativePath
+            };
+            sourcedEntity.sourceAnchor = fileAnchor;
+            repository.Add(fileAnchor);
+        }
     }
 }

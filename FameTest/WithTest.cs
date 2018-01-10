@@ -46,8 +46,8 @@ namespace FameTest
 			metaRepo.With(typeof(Treasure));
 			Assert.IsNotNull(metaRepo.Get("RPG.Dragon"));
 			Assert.IsNotNull(metaRepo.Get("RPG.Treasure"));
-			Dragon leDragon = t.model.NewInstance<Dragon>("RPG.Dragon");
-			Treasure deltaHoard = t.model.NewInstance<Treasure>("RPG.Treasure");
+			Dragon leDragon = t.model.New<Dragon>("RPG.Dragon");
+			Treasure deltaHoard = t.model.New<Treasure>("RPG.Treasure");
 			leDragon.AddHoard(deltaHoard);
 
 			Assert.IsNotNull(leDragon);

@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynMonoFamix", "RoslynMonoFamix\RoslynMonoFamix.csproj", "{9FC9ACF1-6CFE-4A8A-A37D-4781194E55F2}"
 EndProject
@@ -39,5 +39,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {35D268ED-65A0-401F-AE49-5C8FAEEDDBCA}
 	EndGlobalSection
 EndGlobal
