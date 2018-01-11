@@ -43,6 +43,7 @@ namespace RoslynMonoFamix.InCSharp
             
             Method method = repository.New<Method>("FAMIX.Method");
             method.isStub = true;
+            method.name = aMethod.Name;
             Methods.Add(methodFullName, method);
             return method;
         }
