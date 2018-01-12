@@ -203,9 +203,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AST2XMLPrinter.cs" />
     <Compile Include="InCSharp\InCSharpImporter.cs" />
     <Compile Include="InCSharp\NamedEntityAccumulator.cs" />
-    <Compile Include="ModelVisitor.cs" />
+    <Compile Include="ASTVisitor.cs" />
     <Compile Include="Model\CSharp\CSharpProperty.cs" />
     <Compile Include="Model\CSharp\CSharpStruct.cs" />
     <Compile Include="Model\CSharp\Delegate.cs" />

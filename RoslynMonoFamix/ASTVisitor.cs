@@ -6,14 +6,14 @@ using FAMIX;
 using Microsoft.CodeAnalysis;
 using RoslynMonoFamix.InCSharp;
 
-public class ModelVisitor : CSharpSyntaxWalker
+public class ASTVisitor : CSharpSyntaxWalker
 {
     private SemanticModel semanticModel;
     private InCSharpImporter importer;
     private Method currentMethod;
     private FAMIX.Type currentType;
 
-    public ModelVisitor(SemanticModel semanticModel, InCSharpImporter importer)
+    public ASTVisitor(SemanticModel semanticModel, InCSharpImporter importer)
     {
         this.semanticModel = semanticModel;
         this.importer = importer;

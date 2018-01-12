@@ -68,12 +68,10 @@ namespace RoslynMonoFamix
                         System.Console.WriteLine("(document " + (j+1) + " / " + project.Documents.Count<Document>() + " " + document.FilePath+")");
                         var syntaxTree = await document.GetSyntaxTreeAsync();
 
-                        var sinstaxPath = document.FilePath+".ast";
-                        System.IO.File.WriteAllText(sinstaxPath, syntaxTree.ToString());
-                        
+
                         var compilationAsync = await project.GetCompilationAsync();
                         var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);
-                        var visitor = new ModelVisitor(semanticModel, importer);
+                        var visitor = new ASTVisitor(semanticModel, importer);
                         visitor.Visit(syntaxTree.GetRoot());
                     }
                 }
