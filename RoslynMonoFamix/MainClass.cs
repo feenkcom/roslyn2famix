@@ -20,33 +20,30 @@ namespace RoslynMonoFamix
         static void Main(string[] args)
         {
             MainAsync(args).GetAwaiter().GetResult();
-        }
 
-        public static async Task MainAsync(string[] args)
-        {
             ValidateArgs(args);//validates arguments
-			string path = Assembly.GetAssembly(typeof(MainClass)).Location;
-			Console.WriteLine("--->>>" + path);
-			path = path.Replace("RoslynMonoFamix.exe", "");
-			string solutionPath = args[0];
-	
-			var metamodel = FamixModel.Metamodel();
+            string path = Assembly.GetAssembly(typeof(MainClass)).Location;
+            Console.WriteLine("--->>>" + path);
+            path = path.Replace("RoslynMonoFamix.exe", "");
+            string solutionPath = args[0];
+
+            var metamodel = FamixModel.Metamodel();
 
             var msWorkspace = MSBuildWorkspace.Create();
 
-            var solution = await msWorkspace.OpenSolutionAsync(solutionPath);
+            var solution = msWorkspace.OpenSolutionAsync(solutionPath).Result;
             Uri uri = null;
             try
             {
-                uri = new Uri( solutionPath); ;
+                uri = new Uri(solutionPath); ;
             }
             catch (UriFormatException e)
             {
-                var currentFolder = new Uri(Environment.CurrentDirectory+"\\");
-                uri = new Uri(currentFolder, solutionPath.Replace("\\","/"));
+                var currentFolder = new Uri(Environment.CurrentDirectory + "\\");
+                uri = new Uri(currentFolder, solutionPath.Replace("\\", "/"));
                 Console.WriteLine(e.StackTrace);
             }
-             
+
             var ignoreFolder = Path.GetDirectoryName(uri.AbsolutePath);
 
             Console.WriteLine("ignore foler " + ignoreFolder);
@@ -54,9 +51,9 @@ namespace RoslynMonoFamix
             var importer = new InCSharp.InCSharpImporter(metamodel, ignoreFolder);
             var documents = new List<Document>();
 
-            
 
-            for (int i = 0; i < solution.Projects.Count<Project>(); i++ )
+
+            for (int i = 0; i < solution.Projects.Count<Project>(); i++)
             {
                 var project = solution.Projects.ElementAt<Project>(i);
                 for (int j = 0; j < project.Documents.Count<Document>(); j++)
@@ -64,12 +61,12 @@ namespace RoslynMonoFamix
                     var document = project.Documents.ElementAt<Document>(j);
                     if (document.SupportsSyntaxTree)
                     {
-                        System.Console.Write("(project " + (i+1) + " / " + solution.Projects.Count<Project>()+")");
-                        System.Console.WriteLine("(document " + (j+1) + " / " + project.Documents.Count<Document>() + " " + document.FilePath+")");
-                        var syntaxTree = await document.GetSyntaxTreeAsync();
+                        System.Console.Write("(project " + (i + 1) + " / " + solution.Projects.Count<Project>() + ")");
+                        System.Console.WriteLine("(document " + (j + 1) + " / " + project.Documents.Count<Document>() + " " + document.FilePath + ")");
+                        var syntaxTree = document.GetSyntaxTreeAsync().Result;
 
 
-                        var compilationAsync = await project.GetCompilationAsync();
+                        var compilationAsync = project.GetCompilationAsync().Result;
                         var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);
                         var visitor = new ASTVisitor(semanticModel, importer);
                         visitor.Visit(syntaxTree.GetRoot());
@@ -78,6 +75,11 @@ namespace RoslynMonoFamix
             }
 
             metamodel.ExportMSEFile(args[1]);
+        }
+
+        public static async Task MainAsync(string[] args)
+        {
+ 
         }
 
         private static void ValidateArgs(string[] args)

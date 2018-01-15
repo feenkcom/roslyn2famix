@@ -88,7 +88,7 @@ public class ASTVisitor : CSharpSyntaxWalker
     {
         string attributeName = node.Identifier.ToString();
         var symbol = semanticModel.GetDeclaredSymbol(node);
-        FAMIX.EnumValue anEnumValue = importer.EnsureAttribute<FAMIX.EnumValue>(importer.Types.QualifiedName(currentType) + "." + attributeName, (ISymbol)symbol, "FAMIX.EnumValue");
+        FAMIX.EnumValue anEnumValue = importer.EnsureAttribute(symbol) as FAMIX.EnumValue;
         importer.CreateSourceAnchor(anEnumValue, node);
         if (currentType is FAMIX.Enum)
         {
@@ -221,9 +221,9 @@ public class ASTVisitor : CSharpSyntaxWalker
         if (currentType != null)
         {
             if (currentType is AnnotationType)
-                propertyAttribute = importer.EnsureAttribute<FAMIX.AnnotationTypeAttribute>(importer.Types.QualifiedName(currentType) + "." + propertyName, symbol, "FAMIX.AnnotationTypeAttribute");
+                propertyAttribute = importer.EnsureAttribute(symbol) as FAMIX.Attribute;
             else
-                propertyAttribute = importer.EnsureAttribute<CSharp.CSharpProperty>(importer.Types.QualifiedName(currentType) + "." + propertyName, symbol, "CSharp.CSharpProperty");
+                propertyAttribute = importer.EnsureAttribute(symbol) as FAMIX.Attribute;
             currentType.AddAttribute(propertyAttribute);
             propertyAttribute.parentType = currentType;
             propertyAttribute.isStub = false;
@@ -269,7 +269,7 @@ public class ASTVisitor : CSharpSyntaxWalker
             {
                 if (currentType != null)
                 {
-                    FAMIX.Attribute anAttribute = importer.EnsureAttribute<FAMIX.Attribute>(importer.Types.QualifiedName(currentType) + "." + attributeName, (ISymbol)symbol, "FAMIX.Attribute");
+                    FAMIX.Attribute anAttribute = importer.EnsureAttribute(symbol) as FAMIX.Attribute;
                 
                     currentType.AddAttribute(anAttribute);
                     anAttribute.parentType = currentType;
@@ -362,11 +362,12 @@ public class ASTVisitor : CSharpSyntaxWalker
         if (symbol is IMethodSymbol)
             return importer.EnsureMethod(FullMethodName(symbol as IMethodSymbol), symbol as IMethodSymbol);
         if (symbol is IFieldSymbol)
-            return importer.EnsureAttribute<FAMIX.Attribute>(importer.Types.QualifiedName(currentType) + "." + symbol.Name, symbol, "FAMIX.Attribute");
+            return importer.EnsureAttribute( symbol/*, "FAMIX.Attribute"*/);
         if (symbol is IPropertySymbol)
-            return importer.EnsureAttribute<CSharp.CSharpProperty>(importer.Types.QualifiedName(currentType) + "." + symbol.Name, symbol, "CSharp.CSharpProperty");
+            return importer.EnsureAttribute( symbol/*, "CSharp.CSharpProperty"*/);
         return null;
     }
+
 
     private String FullMethodName(IMethodSymbol method)
     {
@@ -376,8 +377,14 @@ public class ASTVisitor : CSharpSyntaxWalker
         if (parameters.LastIndexOf(",") > 0)
             parameters = parameters.Substring(0, parameters.Length - 1);
         parameters += ")";
-
-        return importer.Types.QualifiedName(currentType) + "." + method.Name + parameters;
+        var fullClassName = "";
+        if (method.ContainingType != null)
+        {
+            var methodContainer = importer.EnsureType(method.ContainingType);
+            fullClassName = importer.Types.QualifiedName(methodContainer);
+        }
+        
+        return fullClassName + "." + method.Name + parameters;
     }
 
 }

@@ -12,14 +12,14 @@ namespace RoslynMonoFamix.InCSharp
         private Repository repository;
         private string ignoreFolder;
         //TODO map to type
-        private Dictionary<string, string> typeNameMap = new Dictionary<string, string>()
+        private Dictionary<string, System.Type> typeNameMap = new Dictionary<string, System.Type>()
             {
-                { "Struct", "CSharp.CSharpStruct" },
-                { "Class", "FAMIX.Class" },
-                { "Interface", "FAMIX.Class" },
-                { "Delegate", "CSharp.Delegate" },
-                { "TypeParameter", "FAMIX.ParameterType"},
-                { "Enum", "FAMIX.Enum" },
+                { "Struct", typeof(CSharp.CSharpStruct) },
+                { "Class", typeof(FAMIX.Class) },
+                { "Interface", typeof(FAMIX.Class) },
+                { "Delegate", typeof(CSharp.Delegate) },
+                { "TypeParameter", typeof(FAMIX.ParameterType)},
+                { "Enum", typeof(FAMIX.Enum) },
             };
 
         public InCSharpImporter(Repository repository, string ignoreFolder)
@@ -81,7 +81,7 @@ namespace RoslynMonoFamix.InCSharp
             if (Types.has(fullName))
                 return Types.Named(fullName);
 
-            string typeKind = ResolveFAMIXTypeName(aType);
+            string typeKind = ResolveFAMIXTypeName(aType).FullName;
 
             FAMIX.Type type = repository.New<FAMIX.Type>(typeKind);
 
@@ -109,42 +109,70 @@ namespace RoslynMonoFamix.InCSharp
             return type;
         }
 
-        private string ResolveFAMIXTypeName(ISymbol aType)
+        private System.Type ResolveFAMIXTypeName(ISymbol aType)
         {
-            string result = "FAMIX.Class";
+            System.Type result = typeof(FAMIX.Class);
             if (aType is ITypeSymbol) typeNameMap.TryGetValue(((ITypeSymbol)aType).TypeKind.ToString(), out result);
             if (aType is INamedTypeSymbol)
             {
                 
                 var superType = (aType as INamedTypeSymbol).BaseType;
                 if (superType != null && superType.Name.Equals("Attribute") && superType.ContainingNamespace.Name.Equals("System"))
-                    result = "FAMIX.AnnotationType";
+                    result = typeof(FAMIX.AnnotationType);
                 if ((aType as INamedTypeSymbol).IsGenericType)
                 {
                     if ((aType as INamedTypeSymbol).IsDefinition)
-                        result = "FAMIX.ParameterizableClass";
+                        result = typeof(FAMIX.ParameterizableClass);
                     else
-                        result = "FAMIX.ParameterizedType";
+                        result = typeof(FAMIX.ParameterizedType);
                 }
                     
             }
             if (result == null)
             {
                 Console.WriteLine(" -------- " + ((ITypeSymbol)aType).TypeKind);
-                result = "FAMIX.Class";
+                result = typeof(FAMIX.Class);
             }
             return result;
         }
 
-        public T EnsureAttribute<T>  (String attributeFullName, ISymbol field, String attributeKind) where T : FAMIX.StructuralEntity
+        public FAMIX.StructuralEntity EnsureAttribute  ( ISymbol field) 
         {
+            String attributeFullName = FullFieldName(field);
             if (Attributes.has(attributeFullName))
-                return (T)Attributes.Named(attributeFullName);
-            T attribute = repository.New<T>(attributeKind);
+                return Attributes.Named(attributeFullName);
+
+            string attributeKind = ResolveAttritbuteTypeName(field);
+
+            var attribute = repository.New<FAMIX.StructuralEntity>(attributeKind);
             attribute.isStub = true;
             attribute.name = field.Name;
             Attributes.Add(attributeFullName, attribute);
             return attribute;
+        }
+
+        private string ResolveAttritbuteTypeName(ISymbol field)
+        {
+            if (field.ContainingType != null) {
+                if (ResolveFAMIXTypeName(field.ContainingType).Equals(typeof(FAMIX.Enum)))
+                    return typeof(FAMIX.EnumValue).FullName;
+               if ( ResolveFAMIXTypeName(field.ContainingType).Equals(typeof(FAMIX.AnnotationType)))
+                    return typeof(FAMIX.AnnotationTypeAttribute).FullName;
+            }
+            if (field is IPropertySymbol)
+                return typeof(CSharp.CSharpProperty).FullName;
+            return typeof(FAMIX.Attribute).FullName;
+        }
+
+        private String FullFieldName(ISymbol field)
+        {
+            var fullClassName = "";
+            if (field.ContainingType != null)
+            {
+                var methodContainer = EnsureType(field.ContainingType);
+                fullClassName = Types.QualifiedName(methodContainer);
+            }
+            return fullClassName + "." + field.Name;
         }
 
         public T CreateNewAssociation<T>(String typeName) => repository.New<T>(typeName);
