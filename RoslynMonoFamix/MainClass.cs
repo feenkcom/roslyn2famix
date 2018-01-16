@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis.MSBuild;
 using System.Collections.Generic;
 using System.IO;
 using Model;
-using System.Linq;
+using System.Text;
 
 using FAMIX;
 
@@ -19,8 +19,12 @@ namespace RoslynMonoFamix
     {
         static void Main(string[] args)
         {
-            MainAsync(args).GetAwaiter().GetResult();
 
+
+            try
+            {
+                //The code that causes the error goes here.
+           
             ValidateArgs(args);//validates arguments
             string path = Assembly.GetAssembly(typeof(MainClass)).Location;
             Console.WriteLine("--->>>" + path);
@@ -75,12 +79,31 @@ namespace RoslynMonoFamix
             }
 
             metamodel.ExportMSEFile(args[1]);
+
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (System.Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                    if (exFileNotFound != null)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                string errorMessage = sb.ToString();
+                Console.WriteLine(errorMessage);
+                //Display or log the error based on your application.
+            }
         }
 
-        public static async Task MainAsync(string[] args)
-        {
- 
-        }
 
         private static void ValidateArgs(string[] args)
         {

@@ -26,19 +26,20 @@ public class ASTVisitor : CSharpSyntaxWalker
         FAMIX.Type type = type = importer.EnsureType(typeSymbol);
         var superType = typeSymbol.BaseType;
 
-        //EnsureType also creates an instance and adds it to the model, we can't just overwrite the object here,
-        //that is why the code below looks fishy
-        if (superType != null && !(superType.ContainingNamespace.Name.Equals("System") && superType.Name.Equals("Object")))
+        if (superType != null)
         {
-            FAMIX.Type baseType = importer.EnsureType(typeSymbol.BaseType);
-            Inheritance inheritance = importer.CreateNewAssociation<Inheritance>("FAMIX.Inheritance");
+            FAMIX.Type baseType = null;
+            if (superType.DeclaringSyntaxReferences.Length == 0)
+                baseType = importer.EnsureBinaryType(superType);
+            else
+                baseType  = importer.EnsureType(typeSymbol.BaseType);
+            Inheritance inheritance = importer.CreateNewAssociation<Inheritance>(typeof(FAMIX.Inheritance).FullName);
             inheritance.subclass = type;
             inheritance.superclass = baseType;
             baseType.AddSubInheritance(inheritance);
             type.AddSuperInheritance(inheritance);
         }
        
-
         //type.name = node.Identifier.ToString();
         AddSuperInterfaces(typeSymbol, type);
         AddAnnotations(typeSymbol, type);
@@ -189,9 +190,7 @@ public class ASTVisitor : CSharpSyntaxWalker
         if (currentType != null)
         {
             var methodSymbol = semanticModel.GetDeclaredSymbol(node);
-            
-            String fullMethodName = FullMethodName(methodSymbol);
-            Method aMethod = importer.EnsureMethod(fullMethodName, methodSymbol);
+            Method aMethod = importer.EnsureMethod(methodSymbol);
             aMethod.name = name;
             currentType.AddMethod(aMethod);
             aMethod.isConstructor = true;
@@ -360,31 +359,12 @@ public class ASTVisitor : CSharpSyntaxWalker
     {
         var symbol = semanticModel.GetSymbolInfo(node).Symbol;
         if (symbol is IMethodSymbol)
-            return importer.EnsureMethod(FullMethodName(symbol as IMethodSymbol), symbol as IMethodSymbol);
+            return importer.EnsureMethod(symbol as IMethodSymbol);
         if (symbol is IFieldSymbol)
-            return importer.EnsureAttribute( symbol/*, "FAMIX.Attribute"*/);
+            return importer.EnsureAttribute(symbol);
         if (symbol is IPropertySymbol)
-            return importer.EnsureAttribute( symbol/*, "CSharp.CSharpProperty"*/);
+            return importer.EnsureAttribute(symbol);
         return null;
-    }
-
-
-    private String FullMethodName(IMethodSymbol method)
-    {
-        var parameters = "(";
-        foreach (var par in method.Parameters)
-            parameters += par.Type.Name + ",";
-        if (parameters.LastIndexOf(",") > 0)
-            parameters = parameters.Substring(0, parameters.Length - 1);
-        parameters += ")";
-        var fullClassName = "";
-        if (method.ContainingType != null)
-        {
-            var methodContainer = importer.EnsureType(method.ContainingType);
-            fullClassName = importer.Types.QualifiedName(methodContainer);
-        }
-        
-        return fullClassName + "." + method.Name + parameters;
     }
 
 }

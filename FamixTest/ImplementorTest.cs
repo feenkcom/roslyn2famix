@@ -9,7 +9,7 @@ namespace FamixTest
         [TestMethod]
         public void ClassImplementsInterfaces()
         {
-            Assert.AreEqual(2, importer.Types.Named("SampleProject.Basic.Implementor").SuperInheritances.Count);
+            Assert.AreEqual(3, importer.Types.Named("SampleProject.Basic.Implementor").SuperInheritances.Count);
         }
     }
 }

@@ -44,15 +44,6 @@ namespace FamixTest
 						var syntaxTree = document.GetSyntaxTreeAsync().Result;
 						var compilationAsync = project.GetCompilationAsync().Result;
 						var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);
-
-                        var sinstaxPath = document.FilePath + ".ast";
-                       
-                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(sinstaxPath))
-                        {
-                            var ast2xml = new AST2XMLPrinter(file);
-                            ast2xml.Visit(syntaxTree.GetRoot());
-                        }
-
                         var visitor = new ASTVisitor(semanticModel, importer);
 						visitor.Visit(syntaxTree.GetRoot());
                         fileWasFound = true;

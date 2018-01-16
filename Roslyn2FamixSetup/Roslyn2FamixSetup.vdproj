@@ -705,6 +705,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_515CF4CAAF8158FE13001312F423448F"
+        "OwnerKey" = "8:_92438377B3AA46C6A448F42243B1E9DA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_5606B9734CDE8C7D686D726443015E48"
         "OwnerKey" = "8:_1FE288A838B747168AF51D9931786315"
         "MsmSig" = "8:_UNDEFINED"
@@ -1114,6 +1120,12 @@
         "Entry"
         {
         "MsmKey" = "8:_6FCDC59CAC1D3687F02665C858E3AA7C"
+        "OwnerKey" = "8:_92438377B3AA46C6A448F42243B1E9DA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6FCDC59CAC1D3687F02665C858E3AA7C"
         "OwnerKey" = "8:_F28C96B9EF657777C3CD9C2459A20B0B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1283,6 +1295,12 @@
         {
         "MsmKey" = "8:_7EEEDC289A710D4E5D219C4AE64A5CB4"
         "OwnerKey" = "8:_1FE288A838B747168AF51D9931786315"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7EEEDC289A710D4E5D219C4AE64A5CB4"
+        "OwnerKey" = "8:_92438377B3AA46C6A448F42243B1E9DA"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1601,6 +1619,12 @@
         {
         "MsmKey" = "8:_91E3CA040D715611535A84E1E296CA17"
         "OwnerKey" = "8:_CA60B3DC7E106286C89826B04F6BB414"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_92438377B3AA46C6A448F42243B1E9DA"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2722,6 +2746,12 @@
         "Entry"
         {
         "MsmKey" = "8:_CF98E15FE418A1026E897D1370B79A98"
+        "OwnerKey" = "8:_92438377B3AA46C6A448F42243B1E9DA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CF98E15FE418A1026E897D1370B79A98"
         "OwnerKey" = "8:_1FE288A838B747168AF51D9931786315"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -3171,6 +3201,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_F1E2D5581B004F1C95FE05F440ACC71C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_F28C96B9EF657777C3CD9C2459A20B0B"
         "OwnerKey" = "8:_1FE288A838B747168AF51D9931786315"
         "MsmSig" = "8:_UNDEFINED"
@@ -3316,6 +3352,24 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F1E2D5581B004F1C95FE05F440ACC71C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_92438377B3AA46C6A448F42243B1E9DA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_66BC78AA12FA813E04375C5F63ADCDF0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_D3AB12AB8D97B6F9BD70F86F297E0D81"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -3359,12 +3413,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_A0F16322CC12B8DFDFD382D9BF17E6D1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_66BC78AA12FA813E04375C5F63ADCDF0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -3584,6 +3632,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
             }
         }
         "Release"
@@ -5960,6 +6016,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_92438377B3AA46C6A448F42243B1E9DA"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.Build, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_92438377B3AA46C6A448F42243B1E9DA"
+                    {
+                    "Name" = "8:Microsoft.Build.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\packages\\Microsoft.Build.15.5.180\\lib\\net46\\Microsoft.Build.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_6E3DCA6213C24FAA893863334AA38D47"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_93C1AAD5C8D8E5B31BF2258BA924DF7B"
             {
             "AssemblyRegister" = "3:1"
@@ -7665,6 +7752,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F1E2D5581B004F1C95FE05F440ACC71C"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.Build.Framework, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_F1E2D5581B004F1C95FE05F440ACC71C"
+                    {
+                    "Name" = "8:Microsoft.Build.Framework.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\packages\\Microsoft.Build.Framework.15.5.180\\lib\\net46\\Microsoft.Build.Framework.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_6E3DCA6213C24FAA893863334AA38D47"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F28C96B9EF657777C3CD9C2459A20B0B"
             {
             "AssemblyRegister" = "3:1"
@@ -7969,15 +8087,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Roslyn2FamixSetup"
-        "ProductCode" = "8:{71E7C020-0FED-49B9-8B60-70E786041A56}"
-        "PackageCode" = "8:{98CD3EA1-B949-4E29-86B1-5B73A420CBD1}"
+        "ProductCode" = "8:{1F522035-8FFB-4328-9B2F-614FA405DCBF}"
+        "PackageCode" = "8:{D7053418-4714-4643-9260-2668EF94D1EF}"
         "UpgradeCode" = "8:{C4084D44-E9A8-40B3-AAD5-3E2F7122DB46}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.1"
+        "ProductVersion" = "8:1.0.4"
         "Manufacturer" = "8:Feenk"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

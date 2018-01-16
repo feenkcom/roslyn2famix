@@ -43,6 +43,7 @@
     <Compile Include="Basic\AnnotationAttribute.cs" />
     <Compile Include="Basic\Attribute.cs" />
     <Compile Include="Basic\BaseClass.cs" />
+    <Compile Include="Basic\BinarySuperclasses.cs" />
     <Compile Include="Basic\Class1.cs" />
     <Compile Include="Basic\Enum.cs" />
     <Compile Include="Basic\Generics.cs" />

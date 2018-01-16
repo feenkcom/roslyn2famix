@@ -33,11 +33,83 @@ namespace RoslynMonoFamix.InCSharp
         }
         public NamedEntityAccumulator<FAMIX.Namespace> Namespaces { get; set; }
         public NamedEntityAccumulator<FAMIX.Type> Types { get; set; }
+
+        internal FAMIX.Type EnsureBinaryType(INamedTypeSymbol superType)
+        {
+
+            string fullName = FullTypeName(superType.OriginalDefinition);
+
+            if (Types.has(fullName))
+                return Types.Named(fullName);
+
+            FAMIX.Type binaryType = EnsureType(superType.OriginalDefinition);
+            var members = superType.GetMembers();
+            foreach (var member in members)
+            {
+                if (member is IFieldSymbol || member is IPropertySymbol)
+                {
+                    var attr = EnsureAttribute(member) as FAMIX.Attribute;
+                    binaryType.AddAttribute(attr);
+                    attr.parentType = binaryType;
+                }
+                if (member is IMethodSymbol)
+                {
+                    var methd = EnsureMethod(member as IMethodSymbol) as FAMIX.Method;
+                    binaryType.AddMethod(methd);
+                    methd.parentType = binaryType;
+                }
+            }
+
+            if (superType.BaseType != null)
+            {
+                var superDuper = EnsureBinaryType(superType.BaseType.OriginalDefinition);
+                LinkWithInheritance(binaryType, superDuper);
+            }
+               
+            foreach (var inter in superType.AllInterfaces)
+            {
+                 var superDuper = EnsureBinaryType(inter.OriginalDefinition);
+                 LinkWithInheritance(binaryType, superDuper);
+            }
+
+            return binaryType;
+               
+        }
+
+        private void LinkWithInheritance(FAMIX.Type subClass, FAMIX.Type superClass)
+        {
+            Inheritance inheritance = CreateNewAssociation<Inheritance>(typeof(FAMIX.Inheritance).FullName);
+            inheritance.subclass = subClass;
+            inheritance.superclass = superClass;
+            superClass.AddSubInheritance(inheritance);
+            subClass.AddSuperInheritance(inheritance);
+        }
+
+        private String FullMethodName(IMethodSymbol method)
+        {
+            var parameters = "(";
+            foreach (var par in method.Parameters)
+                parameters += par.Type.Name + ",";
+            if (parameters.LastIndexOf(",") > 0)
+                parameters = parameters.Substring(0, parameters.Length - 1);
+            parameters += ")";
+            var fullClassName = "";
+            if (method.ContainingType != null)
+            {
+                var methodContainer = EnsureType(method.ContainingType);
+                fullClassName = Types.QualifiedName(methodContainer);
+            }
+
+            return fullClassName + "." + method.Name + parameters;
+        }
+
+
         public NamedEntityAccumulator<Method> Methods { get; set; }
         public NamedEntityAccumulator<FAMIX.StructuralEntity> Attributes { get; set; }
 
-        public Method EnsureMethod(String methodFullName, IMethodSymbol aMethod)
+        public Method EnsureMethod( IMethodSymbol aMethod)
         {
+            String methodFullName = FullMethodName(aMethod);
             if (Methods.has(methodFullName))
                 return Methods.Named(methodFullName);
             
@@ -136,7 +208,7 @@ namespace RoslynMonoFamix.InCSharp
             return result;
         }
 
-        public FAMIX.StructuralEntity EnsureAttribute  ( ISymbol field) 
+        public FAMIX.StructuralEntity EnsureAttribute  (ISymbol field) 
         {
             String attributeFullName = FullFieldName(field);
             if (Attributes.has(attributeFullName))
