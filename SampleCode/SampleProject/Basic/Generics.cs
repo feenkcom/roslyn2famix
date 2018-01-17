@@ -6,20 +6,22 @@ using System.Threading.Tasks;
 
 namespace SampleProject.Basic
 {
-    public class Generics<T>
-    {
-       T Method (T param)
-       {
-            return param;
-       }
 
-    }
+    public class SubGenerics<T> : Generics<T> { }
 
     public class Jumper
     {
         Generics<int> Jump(Generics<int> input)
         {
             return input;
-        } 
+        }
+    }
+
+    public class Generics<T>
+    {
+       T Method (T param)
+       {
+            return param;
+       }
     }
 }

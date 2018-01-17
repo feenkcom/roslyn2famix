@@ -140,8 +140,8 @@ public class ASTVisitor : CSharpSyntaxWalker
     {
         foreach (var inter in typeSymbol.Interfaces)
         {
-            FAMIX.Class fInterface = (FAMIX.Class)importer.EnsureType(inter);
-            fInterface.isInterface = true;
+            FAMIX.Type fInterface = (FAMIX.Type)importer.EnsureType(inter);
+            if (fInterface is FAMIX.Class) (fInterface as FAMIX.Class).isInterface = true;
             Inheritance inheritance = importer.CreateNewAssociation<Inheritance>("FAMIX.Inheritance");
             inheritance.subclass = type;
             inheritance.superclass = fInterface;

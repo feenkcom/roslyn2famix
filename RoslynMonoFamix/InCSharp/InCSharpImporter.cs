@@ -96,8 +96,7 @@ namespace RoslynMonoFamix.InCSharp
             var fullClassName = "";
             if (method.ContainingType != null)
             {
-                var methodContainer = EnsureType(method.ContainingType);
-                fullClassName = Types.QualifiedName(methodContainer);
+                fullClassName = FullTypeName(method.ContainingType);
             }
 
             return fullClassName + "." + method.Name + parameters;
@@ -124,6 +123,11 @@ namespace RoslynMonoFamix.InCSharp
         {
             var symbolDisplayFormat = new SymbolDisplayFormat(typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,  genericsOptions :SymbolDisplayGenericsOptions.IncludeTypeParameters);
             string fullyQualifiedName = aType.ToDisplayString(symbolDisplayFormat);
+            if (aType is INamedTypeSymbol)
+            {
+                if ((aType as INamedTypeSymbol).IsGenericType && (aType as INamedTypeSymbol).IsDefinition)
+                    fullyQualifiedName = "DefinitionOf" + fullyQualifiedName;
+            }
             return fullyQualifiedName;
         }
 
@@ -156,6 +160,9 @@ namespace RoslynMonoFamix.InCSharp
             string typeKind = ResolveFAMIXTypeName(aType).FullName;
 
             FAMIX.Type type = repository.New<FAMIX.Type>(typeKind);
+            type.isStub = true;
+            
+            Types.Add(fullName, type);
 
             if (typeKind.Equals(typeof(FAMIX.ParameterizedType).FullName))
             {
@@ -169,15 +176,13 @@ namespace RoslynMonoFamix.InCSharp
                 var containingType = EnsureType(aType.ContainingType);
                 type.container = containingType;
             }
-            else 
+            else
             if (aType.ContainingNamespace != null)
             {
                 var ns = EnsureNamespace(aType.ContainingNamespace);
                 type.container = ns;
             }
-            type.isStub = true;
-            Types.Add(fullName, type);
-           
+
             return type;
         }
 
@@ -208,7 +213,7 @@ namespace RoslynMonoFamix.InCSharp
             return result;
         }
 
-        public FAMIX.StructuralEntity EnsureAttribute  (ISymbol field) 
+        public FAMIX.StructuralEntity EnsureAttribute (ISymbol field) 
         {
             String attributeFullName = FullFieldName(field);
             if (Attributes.has(attributeFullName))
@@ -241,8 +246,7 @@ namespace RoslynMonoFamix.InCSharp
             var fullClassName = "";
             if (field.ContainingType != null)
             {
-                var methodContainer = EnsureType(field.ContainingType);
-                fullClassName = Types.QualifiedName(methodContainer);
+                fullClassName = FullTypeName(field.ContainingType);
             }
             return fullClassName + "." + field.Name;
         }

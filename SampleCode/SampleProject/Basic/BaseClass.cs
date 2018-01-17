@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace SampleProject.Basic
 {
-    class BaseClass
+    class BaseClass : IDisposable
     {
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
