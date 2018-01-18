@@ -25,6 +25,8 @@ namespace Fame.Internal
 
 		internal string GetName()
 		{
+            var name = property.GetCustomAttribute<FamePropertyAttribute>();
+            if (name != null && name.Name != null) return name.Name;
 			return property.Name;
 		}
 

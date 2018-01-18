@@ -349,7 +349,7 @@ public class ASTVisitor : CSharpSyntaxWalker
         invocation.sender = clientMethod;
         invocation.AddCandidate(referencedEntity);
         invocation.signature = node.Span.ToString();
-        invocation.receiver = referencedEntity;
+        //invocation.receiver = referencedEntity;
         clientMethod.AddOutgoingInvocation(invocation);
         referencedEntity.AddIncomingInvocation(invocation);
         importer.CreateSourceAnchor(invocation, node);
