@@ -1,0 +1,1 @@
+Represents a getter or setter method for C# properties
