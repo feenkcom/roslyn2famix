@@ -14,11 +14,11 @@ namespace FAMIX
     [FameProperty(Name = "value")]    
     public String value { get; set; }
     
-    [FameProperty(Name = "annotationTypeAttribute",  Opposite = "annotationAttributeInstances")]    
-    public FAMIX.AnnotationTypeAttribute annotationTypeAttribute { get; set; }
-    
     [FameProperty(Name = "parentAnnotationInstance",  Opposite = "attributes")]    
     public FAMIX.AnnotationInstance parentAnnotationInstance { get; set; }
+    
+    [FameProperty(Name = "annotationTypeAttribute",  Opposite = "annotationAttributeInstances")]    
+    public FAMIX.AnnotationTypeAttribute annotationTypeAttribute { get; set; }
     
   }
 }

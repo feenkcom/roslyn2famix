@@ -11,19 +11,6 @@ namespace FAMIX
   [FameDescription("ScopingEntity")]
   public class ScopingEntity : FAMIX.ContainerEntity
   {
-    private List<FAMIX.GlobalVariable> globalVariables = new List<FAMIX.GlobalVariable>();
-    
-    [FameProperty(Name = "globalVariables",  Opposite = "parentScope")]    
-    public List <FAMIX.GlobalVariable> GlobalVariables
-    {
-      get { return globalVariables; }
-      set { globalVariables = value; }
-    }
-    public void AddGlobalVariable(FAMIX.GlobalVariable one)
-    {
-      globalVariables.Add(one);
-    }
-    
     [FameProperty(Name = "parentScope",  Opposite = "childScopes")]    
     public FAMIX.ScopingEntity parentScope { get; set; }
     
@@ -35,10 +22,22 @@ namespace FAMIX
       get { return childScopes; }
       set { childScopes = value; }
     }
-
     public void AddChildScope(FAMIX.ScopingEntity one)
     {
       childScopes.Add(one);
+    }
+    
+    private List<FAMIX.GlobalVariable> globalVariables = new List<FAMIX.GlobalVariable>();
+    
+    [FameProperty(Name = "globalVariables",  Opposite = "parentScope")]    
+    public List <FAMIX.GlobalVariable> GlobalVariables
+    {
+      get { return globalVariables; }
+      set { globalVariables = value; }
+    }
+    public void AddGlobalVariable(FAMIX.GlobalVariable one)
+    {
+      globalVariables.Add(one);
     }
     
   }

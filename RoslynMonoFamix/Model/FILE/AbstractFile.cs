@@ -11,11 +11,11 @@ namespace FILE
   [FameDescription("AbstractFile")]
   public class AbstractFile : FAMIX.Entity
   {
-    [FameProperty(Name = "name")]    
-    public String name { get; set; }
-    
     [FameProperty(Name = "parentFolder",  Opposite = "childrenFileSystemEntities")]    
     public FILE.Folder parentFolder { get; set; }
+    
+    [FameProperty(Name = "name")]    
+    public String name { get; set; }
     
   }
 }

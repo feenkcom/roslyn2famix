@@ -14,37 +14,30 @@ namespace FAMIX
     [FameProperty(Name = "numberOfComments")]    
     public int numberOfComments { get; set; }
     
-    [FameProperty(Name = "signature")]    
-    public String signature { get; set; }
-    
-    private List<FAMIX.Parameter> parameters = new List<FAMIX.Parameter>();
-    
-    [FameProperty(Name = "parameters",  Opposite = "parentBehaviouralEntity")]    
-    public List <FAMIX.Parameter> Parameters
-    {
-      get { return parameters; }
-      set { parameters = value; }
-    }
-    public void AddParameter(FAMIX.Parameter one)
-    {
-      parameters.Add(one);
-    }
-    
-    private List<FAMIX.Access> accesses = new List<FAMIX.Access>();
-    
-    [FameProperty(Name = "accesses",  Opposite = "accessor")]    
-    public List <FAMIX.Access> Accesses
-    {
-      get { return accesses; }
-      set { accesses = value; }
-    }
-    public void AddAccesse(FAMIX.Access one)
-    {
-      accesses.Add(one);
-    }
+    [FameProperty(Name = "cyclomaticComplexity")]    
+    public int cyclomaticComplexity { get; set; }
     
     [FameProperty(Name = "numberOfStatements")]    
     public int numberOfStatements { get; set; }
+    
+    [FameProperty(Name = "numberOfConditionals")]    
+    public int numberOfConditionals { get; set; }
+    
+    private List<FAMIX.ImplicitVariable> implicitVariables = new List<FAMIX.ImplicitVariable>();
+    
+    [FameProperty(Name = "implicitVariables",  Opposite = "parentBehaviouralEntity")]    
+    public List <FAMIX.ImplicitVariable> ImplicitVariables
+    {
+      get { return implicitVariables; }
+      set { implicitVariables = value; }
+    }
+    public void AddImplicitVariable(FAMIX.ImplicitVariable one)
+    {
+      implicitVariables.Add(one);
+    }
+    
+    [FameProperty(Name = "numberOfParameters")]    
+    public int numberOfParameters { get; set; }
     
     private List<FAMIX.Invocation> outgoingInvocations = new List<FAMIX.Invocation>();
     
@@ -72,18 +65,8 @@ namespace FAMIX
       localVariables.Add(one);
     }
     
-    private List<FAMIX.Reference> outgoingReferences = new List<FAMIX.Reference>();
-    
-    [FameProperty(Name = "outgoingReferences",  Opposite = "source")]    
-    public List <FAMIX.Reference> OutgoingReferences
-    {
-      get { return outgoingReferences; }
-      set { outgoingReferences = value; }
-    }
-    public void AddOutgoingReference(FAMIX.Reference one)
-    {
-      outgoingReferences.Add(one);
-    }
+    [FameProperty(Name = "declaredType",  Opposite = "behavioursWithDeclaredType")]    
+    public FAMIX.Type declaredType { get; set; }
     
     private List<Dynamix.Activation> activations = new List<Dynamix.Activation>();
     
@@ -98,30 +81,37 @@ namespace FAMIX
       activations.Add(one);
     }
     
-    [FameProperty(Name = "numberOfParameters")]    
-    public int numberOfParameters { get; set; }
+    private List<FAMIX.Parameter> parameters = new List<FAMIX.Parameter>();
     
-    [FameProperty(Name = "declaredType",  Opposite = "behavioursWithDeclaredType")]    
-    public FAMIX.Type declaredType { get; set; }
+    [FameProperty(Name = "parameters",  Opposite = "parentBehaviouralEntity")]    
+    public List <FAMIX.Parameter> Parameters
+    {
+      get { return parameters; }
+      set { parameters = value; }
+    }
+    public void AddParameter(FAMIX.Parameter one)
+    {
+      parameters.Add(one);
+    }
     
     [FameProperty(Name = "numberOfLinesOfCode")]    
     public int numberOfLinesOfCode { get; set; }
     
-    private List<FAMIX.ImplicitVariable> implicitVariables = new List<FAMIX.ImplicitVariable>();
+    private List<FAMIX.Access> accesses = new List<FAMIX.Access>();
     
-    [FameProperty(Name = "implicitVariables",  Opposite = "parentBehaviouralEntity")]    
-    public List <FAMIX.ImplicitVariable> ImplicitVariables
+    [FameProperty(Name = "accesses",  Opposite = "accessor")]    
+    public List <FAMIX.Access> Accesses
     {
-      get { return implicitVariables; }
-      set { implicitVariables = value; }
+      get { return accesses; }
+      set { accesses = value; }
     }
-    public void AddImplicitVariable(FAMIX.ImplicitVariable one)
+    public void AddAccesse(FAMIX.Access one)
     {
-      implicitVariables.Add(one);
+      accesses.Add(one);
     }
     
-    [FameProperty(Name = "cyclomaticComplexity")]    
-    public int cyclomaticComplexity { get; set; }
+    [FameProperty(Name = "signature")]    
+    public String signature { get; set; }
     
     private List<FAMIX.Invocation> incomingInvocations = new List<FAMIX.Invocation>();
     
@@ -136,8 +126,18 @@ namespace FAMIX
       incomingInvocations.Add(one);
     }
     
-    [FameProperty(Name = "numberOfConditionals")]    
-    public int numberOfConditionals { get; set; }
+    private List<FAMIX.Reference> outgoingReferences = new List<FAMIX.Reference>();
+    
+    [FameProperty(Name = "outgoingReferences",  Opposite = "source")]    
+    public List <FAMIX.Reference> OutgoingReferences
+    {
+      get { return outgoingReferences; }
+      set { outgoingReferences = value; }
+    }
+    public void AddOutgoingReference(FAMIX.Reference one)
+    {
+      outgoingReferences.Add(one);
+    }
     
   }
 }

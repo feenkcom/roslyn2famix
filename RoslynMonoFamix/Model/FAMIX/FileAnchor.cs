@@ -11,6 +11,9 @@ namespace FAMIX
   [FameDescription("FileAnchor")]
   public class FileAnchor : FAMIX.AbstractFileAnchor
   {
+    [FameProperty(Name = "endColumn")]    
+    public int endColumn { get; set; }
+    
     [FameProperty(Name = "endLine")]    
     public int endLine { get; set; }
     
@@ -19,9 +22,6 @@ namespace FAMIX
     
     [FameProperty(Name = "startColumn")]    
     public int startColumn { get; set; }
-    
-    [FameProperty(Name = "endColumn")]    
-    public int endColumn { get; set; }
     
   }
 }

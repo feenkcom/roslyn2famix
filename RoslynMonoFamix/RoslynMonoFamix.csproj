@@ -35,12 +35,14 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>0</WarningLevel>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Build, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -210,6 +212,7 @@
     <Compile Include="InCSharp\NamedEntityAccumulator.cs" />
     <Compile Include="ASTVisitor.cs" />
     <Compile Include="Model\CSharp\CSharpProperty.cs" />
+    <Compile Include="Model\CSharp\CSharpPropertyAccessor.cs" />
     <Compile Include="Model\CSharp\CSharpStruct.cs" />
     <Compile Include="Model\CSharp\Delegate.cs" />
     <Compile Include="Model\Dynamix\Activation.cs" />

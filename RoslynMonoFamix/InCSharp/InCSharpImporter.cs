@@ -111,8 +111,13 @@ namespace RoslynMonoFamix.InCSharp
             String methodFullName = FullMethodName(aMethod);
             if (Methods.has(methodFullName))
                 return Methods.Named(methodFullName);
-            
-            Method method = repository.New<Method>("FAMIX.Method");
+
+            Method method = null;
+            if (aMethod.MethodKind == MethodKind.PropertyGet || aMethod.MethodKind == MethodKind.PropertySet)
+                method = repository.New<CSharp.CSharpPropertyAccessor>(typeof(CSharp.CSharpPropertyAccessor).FullName);
+             else
+                method = repository.New<Method>(typeof(FAMIX.Method).FullName);
+
             method.isStub = true;
             method.name = aMethod.Name;
             Methods.Add(methodFullName, method);

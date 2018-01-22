@@ -48,6 +48,7 @@
     <Compile Include="Basic\Enum.cs" />
     <Compile Include="Basic\Generics.cs" />
     <Compile Include="Basic\Calls.cs" />
+    <Compile Include="Basic\Properties.cs" />
     <Compile Include="Basic\ReturnType.cs" />
     <Compile Include="Basic\SimpleStruct.cs" />
     <Compile Include="Basic\DelegateEvent.cs" />

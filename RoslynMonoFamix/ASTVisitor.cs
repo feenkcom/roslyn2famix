@@ -12,6 +12,7 @@ public class ASTVisitor : CSharpSyntaxWalker
     private InCSharpImporter importer;
     private Method currentMethod;
     private FAMIX.Type currentType;
+    private CSharp.CSharpProperty currentProperty;
 
     public ASTVisitor(SemanticModel semanticModel, InCSharpImporter importer)
     {
@@ -177,6 +178,36 @@ public class ASTVisitor : CSharpSyntaxWalker
         currentMethod = null;
     }
 
+    public override void VisitAccessorDeclaration(AccessorDeclarationSyntax node)
+    {
+        if (currentProperty != null)
+        {
+            var methodSymbol = semanticModel.GetDeclaredSymbol(node);
+
+            CSharp.CSharpPropertyAccessor aMethod = importer.EnsureMethod(methodSymbol) as CSharp.CSharpPropertyAccessor;
+            if (methodSymbol.MethodKind == MethodKind.PropertyGet)
+                currentProperty.getter = aMethod as CSharp.CSharpPropertyAccessor;
+            else
+                currentProperty.setter = aMethod as CSharp.CSharpPropertyAccessor;
+
+            if (currentType != null)
+            {
+                aMethod.property = currentProperty;
+                aMethod.parentType = currentType;
+                currentType.AddMethod(aMethod);
+            }
+           
+            currentMethod = aMethod;
+
+            var returnType = importer.EnsureType(methodSymbol.ReturnType);
+            currentMethod.declaredType = returnType;
+            importer.CreateSourceAnchor(aMethod, node);
+            currentMethod.isStub = false;
+        }
+        base.VisitAccessorDeclaration(node);
+    }
+
+    
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         string methodName = node.Identifier.ToString();
@@ -193,7 +224,7 @@ public class ASTVisitor : CSharpSyntaxWalker
             Method aMethod = importer.EnsureMethod(methodSymbol);
             aMethod.name = name;
             currentType.AddMethod(aMethod);
-            aMethod.isConstructor = true;
+            
             aMethod.parentType = currentType;
             currentMethod = aMethod;
 
@@ -208,26 +239,26 @@ public class ASTVisitor : CSharpSyntaxWalker
     public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
     {
         string propertyName = node.Identifier.ToString();
-        AddProperty(node, propertyName);
+        var prop = AddProperty(node, propertyName);
+        if (prop is CSharp.CSharpProperty) currentProperty = prop as CSharp.CSharpProperty;
         base.VisitPropertyDeclaration(node);
+        currentProperty = null;
     }
 
-    private void AddProperty(BasePropertyDeclarationSyntax node, String propertyName)
+    private FAMIX.Attribute AddProperty(BasePropertyDeclarationSyntax node, String propertyName)
     {
         ISymbol symbol = semanticModel.GetDeclaredSymbol(node);
         FAMIX.Attribute propertyAttribute = null;
         
         if (currentType != null)
         {
-            if (currentType is AnnotationType)
-                propertyAttribute = importer.EnsureAttribute(symbol) as FAMIX.Attribute;
-            else
-                propertyAttribute = importer.EnsureAttribute(symbol) as FAMIX.Attribute;
+            propertyAttribute = importer.EnsureAttribute(symbol) as FAMIX.Attribute;
             currentType.AddAttribute(propertyAttribute);
             propertyAttribute.parentType = currentType;
             propertyAttribute.isStub = false;
             importer.CreateSourceAnchor(propertyAttribute, node);
         }
+        return propertyAttribute;
     }
 
     public override void VisitEventDeclaration(EventDeclarationSyntax node)
