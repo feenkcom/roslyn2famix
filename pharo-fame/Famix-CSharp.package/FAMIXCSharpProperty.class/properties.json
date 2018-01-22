@@ -5,7 +5,10 @@
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
-	"instvars" : [ ],
+	"instvars" : [
+		"setter",
+		"getter"
+	],
 	"name" : "FAMIXCSharpProperty",
 	"type" : "normal"
 }
