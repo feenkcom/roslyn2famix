@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamixTest", "FamixTest\Fami
 		{9FC9ACF1-6CFE-4A8A-A37D-4781194E55F2} = {9FC9ACF1-6CFE-4A8A-A37D-4781194E55F2}
 	EndProjectSection
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Roslyn2FamixSetup", "Roslyn2FamixSetup\Roslyn2FamixSetup.vdproj", "{708BE7E6-111F-4962-A03A-22014D912095}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Roslyn2Famix", "Roslyn2FamixSetup\Roslyn2FamixSetup.vdproj", "{708BE7E6-111F-4962-A03A-22014D912095}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

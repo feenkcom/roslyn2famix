@@ -18,9 +18,7 @@ namespace RoslynMonoFamix
     class MainClass
     {
         static void Main(string[] args)
-        {
-
-
+        { 
             try
             {
                 //The code that causes the error goes here.
@@ -50,17 +48,14 @@ namespace RoslynMonoFamix
 
             var ignoreFolder = Path.GetDirectoryName(uri.AbsolutePath);
 
-            Console.WriteLine("ignore foler " + ignoreFolder);
-
             var importer = new InCSharp.InCSharpImporter(metamodel, ignoreFolder);
             var documents = new List<Document>();
-
-
 
             for (int i = 0; i < solution.Projects.Count<Project>(); i++)
             {
                 var project = solution.Projects.ElementAt<Project>(i);
-                for (int j = 0; j < project.Documents.Count<Document>(); j++)
+                    
+                    for (int j = 0; j < project.Documents.Count<Document>(); j++)
                 {
                     var document = project.Documents.ElementAt<Document>(j);
                     if (document.SupportsSyntaxTree)
