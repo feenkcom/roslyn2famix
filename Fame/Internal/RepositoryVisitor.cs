@@ -63,10 +63,17 @@ namespace Fame.Internal
                         if (!(bool)enumerator.Current) continue;
                     }
 
+                    if (property.Type.Fullname == "System.Int32" && (values.Count == 1) )
+                    {
+                        var enumerator = values.GetEnumerator();
+                        enumerator.MoveNext();
+                        if ((int)enumerator.Current == 0) continue;
+                    }
+
                     if (values.Count > 0)
                     {
-                        visitor.BeginAttribute(property.Name);
                         bool isPrimitive = property.Type.IsPrimitive();
+                        visitor.BeginAttribute(property.Name);
                         bool isRoot = property.Type.IsRoot();
                         bool isComposite = (property == childrenProperty);
                         var enumerator = values.GetEnumerator();
@@ -88,7 +95,7 @@ namespace Fame.Internal
                                     value.GetType() == typeof(bool) ||
                                     Number.IsNumber(value))))
                             {
-                                visitor.Primitive(value);
+                                    visitor.Primitive(value);
                             }
                             else
                             {

@@ -13,7 +13,7 @@ namespace FamixTest
         public void EventIngested() => Assert.IsNotNull(importer.Attributes.Named("SecondChangeEvent.Clock.SecondChange"));
 
         [TestMethod]
-        public void EventPropertyIngested() => Assert.IsNotNull(importer.Attributes.Named("SecondChangeEvent.Clock.ThirdChange"));
+        public void EventAsPropertyIngested() => Assert.IsNotNull(importer.Attributes.Named("SecondChangeEvent.Clock.ThirdChange"));
 
     }
 }

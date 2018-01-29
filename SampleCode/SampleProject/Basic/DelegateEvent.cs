@@ -4,6 +4,35 @@ using System.Threading;
 //https://www.akadia.com/services/dotnet_delegates_and_events.html
 namespace SecondChangeEvent
 {
+    public class EventDelegateClass
+    {
+        public delegate void MyDelegate();
+        public event MyDelegate MyEvent;
+
+        public void MyDelegateHandler() { }
+
+        void StepOne()
+        {
+            StepTwo(MyDelegateHandler);
+        }
+
+        private void StepTwo(Action myDelegateHandler)
+        {
+            StepThree(new object[] { myDelegateHandler });
+        }
+
+        void StepThree(object[] args)
+        {
+            MyEvent = (MyDelegate)args[0];
+        }
+
+        void Trigger()
+        {
+            MyEvent();
+        }
+    }
+
+
     /* ======================= Event Publisher =============================== */
 
     // Our subject -- it is this class that other classes

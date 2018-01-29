@@ -5,19 +5,22 @@ using Fame;
 using FAMIX;
 using Microsoft.CodeAnalysis;
 using RoslynMonoFamix.InCSharp;
+using System.Linq.Expressions;
+using System.Linq;
 
 public class ASTVisitor : CSharpSyntaxWalker
 {
     private SemanticModel semanticModel;
     private InCSharpImporter importer;
     private Method currentMethod;
-    private FAMIX.Type currentType;
+    private System.Collections.Stack currentTypeStack;
     private CSharp.CSharpProperty currentProperty;
 
     public ASTVisitor(SemanticModel semanticModel, InCSharpImporter importer)
     {
         this.semanticModel = semanticModel;
         this.importer = importer;
+        currentTypeStack = new System.Collections.Stack();
     }
 
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
@@ -45,13 +48,25 @@ public class ASTVisitor : CSharpSyntaxWalker
         AddSuperInterfaces(typeSymbol, type);
         AddAnnotations(typeSymbol, type);
         AddParameterTypes(typeSymbol, type);
-        currentType = type;
+        currentTypeStack.Push(type);
         importer.CreateSourceAnchor(type, node);
         type.isStub = false;
         if (type.container != null)
             type.container.isStub = false;
         base.VisitClassDeclaration(node);
-        currentType = null;
+        ComputeFanout(currentTypeStack.Peek() as FAMIX.Type);
+        currentTypeStack.Pop();
+    }
+
+
+    private void ComputeFanout(FAMIX.Type currentType)
+    {
+        //  currentType.Methods.ForEach(method=>method.OutgoingInvocations.ForEach())
+        var types = currentType.Methods.SelectMany(
+            method => method.OutgoingInvocations.SelectMany(
+                invocation => invocation.Candidates.SelectMany(called=> new FAMIX.Type[] {(called as Method).parentType}))).Distinct<FAMIX.Type>();
+        var fanout = types.Sum<FAMIX.Type>(type => type == currentType? 0 : 1);
+        currentType.fanOut = fanout;
     }
 
     private void AddParameterTypes(INamedTypeSymbol typeSymbol, FAMIX.Type type)
@@ -67,11 +82,11 @@ public class ASTVisitor : CSharpSyntaxWalker
         var typeSymbol = semanticModel.GetDeclaredSymbol(node);
         FAMIX.Type type = importer.EnsureType(typeSymbol);
     
-        currentType = type;
+        currentTypeStack.Push(type);
         importer.CreateSourceAnchor(type, node);
         type.isStub = false;
         base.VisitStructDeclaration(node);
-        currentType = null;
+        currentTypeStack.Pop();
     }
 
     public override void VisitEnumDeclaration(EnumDeclarationSyntax node)
@@ -79,11 +94,11 @@ public class ASTVisitor : CSharpSyntaxWalker
         var typeSymbol = semanticModel.GetDeclaredSymbol(node);
         FAMIX.Type type = importer.EnsureType(typeSymbol);
         
-        currentType = type;
+        currentTypeStack.Push(type);
         importer.CreateSourceAnchor(type, node);
         type.isStub = false;
         base.VisitEnumDeclaration(node);
-        currentType = null;
+        currentTypeStack.Pop();
     }
 
     public override void VisitEnumMemberDeclaration(EnumMemberDeclarationSyntax node)
@@ -92,10 +107,10 @@ public class ASTVisitor : CSharpSyntaxWalker
         var symbol = semanticModel.GetDeclaredSymbol(node);
         FAMIX.EnumValue anEnumValue = importer.EnsureAttribute(symbol) as FAMIX.EnumValue;
         importer.CreateSourceAnchor(anEnumValue, node);
-        if (currentType is FAMIX.Enum)
+        if (currentTypeStack.Peek() is FAMIX.Enum)
         {
-            (currentType as FAMIX.Enum).AddValue(anEnumValue);
-            anEnumValue.parentEnum = currentType as FAMIX.Enum;
+            anEnumValue.parentEnum = currentTypeStack.Peek() as FAMIX.Enum;
+            anEnumValue.parentEnum.AddValue(anEnumValue);
             anEnumValue.isStub = false;
         }
       
@@ -159,11 +174,11 @@ public class ASTVisitor : CSharpSyntaxWalker
         //type.name = node.Identifier.ToString();
         AddSuperInterfaces(typeSymbol, type);
 
-        currentType = type;
+        currentTypeStack.Push(type);
         importer.CreateSourceAnchor(type, node);
         type.isStub = false;
         base.VisitInterfaceDeclaration(node);
-        currentType = null;
+        currentTypeStack.Pop();
     }
 
     public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
@@ -190,11 +205,11 @@ public class ASTVisitor : CSharpSyntaxWalker
             else
                 currentProperty.setter = aMethod as CSharp.CSharpPropertyAccessor;
 
-            if (currentType != null)
+            if (currentTypeStack.Count > 0)
             {
                 aMethod.property = currentProperty;
-                aMethod.parentType = currentType;
-                currentType.AddMethod(aMethod);
+                aMethod.parentType = currentTypeStack.Peek() as FAMIX.Type;
+                aMethod.parentType.AddMethod(aMethod);
             }
            
             currentMethod = aMethod;
@@ -218,14 +233,13 @@ public class ASTVisitor : CSharpSyntaxWalker
 
     private Method AddMethod(BaseMethodDeclarationSyntax node, string name)
     {
-        if (currentType != null)
+        if (currentTypeStack.Count > 0)
         {
             var methodSymbol = semanticModel.GetDeclaredSymbol(node);
             Method aMethod = importer.EnsureMethod(methodSymbol);
             aMethod.name = name;
-            currentType.AddMethod(aMethod);
-            
-            aMethod.parentType = currentType;
+            aMethod.parentType = (currentTypeStack.Peek() as FAMIX.Type);
+            aMethod.parentType.AddMethod(aMethod);
             currentMethod = aMethod;
 
             var returnType = importer.EnsureType(methodSymbol.ReturnType);
@@ -250,11 +264,12 @@ public class ASTVisitor : CSharpSyntaxWalker
         ISymbol symbol = semanticModel.GetDeclaredSymbol(node);
         FAMIX.Attribute propertyAttribute = null;
         
-        if (currentType != null)
+        if (currentTypeStack.Count > 0)
         {
             propertyAttribute = importer.EnsureAttribute(symbol) as FAMIX.Attribute;
-            currentType.AddAttribute(propertyAttribute);
-            propertyAttribute.parentType = currentType;
+            propertyAttribute.parentType = currentTypeStack.Peek() as FAMIX.Type;
+            propertyAttribute.parentType.AddAttribute(propertyAttribute);
+            
             propertyAttribute.isStub = false;
             importer.CreateSourceAnchor(propertyAttribute, node);
         }
@@ -297,12 +312,11 @@ public class ASTVisitor : CSharpSyntaxWalker
             var symbol = semanticModel.GetDeclaredSymbol(variable);
             if (symbol is IFieldSymbol || symbol is IEventSymbol)
             {
-                if (currentType != null)
+                if (currentTypeStack.Count > 0)
                 {
                     FAMIX.Attribute anAttribute = importer.EnsureAttribute(symbol) as FAMIX.Attribute;
-                
-                    currentType.AddAttribute(anAttribute);
-                    anAttribute.parentType = currentType;
+                    anAttribute.parentType = currentTypeStack.Peek() as FAMIX.Type;
+                    anAttribute.parentType.AddAttribute(anAttribute);
                     importer.CreateSourceAnchor(anAttribute, node);
                     anAttribute.isStub = false;
                 }
@@ -396,6 +410,34 @@ public class ASTVisitor : CSharpSyntaxWalker
         if (symbol is IPropertySymbol)
             return importer.EnsureAttribute(symbol);
         return null;
+    }
+
+
+    public override void VisitWhileStatement(WhileStatementSyntax node)
+    {
+        if (currentMethod != null) currentMethod.cyclomaticComplexity++;
+        base.VisitWhileStatement(node);
+    }
+
+    public override void VisitIfStatement(IfStatementSyntax node)
+    {
+        if (currentMethod != null) currentMethod.cyclomaticComplexity++;
+        base.VisitIfStatement(node);
+    }
+    public override void VisitDoStatement(DoStatementSyntax node)
+    {
+        if (currentMethod != null) currentMethod.cyclomaticComplexity++;
+        base.VisitDoStatement(node);
+    }
+    public override void VisitCaseSwitchLabel(CaseSwitchLabelSyntax node)
+    {
+        if (currentMethod != null) currentMethod.cyclomaticComplexity++;
+        base.VisitCaseSwitchLabel(node);
+    }
+    public override void VisitCasePatternSwitchLabel(CasePatternSwitchLabelSyntax node)
+    {
+        if (currentMethod != null) currentMethod.cyclomaticComplexity++;
+        base.VisitCasePatternSwitchLabel(node);
     }
 
 }

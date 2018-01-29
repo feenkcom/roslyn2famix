@@ -281,6 +281,10 @@ namespace RoslynMonoFamix.InCSharp
                 endColumn = lineSpan.EndLinePosition.Character+1,
                 fileName = relativePath
             };
+            var loc = lineSpan.EndLinePosition.Line - lineSpan.StartLinePosition.Line;
+            if (sourcedEntity is BehaviouralEntity) (sourcedEntity as BehaviouralEntity).numberOfLinesOfCode = loc;
+            if (sourcedEntity is FAMIX.Type) (sourcedEntity as FAMIX.Type).numberOfLinesOfCode = loc;
+
             sourcedEntity.sourceAnchor = fileAnchor;
             repository.Add(fileAnchor);
         }
