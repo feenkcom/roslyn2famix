@@ -187,6 +187,7 @@
     <Compile Include="BinarySuperclassesTest.cs" />
     <Compile Include="PropertiesTest.cs" />
     <Compile Include="FanoutTest.cs" />
+    <Compile Include="ExpressionBodyTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
