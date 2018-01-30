@@ -11,7 +11,7 @@ namespace RoslynMonoFamix.InCSharp
     {
         private Repository repository;
         private string ignoreFolder;
-        //TODO map to type
+       
         private Dictionary<string, System.Type> typeNameMap = new Dictionary<string, System.Type>()
             {
                 { "Struct", typeof(CSharp.CSharpStruct) },
@@ -197,10 +197,14 @@ namespace RoslynMonoFamix.InCSharp
             if (aType is ITypeSymbol) typeNameMap.TryGetValue(((ITypeSymbol)aType).TypeKind.ToString(), out result);
             if (aType is INamedTypeSymbol)
             {
-                
                 var superType = (aType as INamedTypeSymbol).BaseType;
-                if (superType != null && superType.Name.Equals("Attribute") && superType.ContainingNamespace.Name.Equals("System"))
-                    result = typeof(FAMIX.AnnotationType);
+                while (superType != null)
+                {
+                    if (superType.Name.Equals("Attribute") && superType.ContainingNamespace.Name.Equals("System"))
+                        return typeof(FAMIX.AnnotationType);
+                    superType = superType.BaseType;
+                }
+                   
                 if ((aType as INamedTypeSymbol).IsGenericType)
                 {
                     if ((aType as INamedTypeSymbol).IsDefinition)
@@ -208,11 +212,15 @@ namespace RoslynMonoFamix.InCSharp
                     else
                         result = typeof(FAMIX.ParameterizedType);
                 }
-                    
             }
+            if (aType is IArrayTypeSymbol)
+                return ResolveFAMIXTypeName((aType as IArrayTypeSymbol).ElementType);
+            if (aType is IPointerTypeSymbol)
+                return ResolveFAMIXTypeName((aType as IPointerTypeSymbol).PointedAtType);
             if (result == null)
             {
-                Console.WriteLine(" -------- " + ((ITypeSymbol)aType).TypeKind);
+                Console.WriteLine("Could not resolve type for  " + aType);
+                if (aType.ContainingAssembly != null) Console.WriteLine("Containing Assembly " + aType.ContainingAssembly);
                 result = typeof(FAMIX.Class);
             }
             return result;

@@ -137,7 +137,6 @@ public class ASTVisitor : CSharpSyntaxWalker
                     annotationInstanceAttribute.value = constrArgument.Value.ToString();
                     annotationInstance.AddAttribute(annotationInstanceAttribute);
                 }
-
                 foreach (var namedArgument in attr.NamedArguments)
                 {
                     AnnotationInstanceAttribute annotationInstanceAttribute = importer.New<FAMIX.AnnotationInstanceAttribute>();
@@ -412,7 +411,6 @@ public class ASTVisitor : CSharpSyntaxWalker
         return null;
     }
 
-
     public override void VisitWhileStatement(WhileStatementSyntax node)
     {
         if (currentMethod != null) currentMethod.cyclomaticComplexity++;
@@ -439,5 +437,9 @@ public class ASTVisitor : CSharpSyntaxWalker
         if (currentMethod != null) currentMethod.cyclomaticComplexity++;
         base.VisitCasePatternSwitchLabel(node);
     }
-
+    public override void VisitReturnStatement(ReturnStatementSyntax node)
+    {
+        if (currentMethod != null) currentMethod.cyclomaticComplexity++;
+        base.VisitReturnStatement(node);
+    }
 }
