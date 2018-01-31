@@ -23,7 +23,7 @@ namespace SecondChangeEvent
 
         void StepThree(object[] args)
         {
-            MyEvent = (MyDelegate)args[0];
+            MyEvent = MyDelegateHandler;
         }
 
         void Trigger()

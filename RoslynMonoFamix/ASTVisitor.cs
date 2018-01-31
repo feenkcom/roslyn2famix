@@ -192,6 +192,18 @@ public class ASTVisitor : CSharpSyntaxWalker
         currentMethod = null;
     }
 
+    public override void VisitDestructorDeclaration(DestructorDeclarationSyntax node)
+    {
+        string methodName = node.Identifier.ToString();
+
+        AddMethod(node, methodName);
+
+        if (currentMethod != null) currentMethod.isConstructor = true;
+
+        base.VisitDestructorDeclaration(node);
+        currentMethod = null;
+    }
+
     public override void VisitAccessorDeclaration(AccessorDeclarationSyntax node)
     {
         if (currentProperty != null)
@@ -366,7 +378,6 @@ public class ASTVisitor : CSharpSyntaxWalker
             if (currentMethod != null)
             {
                 FAMIX.NamedEntity referencedEntity = FindReferencedEntity(node);
-                if (referencedEntity is FAMIX.Method) AddMethodCall(node, currentMethod, referencedEntity as FAMIX.Method);
                 if (referencedEntity is FAMIX.Attribute) AddAttributeAccess(node, currentMethod, referencedEntity as FAMIX.Attribute);
             }
         }
@@ -375,6 +386,42 @@ public class ASTVisitor : CSharpSyntaxWalker
             Console.WriteLine(e.Message);
         }
         base.VisitIdentifierName(node);
+    }
+
+    public override void VisitInvocationExpression(InvocationExpressionSyntax node)
+    {   try
+        {
+            if (currentMethod != null)
+            {
+                FAMIX.NamedEntity referencedEntity = FindReferencedEntity(node.Expression);
+                if (referencedEntity is FAMIX.Method)
+                    AddMethodCall(node, currentMethod, referencedEntity as FAMIX.Method);
+            }
+        }
+        catch (InvalidCastException e)
+        {
+            Console.WriteLine(e.Message);
+        }
+        base.VisitInvocationExpression(node);
+    }
+
+
+    public override void VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
+    {
+        try
+        {
+            if (currentMethod != null)
+            {
+                FAMIX.NamedEntity referencedEntity = FindReferencedEntity(node);
+                if (referencedEntity is FAMIX.Method)
+                    AddMethodCall(node, currentMethod, referencedEntity as FAMIX.Method);
+            }
+        }
+        catch (InvalidCastException e)
+        {
+            Console.WriteLine(e.Message);
+        }
+        base.VisitObjectCreationExpression(node);
     }
 
     private void AddAttributeAccess(SyntaxNode node, Method clientMethod, FAMIX.Attribute attribute)
@@ -387,19 +434,19 @@ public class ASTVisitor : CSharpSyntaxWalker
         importer.CreateSourceAnchor(access, node);
     }
 
-    private void AddMethodCall(IdentifierNameSyntax node, Method clientMethod, Method referencedEntity)
+    private void AddMethodCall(SyntaxNode node, Method clientMethod, Method referencedEntity)
     {
-        Invocation invocation = importer.CreateNewAssociation<Invocation>("FAMIX.Invocation");
-        invocation.sender = clientMethod;
-        invocation.AddCandidate(referencedEntity);
-        invocation.signature = node.Span.ToString();
-        //invocation.receiver = referencedEntity;
-        clientMethod.AddOutgoingInvocation(invocation);
-        referencedEntity.AddIncomingInvocation(invocation);
-        importer.CreateSourceAnchor(invocation, node);
+            Invocation invocation = importer.CreateNewAssociation<Invocation>("FAMIX.Invocation");
+            invocation.sender = clientMethod;
+            invocation.AddCandidate(referencedEntity);
+            invocation.signature = node.Span.ToString();
+            //invocation.receiver = referencedEntity;
+            clientMethod.AddOutgoingInvocation(invocation);
+            referencedEntity.AddIncomingInvocation(invocation);
+            importer.CreateSourceAnchor(invocation, node);
     }
 
-    private NamedEntity FindReferencedEntity(IdentifierNameSyntax node)
+    private NamedEntity FindReferencedEntity(ExpressionSyntax node)
     {
         var symbol = semanticModel.GetSymbolInfo(node).Symbol;
         if (symbol is IMethodSymbol)
@@ -410,6 +457,7 @@ public class ASTVisitor : CSharpSyntaxWalker
             return importer.EnsureAttribute(symbol);
         return null;
     }
+
 
     public override void VisitWhileStatement(WhileStatementSyntax node)
     {

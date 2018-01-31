@@ -10,6 +10,9 @@ namespace SampleProject.Basic
     {
         public int CalledMethod()
         {
+
+
+
             return 1;
         }
     }
