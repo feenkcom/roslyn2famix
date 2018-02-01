@@ -11,22 +11,6 @@ namespace FAMIX
   [FameDescription("SourcedEntity")]
   public class SourcedEntity : FAMIX.Entity
   {
-    [FameProperty(Name = "declaredSourceLanguage",  Opposite = "sourcedEntities")]    
-    public FAMIX.SourceLanguage declaredSourceLanguage { get; set; }
-    
-    private List<FILE.File> containerFiles = new List<FILE.File>();
-    
-    [FameProperty(Name = "containerFiles",  Opposite = "entities")]    
-    public List <FILE.File> ContainerFiles
-    {
-      get { return containerFiles; }
-      set { containerFiles = value; }
-    }
-    public void AddContainerFile(FILE.File one)
-    {
-      containerFiles.Add(one);
-    }
-    
     private List<FAMIX.Comment> comments = new List<FAMIX.Comment>();
     
     [FameProperty(Name = "comments",  Opposite = "container")]    
@@ -42,6 +26,22 @@ namespace FAMIX
     
     [FameProperty(Name = "sourceAnchor",  Opposite = "element")]    
     public FAMIX.SourceAnchor sourceAnchor { get; set; }
+    
+    [FameProperty(Name = "declaredSourceLanguage",  Opposite = "sourcedEntities")]    
+    public FAMIX.SourceLanguage declaredSourceLanguage { get; set; }
+    
+    private List<FILE.File> containerFiles = new List<FILE.File>();
+    
+    [FameProperty(Name = "containerFiles",  Opposite = "entities")]    
+    public List <FILE.File> ContainerFiles
+    {
+      get { return containerFiles; }
+      set { containerFiles = value; }
+    }
+    public void AddContainerFile(FILE.File one)
+    {
+      containerFiles.Add(one);
+    }
     
   }
 }

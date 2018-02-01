@@ -4,6 +4,8 @@ using FAMIX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using CSharp;
 
 namespace RoslynMonoFamix.InCSharp
 {
@@ -281,20 +283,48 @@ namespace RoslynMonoFamix.InCSharp
             
             var lineSpan = node.SyntaxTree.GetLineSpan(node.Span);
             var relativePath = node.SyntaxTree.FilePath.Substring(ignoreFolder.Length+1);
-            FileAnchor fileAnchor = new FileAnchor
-            {
-                startLine = lineSpan.StartLinePosition.Line+1,
-                startColumn = lineSpan.StartLinePosition.Character,
-                endLine = lineSpan.EndLinePosition.Line+1,
-                endColumn = lineSpan.EndLinePosition.Character+1,
-                fileName = relativePath
-            };
+            FileAnchor fileAnchor = CreateNewFileAnchor(node, ref lineSpan);
             var loc = lineSpan.EndLinePosition.Line - lineSpan.StartLinePosition.Line;
             if (sourcedEntity is BehaviouralEntity) (sourcedEntity as BehaviouralEntity).numberOfLinesOfCode = loc;
-            if (sourcedEntity is FAMIX.Type) (sourcedEntity as FAMIX.Type).numberOfLinesOfCode = loc;
+            
 
             sourcedEntity.sourceAnchor = fileAnchor;
             repository.Add(fileAnchor);
+        }
+        public void CreateSourceAnchor(FAMIX.Type sourcedEntity, ClassDeclarationSyntax node)
+        {
+            var lineSpan = node.SyntaxTree.GetLineSpan(node.Span);
+            FileAnchor fileAnchor = CreateNewFileAnchor(node, ref lineSpan);
+            var loc = lineSpan.EndLinePosition.Line - lineSpan.StartLinePosition.Line;
+
+            if (node.Modifiers.ToFullString().Contains("partial"))
+            {
+                if (sourcedEntity.sourceAnchor == null)
+                {
+                    sourcedEntity.sourceAnchor = new MultipleFileAnchor();
+                    repository.Add(sourcedEntity.sourceAnchor);
+                }
+                (sourcedEntity.sourceAnchor as MultipleFileAnchor).AddAllFile(fileAnchor);
+            }
+            else
+                sourcedEntity.sourceAnchor = fileAnchor;
+            (sourcedEntity as FAMIX.Type).numberOfLinesOfCode += loc;
+
+            repository.Add(fileAnchor);
+        }
+
+        private FileAnchor CreateNewFileAnchor(SyntaxNode node, ref FileLinePositionSpan lineSpan)
+        {
+            var relativePath = node.SyntaxTree.FilePath.Substring(ignoreFolder.Length + 1);
+            FileAnchor fileAnchor = new FileAnchor
+            {
+                startLine = lineSpan.StartLinePosition.Line + 1,
+                startColumn = lineSpan.StartLinePosition.Character,
+                endLine = lineSpan.EndLinePosition.Line + 1,
+                endColumn = lineSpan.EndLinePosition.Character + 1,
+                fileName = relativePath
+            };
+            return fileAnchor;
         }
     }
 }

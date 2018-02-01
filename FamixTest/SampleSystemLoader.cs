@@ -38,8 +38,9 @@ namespace FamixTest
 			{
 				foreach (var document in project.Documents)
 				{
-					var targetFile = this.GetType().Name.Replace("Test", ".cs"); 
-					if (document.SupportsSyntaxTree && document.FilePath.EndsWith(targetFile))
+					var targetFile = this.GetType().Name.Replace("Test", ".cs");
+                    targetFile.Replace("2.cs", "1.cs");
+                    if (document.SupportsSyntaxTree && document.FilePath.Replace("2.cs", "1.cs").EndsWith(targetFile))
 					{
 						var syntaxTree = document.GetSyntaxTreeAsync().Result;
 						var compilationAsync = project.GetCompilationAsync().Result;

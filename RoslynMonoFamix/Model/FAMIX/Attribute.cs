@@ -11,11 +11,11 @@ namespace FAMIX
   [FameDescription("Attribute")]
   public class Attribute : FAMIX.StructuralEntity
   {
-    [FameProperty(Name = "hierarchyNestingLevel")]    
-    public int hierarchyNestingLevel { get; set; }
-    
     [FameProperty(Name = "hasClassScope")]    
     public Boolean hasClassScope { get; set; }
+    
+    [FameProperty(Name = "hierarchyNestingLevel")]    
+    public int hierarchyNestingLevel { get; set; }
     
     [FameProperty(Name = "parentType",  Opposite = "attributes")]    
     public FAMIX.Type parentType { get; set; }

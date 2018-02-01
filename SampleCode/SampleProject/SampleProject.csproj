@@ -50,6 +50,8 @@
     <Compile Include="Basic\Fanout.cs" />
     <Compile Include="Basic\Generics.cs" />
     <Compile Include="Basic\Calls.cs" />
+    <Compile Include="Basic\MyPartialClass1.cs" />
+    <Compile Include="Basic\MyPartialClass2.cs" />
     <Compile Include="Basic\Properties.cs" />
     <Compile Include="Basic\ReturnType.cs" />
     <Compile Include="Basic\SimpleStruct.cs" />

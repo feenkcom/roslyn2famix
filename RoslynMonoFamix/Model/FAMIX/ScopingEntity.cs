@@ -14,19 +14,6 @@ namespace FAMIX
     [FameProperty(Name = "parentScope",  Opposite = "childScopes")]    
     public FAMIX.ScopingEntity parentScope { get; set; }
     
-    private List<FAMIX.ScopingEntity> childScopes = new List<FAMIX.ScopingEntity>();
-    
-    [FameProperty(Name = "childScopes",  Opposite = "parentScope")]    
-    public List <FAMIX.ScopingEntity> ChildScopes
-    {
-      get { return childScopes; }
-      set { childScopes = value; }
-    }
-    public void AddChildScope(FAMIX.ScopingEntity one)
-    {
-      childScopes.Add(one);
-    }
-    
     private List<FAMIX.GlobalVariable> globalVariables = new List<FAMIX.GlobalVariable>();
     
     [FameProperty(Name = "globalVariables",  Opposite = "parentScope")]    
@@ -38,6 +25,19 @@ namespace FAMIX
     public void AddGlobalVariable(FAMIX.GlobalVariable one)
     {
       globalVariables.Add(one);
+    }
+    
+    private List<FAMIX.ScopingEntity> childScopes = new List<FAMIX.ScopingEntity>();
+    
+    [FameProperty(Name = "childScopes",  Opposite = "parentScope")]    
+    public List <FAMIX.ScopingEntity> ChildScopes
+    {
+      get { return childScopes; }
+      set { childScopes = value; }
+    }
+    public void AddChildScope(FAMIX.ScopingEntity one)
+    {
+      childScopes.Add(one);
     }
     
   }

@@ -35,6 +35,7 @@ namespace Model
             metaRepo.With(typeof(ParameterType));
             metaRepo.With(typeof(Enum));
             metaRepo.With(typeof(SourceAnchor));
+            metaRepo.With(typeof(MultipleFileAnchor));
             metaRepo.With(typeof(AbstractFileAnchor));
             metaRepo.With(typeof(FileAnchor));
             metaRepo.With(typeof(Namespace));

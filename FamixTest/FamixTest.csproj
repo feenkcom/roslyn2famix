@@ -170,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1Test.cs" />
+    <Compile Include="MyPartialClass1Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleSystemLoader.cs" />
     <Compile Include="CallsTest.cs" />
