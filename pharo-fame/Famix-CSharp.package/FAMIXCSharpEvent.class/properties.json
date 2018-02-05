@@ -1,0 +1,15 @@
+{
+	"commentStamp" : "GeorgeGanea 2/5/2018 15:50",
+	"super" : "FAMIXBehaviouralEntity",
+	"category" : "Famix-CSharp",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"subscribedMethods",
+		"addMethod",
+		"removeMethod"
+	],
+	"name" : "FAMIXCSharpEvent",
+	"type" : "normal"
+}

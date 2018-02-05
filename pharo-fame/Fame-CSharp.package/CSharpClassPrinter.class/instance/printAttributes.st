@@ -1,8 +1,11 @@
 printing
 printAttributes
-		|wrongAttributes|
+		|wrongAttributes sortedAttributes|
 		wrongAttributes := OrderedCollection  new.
-		theClass attributes  do: [ :prop |
+		sortedAttributes := SortedCollection new.
+		sortedAttributes sortBlock: [ :x :y | x name < y name ].
+		sortedAttributes addAll: (theClass attributes).
+		sortedAttributes  do: [ :prop |
 			[ 
 			"we only want attributes that have a corresponding setter"
          theClass implementingClass methodNamed: (prop implementingSelector asMutator).
