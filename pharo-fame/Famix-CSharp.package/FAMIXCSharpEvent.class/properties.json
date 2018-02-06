@@ -1,6 +1,6 @@
 {
 	"commentStamp" : "GeorgeGanea 2/5/2018 15:50",
-	"super" : "FAMIXBehaviouralEntity",
+	"super" : "FAMIXMethod",
 	"category" : "Famix-CSharp",
 	"classinstvars" : [ ],
 	"pools" : [ ],

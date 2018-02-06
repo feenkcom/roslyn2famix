@@ -1,4 +1,4 @@
 meta
 annotation
-	<MSEClass: #CSharpEvent super: #FAMIXBehaviouralEntity>
+	<MSEClass: #CSharpEvent super: #FAMIXMethod>
 	<package: #CSharp>
