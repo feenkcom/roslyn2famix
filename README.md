@@ -2,7 +2,7 @@
 
 roslyn2famix is a C# model extrator written in C#. It is based on Roslyn.
 
-It takes a C# `.sln` file as input and produces an `.MSE` file that can be imported into Moose.
+It takes a C# `.sln` file as input and produces an `.mse` file that can be imported into Moose.
 
 Usage example:
 
