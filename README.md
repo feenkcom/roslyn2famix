@@ -1,18 +1,12 @@
 # roslyn2famix
 
-Roslyn to Famix is a C# model extrator written in C#.
+roslyn2famix is a C# model extrator written in C#. It is based on Roslyn.
 
-It takes a C# .sln file as input and produces a MSE file to be imported in Moose.
+It takes a C# `.sln` file as input and produces an `.MSE` file that can be imported into Moose.
 
-Example:
+Usage example:
 
+```
 RoslynMonoFamix.exe .\github\CSharpSolution\CSharpSolution.sln CSharpSolution.mse
-
-
 ```
-Iceberg enableMetacelloIntegration: true.
-Metacello new
-   baseline: 'GToolkitConstrainer';
-   repository: 'github://feenkcom/gtoolkit-constrainer';
-    load.
-```
+
