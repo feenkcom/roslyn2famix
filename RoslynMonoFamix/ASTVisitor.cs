@@ -5,6 +5,7 @@ using Fame;
 using FAMIX;
 using Microsoft.CodeAnalysis;
 using RoslynMonoFamix.InCSharp;
+using CSharp;
 using System.Linq.Expressions;
 using System.Linq;
 
@@ -249,7 +250,7 @@ public class ASTVisitor : CSharpSyntaxWalker
             var methodSymbol = semanticModel.GetDeclaredSymbol(node);
             Method aMethod = importer.EnsureMethod(methodSymbol);
             aMethod.name = name;
-            aMethod.parentType = (currentTypeStack.Peek() as FAMIX.Type);
+            aMethod.parentType = importer.EnsureType(methodSymbol.ContainingType);
             aMethod.parentType.AddMethod(aMethod);
             currentMethod = aMethod;
 
@@ -278,7 +279,7 @@ public class ASTVisitor : CSharpSyntaxWalker
         if (currentTypeStack.Count > 0)
         {
             propertyAttribute = importer.EnsureAttribute(symbol) as FAMIX.Attribute;
-            propertyAttribute.parentType = currentTypeStack.Peek() as FAMIX.Type;
+            propertyAttribute.parentType = importer.EnsureType(symbol.ContainingType);
             propertyAttribute.parentType.AddAttribute(propertyAttribute);
             
             propertyAttribute.isStub = false;
@@ -290,13 +291,39 @@ public class ASTVisitor : CSharpSyntaxWalker
     public override void VisitEventDeclaration(EventDeclarationSyntax node)
     {
         string propertyName = node.Identifier.ToString();
-        AddProperty(node, propertyName);
+        if (currentTypeStack.Count > 0)
+        {
+            var methodSymbol = semanticModel.GetDeclaredSymbol(node);
+            var aMethod = importer.EnsureMethod(methodSymbol);
+            aMethod.name = propertyName;
+            aMethod.parentType = importer.EnsureType(methodSymbol.ContainingType);
+            aMethod.parentType.AddMethod(aMethod);
+            currentMethod = aMethod;
+            importer.CreateSourceAnchor(aMethod, node);
+            currentMethod.isStub = false;
+        }
         base.VisitEventDeclaration(node);
     }
 
     public override void VisitEventFieldDeclaration(EventFieldDeclarationSyntax node)
     {
-        AddField(node);
+        foreach (var variable in node.Declaration.Variables)
+        {
+            string attributeName = variable.Identifier.ToString();
+
+            var symbol = semanticModel.GetDeclaredSymbol(variable);
+            if (symbol is IEventSymbol)
+            {
+                if (currentTypeStack.Count > 0)
+                {
+                    var anEvent = importer.EnsureMethod(symbol) as CSharp.CSharpEvent;
+                    anEvent.parentType = importer.EnsureType(symbol.ContainingType);
+                    anEvent.parentType.AddMethod(anEvent);
+                    importer.CreateSourceAnchor(anEvent, node);
+                    anEvent.isStub = false;
+                }
+            }
+        }
         base.VisitEventFieldDeclaration(node);
     }
 
@@ -326,7 +353,7 @@ public class ASTVisitor : CSharpSyntaxWalker
                 if (currentTypeStack.Count > 0)
                 {
                     FAMIX.Attribute anAttribute = importer.EnsureAttribute(symbol) as FAMIX.Attribute;
-                    anAttribute.parentType = currentTypeStack.Peek() as FAMIX.Type;
+                    anAttribute.parentType = importer.EnsureType(symbol.ContainingType);
                     anAttribute.parentType.AddAttribute(anAttribute);
                     importer.CreateSourceAnchor(anAttribute, node);
                     anAttribute.isStub = false;
@@ -449,14 +476,31 @@ public class ASTVisitor : CSharpSyntaxWalker
     private NamedEntity FindReferencedEntity(ExpressionSyntax node)
     {
         var symbol = semanticModel.GetSymbolInfo(node).Symbol;
-        if (symbol is IMethodSymbol)
-            return importer.EnsureMethod(symbol as IMethodSymbol);
+        if (symbol is IMethodSymbol || symbol is IEventSymbol)
+            return importer.EnsureMethod(symbol);
         if (symbol is IFieldSymbol)
             return importer.EnsureAttribute(symbol);
         if (symbol is IPropertySymbol)
             return importer.EnsureAttribute(symbol);
         return null;
     }
+
+    public override void VisitAssignmentExpression(AssignmentExpressionSyntax node)
+    {
+        var isEvent = semanticModel.GetSymbolInfo(node.Left).Symbol;
+        if (isEvent!=null && isEvent.Kind == SymbolKind.Event)
+        {
+            var isMethod = semanticModel.GetSymbolInfo(node.Right).Symbol;
+            if (isMethod != null && isMethod.Kind == SymbolKind.Method)
+            {
+                CSharpEvent cSharpEvent = importer.EnsureMethod(isEvent) as CSharpEvent;
+                var handlerMethod = importer.EnsureMethod(isMethod as IMethodSymbol);
+                AddMethodCall(node, cSharpEvent, handlerMethod);
+            }
+        }
+        base.VisitAssignmentExpression(node);
+    }
+
 
 
     public override void VisitWhileStatement(WhileStatementSyntax node)

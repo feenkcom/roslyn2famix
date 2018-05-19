@@ -46,6 +46,7 @@
     <Compile Include="Basic\BinarySuperclasses.cs" />
     <Compile Include="Basic\Class1.cs" />
     <Compile Include="Basic\Enum.cs" />
+    <Compile Include="Basic\EventDelegateClass.cs" />
     <Compile Include="Basic\ExpressionBody.cs" />
     <Compile Include="Basic\Fanout.cs" />
     <Compile Include="Basic\Generics.cs" />

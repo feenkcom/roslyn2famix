@@ -11,12 +11,6 @@ namespace FAMIX
   [FameDescription("Package")]
   public class Package : FAMIX.ScopingEntity
   {
-    [FameProperty(Name = "numberOfLinesOfCode")]    
-    public int numberOfLinesOfCode { get; set; }
-    
-    [FameProperty(Name = "numberOfMethods")]    
-    public int numberOfMethods { get; set; }
-    
     private List<FAMIX.NamedEntity> childNamedEntities = new List<FAMIX.NamedEntity>();
     
     [FameProperty(Name = "childNamedEntities",  Opposite = "parentPackage")]    
@@ -32,6 +26,12 @@ namespace FAMIX
     
     [FameProperty(Name = "numberOfClientPackages")]    
     public int numberOfClientPackages { get; set; }
+    
+    [FameProperty(Name = "numberOfLinesOfCode")]    
+    public int numberOfLinesOfCode { get; set; }
+    
+    [FameProperty(Name = "numberOfMethods")]    
+    public int numberOfMethods { get; set; }
     
   }
 }

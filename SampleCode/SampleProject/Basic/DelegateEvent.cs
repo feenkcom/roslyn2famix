@@ -4,34 +4,6 @@ using System.Threading;
 //https://www.akadia.com/services/dotnet_delegates_and_events.html
 namespace SecondChangeEvent
 {
-    public class EventDelegateClass
-    {
-        public delegate void MyDelegate();
-        public event MyDelegate MyEvent;
-
-        public void MyDelegateHandler() { }
-
-        void StepOne()
-        {
-            StepTwo(MyDelegateHandler);
-        }
-
-        private void StepTwo(Action myDelegateHandler)
-        {
-            StepThree(new object[] { myDelegateHandler });
-        }
-
-        void StepThree(object[] args)
-        {
-            MyEvent = MyDelegateHandler;
-        }
-
-        void Trigger()
-        {
-            MyEvent();
-        }
-    }
-
 
     /* ======================= Event Publisher =============================== */
 
@@ -76,7 +48,7 @@ namespace SecondChangeEvent
         }
 
         // The event we publish
-        public event SecondChangeHandler SecondChange;
+        public event SecondChangeHandler SecondChange
 
         // The method which fires the Event
         protected void OnSecondChange(

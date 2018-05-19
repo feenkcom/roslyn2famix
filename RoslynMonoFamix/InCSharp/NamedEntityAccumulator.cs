@@ -30,6 +30,7 @@ namespace RoslynMonoFamix.InCSharp
             }
             catch (ArgumentException e)
             {
+                Console.WriteLine(qualifiedName);
                 Console.WriteLine(e);
             } 
             return entity;

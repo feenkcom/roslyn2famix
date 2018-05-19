@@ -189,6 +189,7 @@
     <Compile Include="PropertiesTest.cs" />
     <Compile Include="FanoutTest.cs" />
     <Compile Include="ExpressionBodyTest.cs" />
+    <Compile Include="EventDelegateClassTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

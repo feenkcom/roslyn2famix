@@ -87,42 +87,49 @@ namespace RoslynMonoFamix.InCSharp
             subClass.AddSuperInheritance(inheritance);
         }
 
-        private String FullMethodName(IMethodSymbol method)
+        private Tuple<String,String> FullMethodName(ISymbol method)
         {
-            var parameters = "(";
-            foreach (var par in method.Parameters)
-                parameters += par.Type.Name + ",";
-            if (parameters.LastIndexOf(",") > 0)
-                parameters = parameters.Substring(0, parameters.Length - 1);
-            parameters += ")";
+            var parameters = "";
+            if (method is IMethodSymbol)
+            {
+                parameters += "(";
+                foreach (var par in (method as IMethodSymbol).Parameters)
+                    parameters += par.Type.Name + ",";
+                if (parameters.LastIndexOf(",") > 0)
+                    parameters = parameters.Substring(0, parameters.Length - 1);
+                parameters += ")";
+            }
             var fullClassName = "";
             if (method.ContainingType != null)
             {
                 fullClassName = FullTypeName(method.ContainingType);
             }
 
-            return fullClassName + "." + method.Name + parameters;
+            return Tuple.Create(fullClassName + "." + method.Name + parameters, method.Name + parameters);
         }
-
 
         public NamedEntityAccumulator<Method> Methods { get; set; }
         public NamedEntityAccumulator<FAMIX.StructuralEntity> Attributes { get; set; }
 
-        public Method EnsureMethod( IMethodSymbol aMethod)
+        public Method EnsureMethod(ISymbol aMethod)
         {
-            String methodFullName = FullMethodName(aMethod);
-            if (Methods.has(methodFullName))
-                return Methods.Named(methodFullName);
+            var methodFullName = FullMethodName(aMethod);
+            if (Methods.has(methodFullName.Item1))
+                return Methods.Named(methodFullName.Item1);
 
             Method method = null;
-            if (aMethod.MethodKind == MethodKind.PropertyGet || aMethod.MethodKind == MethodKind.PropertySet)
+            if (aMethod is IMethodSymbol && ((aMethod as IMethodSymbol).MethodKind == MethodKind.PropertyGet || (aMethod as IMethodSymbol).MethodKind == MethodKind.PropertySet))
                 method = repository.New<CSharp.CSharpPropertyAccessor>(typeof(CSharp.CSharpPropertyAccessor).FullName);
-             else
-                method = repository.New<Method>(typeof(FAMIX.Method).FullName);
+            else 
+                if (aMethod is IEventSymbol)
+                    method = repository.New<CSharp.CSharpEvent>(typeof(CSharp.CSharpEvent).FullName);
+                else
+                    method = repository.New<Method>(typeof(FAMIX.Method).FullName);
 
             method.isStub = true;
             method.name = aMethod.Name;
-            Methods.Add(methodFullName, method);
+            method.signature = methodFullName.Item2;
+            Methods.Add(methodFullName.Item1, method);
             return method;
         }
 
@@ -228,7 +235,7 @@ namespace RoslynMonoFamix.InCSharp
             return result;
         }
 
-        public FAMIX.StructuralEntity EnsureAttribute (ISymbol field) 
+        public FAMIX.NamedEntity EnsureAttribute (ISymbol field) 
         {
             String attributeFullName = FullFieldName(field);
             if (Attributes.has(attributeFullName))
@@ -236,10 +243,13 @@ namespace RoslynMonoFamix.InCSharp
 
             string attributeKind = ResolveAttritbuteTypeName(field);
 
-            var attribute = repository.New<FAMIX.StructuralEntity>(attributeKind);
+            var attribute = repository.New<FAMIX.NamedEntity>(attributeKind);
             attribute.isStub = true;
             attribute.name = field.Name;
-            Attributes.Add(attributeFullName, attribute);
+            if (attribute is StructuralEntity)
+                Attributes.Add(attributeFullName, attribute as StructuralEntity);
+            else
+                Methods.Add(attributeFullName, attribute as CSharpEvent);
             return attribute;
         }
 
@@ -251,6 +261,8 @@ namespace RoslynMonoFamix.InCSharp
                if ( ResolveFAMIXTypeName(field.ContainingType).Equals(typeof(FAMIX.AnnotationType)))
                     return typeof(FAMIX.AnnotationTypeAttribute).FullName;
             }
+            if (field is IEventSymbol)
+                return typeof(CSharp.CSharpEvent).FullName;
             if (field is IPropertySymbol)
                 return typeof(CSharp.CSharpProperty).FullName;
             return typeof(FAMIX.Attribute).FullName;

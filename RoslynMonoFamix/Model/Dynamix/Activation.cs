@@ -24,14 +24,14 @@ namespace Dynamix
       arguments.Add(one);
     }
     
-    [FameProperty(Name = "return",  Opposite = "activationsWithReturn")]    
-    public Dynamix.Reference _return { get; set; }
-    
     [FameProperty(Name = "behaviour",  Opposite = "activations")]    
     public FAMIX.BehaviouralEntity behaviour { get; set; }
     
     [FameProperty(Name = "receiver",  Opposite = "activationsWithReceiver")]    
     public Dynamix.Reference receiver { get; set; }
+    
+    [FameProperty(Name = "return",  Opposite = "activationsWithReturn")]    
+    public Dynamix.Reference _return { get; set; }
     
   }
 }

@@ -11,6 +11,9 @@ namespace FAMIX
   [FameDescription("StructuralEntity")]
   public class StructuralEntity : FAMIX.LeafEntity
   {
+    [FameProperty(Name = "declaredType",  Opposite = "structuresWithDeclaredType")]    
+    public FAMIX.Type declaredType { get; set; }
+    
     private List<FAMIX.Access> incomingAccesses = new List<FAMIX.Access>();
     
     [FameProperty(Name = "incomingAccesses",  Opposite = "variable")]    
@@ -23,9 +26,6 @@ namespace FAMIX
     {
       incomingAccesses.Add(one);
     }
-    
-    [FameProperty(Name = "declaredType",  Opposite = "structuresWithDeclaredType")]    
-    public FAMIX.Type declaredType { get; set; }
     
   }
 }

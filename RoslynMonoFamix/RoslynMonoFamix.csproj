@@ -219,6 +219,7 @@
     <Compile Include="InCSharp\InCSharpImporter.cs" />
     <Compile Include="InCSharp\NamedEntityAccumulator.cs" />
     <Compile Include="ASTVisitor.cs" />
+    <Compile Include="Model\CSharp\CSharpEvent.cs" />
     <Compile Include="Model\CSharp\CSharpProperty.cs" />
     <Compile Include="Model\CSharp\CSharpPropertyAccessor.cs" />
     <Compile Include="Model\CSharp\CSharpStruct.cs" />

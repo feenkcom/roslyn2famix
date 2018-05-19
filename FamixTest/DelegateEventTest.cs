@@ -10,10 +10,10 @@ namespace FamixTest
         public void DelegateIngested() => Assert.IsNotNull(importer.Types.Named("SecondChangeEvent.Clock.SecondChangeHandler"));
 
         [TestMethod]
-        public void EventIngested() => Assert.IsNotNull(importer.Attributes.Named("SecondChangeEvent.Clock.SecondChange"));
+        public void EventIngested() => Assert.IsNotNull(importer.Methods.Named("SecondChangeEvent.Clock.SecondChange"));
 
         [TestMethod]
-        public void EventAsPropertyIngested() => Assert.IsNotNull(importer.Attributes.Named("SecondChangeEvent.Clock.ThirdChange"));
+        public void EventAsPropertyIngested() => Assert.IsNotNull(importer.Methods.Named("SecondChangeEvent.Clock.ThirdChange"));
 
     }
 }

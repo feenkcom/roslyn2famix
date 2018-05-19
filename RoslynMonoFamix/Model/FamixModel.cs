@@ -15,6 +15,7 @@ namespace Model
             metaRepo.With(typeof(ContainerEntity));
             metaRepo.With(typeof(NamedEntity));
             metaRepo.With(typeof(Attribute));
+            metaRepo.With(typeof(CSharp.CSharpEvent));
             metaRepo.With(typeof(BehaviouralEntity));
             metaRepo.With(typeof(Class));
             metaRepo.With(typeof(Method));
