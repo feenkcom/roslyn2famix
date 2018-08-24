@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SampleProject.Basic
 {
-    class Exceptions : Exception
+    class Exceptions<T> : Exception
     {
         private void Method()
         {
@@ -14,10 +14,10 @@ namespace SampleProject.Basic
             {
                 //something something
             }
-            catch (Exceptions e)
+            catch (Exceptions<T> e)
             {
-                throw this;
-                throw new DivideByZeroException();
+                throw new Exceptions<String>();
+                throw new DivideByZeroException(); 
             }
         }
     }

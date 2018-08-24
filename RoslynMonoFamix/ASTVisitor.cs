@@ -387,10 +387,12 @@ public class ASTVisitor : CSharpSyntaxWalker
         {
             var symbolInfo = semanticModel.GetTypeInfo(node.Expression).Type;
         
-            var exceptionClass = (FAMIX.Class)importer.EnsureType(symbolInfo, typeof(FAMIX.Class));
+            var exceptionClass = importer.EnsureType(symbolInfo, typeof(FAMIX.Class));
+            if (exceptionClass is FAMIX.ParameterizedType)
+                exceptionClass = ((ParameterizedType)exceptionClass).parameterizableClass;
             FAMIX.ThrownException thrownException = importer.New<FAMIX.ThrownException>();
             thrownException.definingMethod = currentMethod;
-            thrownException.exceptionClass = exceptionClass;
+            thrownException.exceptionClass = (FAMIX.Class)exceptionClass;
         }
         base.VisitThrowStatement(node);
     }

@@ -12,7 +12,7 @@ namespace FamixTest
         {
             var allCaughtExceptions = importer.AllElementsOfType<FAMIX.CaughtException>();
             Assert.AreEqual("Method", allCaughtExceptions.First<FAMIX.CaughtException>().definingMethod.name);
-            Assert.AreEqual("Exceptions", allCaughtExceptions.First<FAMIX.CaughtException>().exceptionClass.name);
+            Assert.AreEqual("Exceptions<T>", allCaughtExceptions.First<FAMIX.CaughtException>().exceptionClass.name);
         }
     }
   
