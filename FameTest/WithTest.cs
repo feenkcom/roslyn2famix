@@ -53,7 +53,7 @@ namespace FameTest
 			Assert.IsNotNull(leDragon);
 			Assert.IsNotNull(deltaHoard);
 			
-			t.model.ExportMSEFile("C:/Users/george/out.mse");
+			t.model.ExportMSEFile("LeDragonTest-out.mse");
 		}
 	}
 }
