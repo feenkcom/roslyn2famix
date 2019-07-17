@@ -44,7 +44,7 @@ namespace RoslynMonoFamix.InCSharp
             if (Types.has(fullName))
                 return Types.Named(fullName);
 
-            FAMIX.Type binaryType = EnsureType(superType.OriginalDefinition);
+            FAMIX.Type binaryType = EnsureType(superType.OriginalDefinition, typeof(FAMIX.Class));
             var members = superType.GetMembers();
             foreach (var member in members)
             {
@@ -163,7 +163,7 @@ namespace RoslynMonoFamix.InCSharp
             return newNs;
         }
 
-        public FAMIX.Type EnsureType(ISymbol aType)
+        public FAMIX.Type EnsureType(ISymbol aType, System.Type defaultType)
         {
 
             string fullName = FullTypeName(aType);
@@ -171,7 +171,7 @@ namespace RoslynMonoFamix.InCSharp
             if (Types.has(fullName))
                 return Types.Named(fullName);
 
-            string typeKind = ResolveFAMIXTypeName(aType).FullName;
+            string typeKind = ResolveFAMIXTypeName(aType, defaultType).FullName;
 
             FAMIX.Type type = repository.New<FAMIX.Type>(typeKind);
             type.isStub = true;
@@ -180,14 +180,14 @@ namespace RoslynMonoFamix.InCSharp
 
             if (typeKind.Equals(typeof(FAMIX.ParameterizedType).FullName))
             {
-                var parameterizedClass = EnsureType(aType.OriginalDefinition);
+                var parameterizedClass = EnsureType(aType.OriginalDefinition, defaultType);
                 (type as FAMIX.ParameterizedType).parameterizableClass = parameterizedClass as FAMIX.ParameterizableClass;
             }
 
             type.name = TypeName(aType);
             if (aType.ContainingType != null)
             {
-                var containingType = EnsureType(aType.ContainingType);
+                var containingType = EnsureType(aType.ContainingType, defaultType);
                 type.container = containingType;
             }
             else
@@ -200,9 +200,9 @@ namespace RoslynMonoFamix.InCSharp
             return type;
         }
 
-        private System.Type ResolveFAMIXTypeName(ISymbol aType)
+        private System.Type ResolveFAMIXTypeName(ISymbol aType, System.Type defaultType)
         {
-            System.Type result = typeof(FAMIX.Class);
+            System.Type result = defaultType;
             if (aType is ITypeSymbol) typeNameMap.TryGetValue(((ITypeSymbol)aType).TypeKind.ToString(), out result);
             if (aType is INamedTypeSymbol)
             {
@@ -211,6 +211,8 @@ namespace RoslynMonoFamix.InCSharp
                 {
                     if (superType.Name.Equals("Attribute") && superType.ContainingNamespace.Name.Equals("System"))
                         return typeof(FAMIX.AnnotationType);
+                    if (superType.Name.Equals("Enum") && superType.ContainingNamespace.Name.Equals("System"))
+                        return typeof(FAMIX.Enum);
                     superType = superType.BaseType;
                 }
                    
@@ -223,14 +225,14 @@ namespace RoslynMonoFamix.InCSharp
                 }
             }
             if (aType is IArrayTypeSymbol)
-                return ResolveFAMIXTypeName((aType as IArrayTypeSymbol).ElementType);
+                return ResolveFAMIXTypeName((aType as IArrayTypeSymbol).ElementType, defaultType);
             if (aType is IPointerTypeSymbol)
-                return ResolveFAMIXTypeName((aType as IPointerTypeSymbol).PointedAtType);
+                return ResolveFAMIXTypeName((aType as IPointerTypeSymbol).PointedAtType, defaultType);
             if (result == null)
             {
                 Console.WriteLine("Could not resolve type for  " + aType);
                 if (aType.ContainingAssembly != null) Console.WriteLine("Containing Assembly " + aType.ContainingAssembly);
-                result = typeof(FAMIX.Class);
+                result = defaultType;
             }
             return result;
         }
@@ -256,9 +258,9 @@ namespace RoslynMonoFamix.InCSharp
         private string ResolveAttritbuteTypeName(ISymbol field)
         {
             if (field.ContainingType != null) {
-                if (ResolveFAMIXTypeName(field.ContainingType).Equals(typeof(FAMIX.Enum)))
+                if (ResolveFAMIXTypeName(field.ContainingType, typeof(FAMIX.Class)).Equals(typeof(FAMIX.Enum)))
                     return typeof(FAMIX.EnumValue).FullName;
-               if ( ResolveFAMIXTypeName(field.ContainingType).Equals(typeof(FAMIX.AnnotationType)))
+               if ( ResolveFAMIXTypeName(field.ContainingType, typeof(FAMIX.Class)).Equals(typeof(FAMIX.AnnotationType)))
                     return typeof(FAMIX.AnnotationTypeAttribute).FullName;
             }
             if (field is IEventSymbol)
@@ -303,6 +305,7 @@ namespace RoslynMonoFamix.InCSharp
             sourcedEntity.sourceAnchor = fileAnchor;
             repository.Add(fileAnchor);
         }
+
         public void CreateSourceAnchor(FAMIX.Type sourcedEntity, ClassDeclarationSyntax node)
         {
             var lineSpan = node.SyntaxTree.GetLineSpan(node.Span);

@@ -26,7 +26,7 @@ namespace RoslynMonoFamix
             {
                 ValidateArgs(args);//validates arguments
                 string path = Assembly.GetAssembly(typeof(MainClass)).Location;
-                Console.WriteLine("--->>>" + path);
+                Console.WriteLine("Current executable location" + path);
                 path = path.Replace("RoslynMonoFamix.exe", "");
                 string solutionPath = args[0];
 
