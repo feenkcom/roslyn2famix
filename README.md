@@ -7,7 +7,7 @@ It takes a C# `.sln` file as input and produces an `.mse` file that can be impor
 Usage example:
 
 ```
-RoslynMonoFamix.exe .\github\CSharpSolution\CSharpSolution.sln CSharpSolution.mse
+RoslynMonoFamix.exe .\github\CSharpSolution\CSharpSolution.sln CSharpSolution.mse <Visual Studio instance (index)>
 ```
 
 It is based on the new Roslyn compiler platform from Microsoft. So far, it has only been known to work on Windows even though it can be compiled using the Mac OS X version of Visual Studio.
