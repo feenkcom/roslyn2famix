@@ -2,7 +2,7 @@
 
 roslyn2famix is the C# equivalent of https://github.com/feenkcom/jdt2famix
 
-It takes a C# `.sln` file as input and produces an `.mse` file that can be imported into [https://github.com/feenkcom/gtoolkit](Glamorous Toolkit]).
+It takes a C# `.sln` file as input and produces an `.mse` file that can be imported into [Glamorous Toolkit](https://github.com/feenkcom/gtoolkit).
 
 ## Download, install and run
  Download the latest msi installer from [https://github.com/feenkcom/roslyn2famix/releases/latest](https://github.com/feenkcom/roslyn2famix/releases/latest).
