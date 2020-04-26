@@ -1,6 +1,6 @@
 # roslyn2famix
 
-roslyn2famix is the C# equivalent of https://github.com/feenkcom/jdt2famix
+roslyn2famix is the C# equivalent of https://github.com/feenkcom/jdt2famix.
 
 It takes a C# `.sln` file as input and produces an `.mse` file that can be imported into [Glamorous Toolkit](https://github.com/feenkcom/gtoolkit).
 
