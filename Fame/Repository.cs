@@ -92,6 +92,7 @@ namespace Fame
 								}
 								catch (ClassNotMetadescribedException e)
 								{
+                                    Console.WriteLine(e);
 									throw new ElementInPropertyNotMetadescribed(property);
 								}
 							}

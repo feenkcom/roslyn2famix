@@ -229,7 +229,6 @@
 
 	public class ReadingPropertyFailed : AssertionError
 	{
-		private static readonly long serialVersionUID = 6381545746042993261L;
 		public PropertyDescription Property;
 		public object Object;
 
@@ -250,8 +249,7 @@
 	}
 
 	public class NoAccessorException : Exception
-	{
-		private static readonly long serialVersionUID = -2828241533257508153L;
+    { 
 
 		public PropertyDescription Outer()
 		{

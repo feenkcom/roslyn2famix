@@ -12,12 +12,12 @@ namespace FAMIX
   public class AnnotationType : FAMIX.Type
   {
     [FameProperty(Name = "container",  Opposite = "definedAnnotationTypes")]    
-    public FAMIX.ContainerEntity container { get; set; }
+    public new FAMIX.ContainerEntity container { get; set; }
     
     private List<FAMIX.AnnotationInstance> instances = new List<FAMIX.AnnotationInstance>();
     
     [FameProperty(Name = "instances",  Opposite = "annotationType")]    
-    public List <FAMIX.AnnotationInstance> Instances
+    public new List <FAMIX.AnnotationInstance> Instances
     {
       get { return instances; }
       set { instances = value; }
