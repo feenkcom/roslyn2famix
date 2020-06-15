@@ -14,6 +14,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -28,7 +29,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -317,6 +317,7 @@
     <Compile Include="Model\FAMIX\BehaviouralEntity.cs" />
     <Compile Include="Model\FAMIX\CaughtException.cs" />
     <Compile Include="Model\FAMIX\CFile.cs" />
+    <Compile Include="Model\FAMIX\VBModule.cs" />
     <Compile Include="Model\FAMIX\Class.cs" />
     <Compile Include="Model\FAMIX\ClassGroup.cs" />
     <Compile Include="Model\FAMIX\Comment.cs" />
@@ -390,6 +391,7 @@
     <Compile Include="Model\Moose\Model.cs" />
     <Compile Include="Model\Moose\PropertyGroup.cs" />
     <Compile Include="MainClass.cs" />
+    <Compile Include="VB\VBASTVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

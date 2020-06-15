@@ -15,7 +15,7 @@ namespace FAMIX
     public FAMIX.ContainerEntity container { get; set; }
     
     [FameProperty(Name = "parentModule")]    
-    public FAMIX.Module parentModule { get; set; }
+    public FAMIX.VBModule parentModule { get; set; }
     
   }
 }

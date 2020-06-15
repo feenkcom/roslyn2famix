@@ -17,6 +17,7 @@ namespace RoslynMonoFamix.InCSharp
         private Dictionary<string, System.Type> typeNameMap = new Dictionary<string, System.Type>()
             {
                 { "Struct", typeof(CSharp.CSharpStruct) },
+                { "Module", typeof(FAMIX.VBModule) },
                 { "Class", typeof(FAMIX.Class) },
                 { "Interface", typeof(FAMIX.Class) },
                 { "Delegate", typeof(CSharp.Delegate) },

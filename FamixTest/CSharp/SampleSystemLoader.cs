@@ -4,7 +4,7 @@ using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
 using System.IO;
-using RoslynMonoFamix;
+using RoslynMonoFamix.VB;
 
 using Fame;
 using Model;
@@ -39,14 +39,28 @@ namespace FamixTest
 				foreach (var document in project.Documents)
 				{
 					var targetFile = this.GetType().Name.Replace("Test", ".cs");
-                    targetFile.Replace("2.cs", "1.cs");
-                    if (document.SupportsSyntaxTree && document.FilePath.Replace("2.cs", "1.cs").EndsWith(targetFile))
+					targetFile = targetFile.Replace("VB.cs", ".vb");
+					targetFile.Replace("2.cs", "1.cs");
+					targetFile.Replace("2.vb", "1.vb");
+
+					if (document.SupportsSyntaxTree && (document.FilePath.Replace("2.cs", "1.cs").EndsWith(targetFile) || document.FilePath.Replace("2.vb", "1.vb").EndsWith(targetFile) ))
 					{
 						var syntaxTree = document.GetSyntaxTreeAsync().Result;
 						var compilationAsync = project.GetCompilationAsync().Result;
 						var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);
-                        var visitor = new ASTVisitor(semanticModel, importer);
-						visitor.Visit(syntaxTree.GetRoot());
+
+
+						if (document.FilePath.EndsWith(".vb"))
+						{
+							var visitor = new VBASTVisitor(semanticModel, importer);
+							visitor.Visit(syntaxTree.GetRoot());
+						}
+						else
+						{
+							var visitor = new ASTVisitor(semanticModel, importer);
+							visitor.Visit(syntaxTree.GetRoot());
+						}
+						
                         fileWasFound = true;
 					}
 				}
@@ -54,6 +68,5 @@ namespace FamixTest
             if (!fileWasFound) throw new Exception("File was not found!");
 			metamodel.ExportMSEFile("SampleCode.mse");
 		}
-
 	}
 }

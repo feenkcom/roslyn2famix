@@ -12,7 +12,7 @@ namespace FAMIX
   public class GlobalVariable : FAMIX.StructuralEntity
   {
     [FameProperty(Name = "parentModule")]    
-    public FAMIX.Module parentModule { get; set; }
+    public FAMIX.VBModule parentModule { get; set; }
     
     [FameProperty(Name = "parentScope",  Opposite = "globalVariables")]    
     public FAMIX.ScopingEntity parentScope { get; set; }

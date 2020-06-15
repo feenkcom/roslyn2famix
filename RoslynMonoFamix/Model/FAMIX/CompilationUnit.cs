@@ -12,7 +12,7 @@ namespace FAMIX
   public class CompilationUnit : FAMIX.CFile
   {
     [FameProperty(Name = "module",  Opposite = "compilationUnit")]    
-    public FAMIX.Module module { get; set; }
+    public FAMIX.VBModule module { get; set; }
     
   }
 }

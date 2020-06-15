@@ -10,6 +10,8 @@ using Model;
 using System.Text;
 
 using FAMIX;
+using Microsoft.Isam.Esent.Interop;
+using RoslynMonoFamix.VB;
 
 namespace RoslynMonoFamix
 {
@@ -49,10 +51,12 @@ namespace RoslynMonoFamix
             var importer = new InCSharp.InCSharpImporter(metamodel, ignoreFolder);
             var documents = new List<Document>();
 
+            
+
             for (int i = 0; i < solution.Projects.Count<Project>(); i++)
             {
                 var project = solution.Projects.ElementAt<Project>(i);
-                    
+
                     for (int j = 0; j < project.Documents.Count<Document>(); j++)
                 {
                     var document = project.Documents.ElementAt<Document>(j);
@@ -62,11 +66,26 @@ namespace RoslynMonoFamix
                         System.Console.WriteLine("(document " + (j + 1) + " / " + project.Documents.Count<Document>() + " " + document.FilePath + ")");
                         var syntaxTree = document.GetSyntaxTreeAsync().Result;
 
-
                         var compilationAsync = project.GetCompilationAsync().Result;
                         var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);
-                        var visitor = new ASTVisitor(semanticModel, importer);
-                        visitor.Visit(syntaxTree.GetRoot());
+
+                        
+                        //Console.WriteLine(""+compilationAsync.SyntaxTrees.FirstOrDefault.ToString());
+
+                            
+                        semanticModel.ToString();
+
+                        
+                        if (semanticModel.Language == "C#")
+                        {
+                            var visitor = new ASTVisitor(semanticModel, importer);
+                            visitor.Visit(syntaxTree.GetRoot());
+                        }
+                        else 
+                        {
+                             var visitor = new VBASTVisitor(semanticModel, importer);
+                             visitor.Visit(syntaxTree.GetRoot());
+                        }
                     }
                 }
             }
