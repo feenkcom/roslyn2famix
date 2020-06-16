@@ -263,6 +263,7 @@
     <Compile Include="VisualBasic\SubroutineVBTest.cs" />
     <Compile Include="VisualBasic\FunctionInModuleVBTest.cs" />
     <Compile Include="VisualBasic\Module1VBTest.cs" />
+    <Compile Include="VisualBasic\MethodCallsVBTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

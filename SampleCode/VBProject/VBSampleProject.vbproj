@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FunctionInModule.vb" />
+    <Compile Include="MethodCalls.vb" />
     <Compile Include="Module1.vb" />
     <Compile Include="Subroutine.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

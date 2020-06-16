@@ -237,7 +237,7 @@ public class ASTVisitor : CSharpSyntaxWalker
         base.VisitAccessorDeclaration(node);
     }
 
-    
+
     public override void VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
         string methodName = node.Identifier.ToString();
