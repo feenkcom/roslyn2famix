@@ -66,7 +66,9 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class1.vb" />
     <Compile Include="FunctionInModule.vb" />
+    <Compile Include="Interface1.vb" />
     <Compile Include="MethodCalls.vb" />
     <Compile Include="Module1.vb" />
     <Compile Include="Subroutine.vb" />

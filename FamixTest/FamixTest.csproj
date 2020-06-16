@@ -43,9 +43,6 @@
     <CodeAnalysisRuleSet />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Esent.Interop, Version=1.9.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ManagedEsent.2.0.0\lib\netstandard2.0\Esent.Interop.dll</HintPath>
-    </Reference>
     <Reference Include="Humanizer, Version=2.8.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
       <HintPath>..\packages\Humanizer.Core.2.8.26\lib\netstandard2.0\Humanizer.dll</HintPath>
     </Reference>
@@ -260,6 +257,8 @@
     <Compile Include="CSharp\FanoutTest.cs" />
     <Compile Include="CSharp\ExpressionBodyTest.cs" />
     <Compile Include="CSharp\EventDelegateClassTest.cs" />
+    <Compile Include="VisualBasic\Interface1VBTest.cs" />
+    <Compile Include="VisualBasic\Class1VBTest.cs" />
     <Compile Include="VisualBasic\SubroutineVBTest.cs" />
     <Compile Include="VisualBasic\FunctionInModuleVBTest.cs" />
     <Compile Include="VisualBasic\Module1VBTest.cs" />
