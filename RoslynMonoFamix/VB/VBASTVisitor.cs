@@ -186,6 +186,5 @@ namespace RoslynMonoFamix.VB
                 return importer.EnsureAttribute(symbol);
             return null;
         }
-
     }
 }
