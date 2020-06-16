@@ -50,12 +50,15 @@ namespace RoslynMonoFamix.VB
             aMethod.name = name;
             aMethod.parentType = importer.EnsureType(methodSymbol.ContainingType, typeof(FAMIX.Class));
             aMethod.parentType.AddMethod(aMethod);
-                         
+
+            methodSymbol.Parameters.ToList<IParameterSymbol>().ForEach(parameter => aMethod.Parameters.Add(importer.CreateParameter(parameter)));
+
             var returnType = importer.EnsureType(methodSymbol.ReturnType, typeof(FAMIX.Class));
             aMethod.declaredType = returnType;
             importer.CreateSourceAnchor(aMethod, node);
             aMethod.isStub = false;
             return aMethod;
         }
+
     }
 }

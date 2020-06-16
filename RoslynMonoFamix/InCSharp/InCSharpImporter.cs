@@ -244,7 +244,7 @@ namespace RoslynMonoFamix.InCSharp
             if (Attributes.has(attributeFullName))
                 return Attributes.Named(attributeFullName);
 
-            string attributeKind = ResolveAttritbuteTypeName(field);
+            string attributeKind = ResolveAttributeTypeName(field);
 
             var attribute = repository.New<FAMIX.NamedEntity>(attributeKind);
             attribute.isStub = true;
@@ -256,7 +256,15 @@ namespace RoslynMonoFamix.InCSharp
             return attribute;
         }
 
-        private string ResolveAttritbuteTypeName(ISymbol field)
+        public FAMIX.Parameter CreateParameter(IParameterSymbol parameterSymbol)
+        {
+            var parameter = repository.New<FAMIX.Parameter>(typeof(FAMIX.Parameter).FullName);
+            parameter.name = parameterSymbol.Name;
+            parameter.declaredType = EnsureType(parameterSymbol.Type, typeof(FAMIX.Class));
+            return parameter;
+        }
+
+        private string ResolveAttributeTypeName(ISymbol field)
         {
             if (field.ContainingType != null) {
                 if (ResolveFAMIXTypeName(field.ContainingType, typeof(FAMIX.Class)).Equals(typeof(FAMIX.Enum)))
