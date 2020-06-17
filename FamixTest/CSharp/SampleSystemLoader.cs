@@ -61,13 +61,18 @@ namespace FamixTest
 							var printer = new VBPrettyPrinter();
 							visitor.Visit(syntaxTree.GetRoot());
 							printer.Visit(syntaxTree.GetRoot());
+							Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+							// WriteAllText creates a file, writes the specified string to the file,
+							// and then closes the file.    You do NOT need to call Flush() or Close().
+							System.IO.File.WriteAllText(@targetFile+".txt", printer.PrettyText);
+
+							System.Console.WriteLine(printer.PrettyText);
 						}
 						else
 						{
 							var visitor = new ASTVisitor(semanticModel, importer);
 							visitor.Visit(syntaxTree.GetRoot());
 						}
-						
                         fileWasFound = true;
 					}
 				}
