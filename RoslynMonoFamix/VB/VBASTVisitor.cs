@@ -10,7 +10,6 @@ using FAMIX;
 using RoslynMonoFamix.InCSharp;
 using CSharp;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
-using Type = FAMIX.Type;
 
 namespace RoslynMonoFamix.VB
 {
@@ -18,6 +17,8 @@ namespace RoslynMonoFamix.VB
     {
         private SemanticModel semanticModel;
         private InCSharpImporter importer;
+        private Method currentMethod;
+        private System.Collections.Stack currentTypeStack;
 
         public SemanticModel SemanticModel { get => semanticModel; set => semanticModel = value; }
         public InCSharpImporter Importer { get => importer; set => importer = value; }
@@ -26,6 +27,7 @@ namespace RoslynMonoFamix.VB
         {
             this.semanticModel = semanticModel;
             this.importer = importer;
+            currentTypeStack = new System.Collections.Stack();
         }
 
         public override void VisitModuleStatement(ModuleStatementSyntax node)
@@ -36,13 +38,6 @@ namespace RoslynMonoFamix.VB
         }
 
         public override void VisitClassStatement(ClassStatementSyntax node)
-        {
-            base.VisitClassStatement(node);
-            string className = node.Identifier.ToString();
-            AddClass(node, className);
-        }
-
-        private Type AddClass(ClassStatementSyntax node, string name)
         {
             var typeSymbol = semanticModel.GetDeclaredSymbol(node);
 
@@ -64,14 +59,19 @@ namespace RoslynMonoFamix.VB
                 type.AddSuperInheritance(inheritance);
             }
 
-            type.name = node.Identifier.ToString();
             AddSuperInterfaces(typeSymbol, type);
+            //AddAnnotations(typeSymbol, type);
+            //AddParameterTypes(typeSymbol, type);
+            currentTypeStack.Push(type);
             importer.CreateSourceAnchor(type, node);
             type.isStub = false;
             if (type.container != null)
                 type.container.isStub = false;
-            return type;
+            //ComputeFanout(currentTypeStack.Peek() as FAMIX.Type);
+           
+            base.VisitClassStatement(node);
         }
+
         private void AddSuperInterfaces(INamedTypeSymbol typeSymbol, FAMIX.Type type)
         {
             foreach (var inter in typeSymbol.Interfaces)
@@ -86,12 +86,45 @@ namespace RoslynMonoFamix.VB
             }
         }
 
+        public override void VisitInterfaceStatement(InterfaceStatementSyntax node)
+        {
+            var typeSymbol = semanticModel.GetDeclaredSymbol(node);
+            FAMIX.Class type = (FAMIX.Class) importer.EnsureType(typeSymbol, typeof(FAMIX.Class));
+            type.isInterface = true;
+            AddSuperInterfaces(typeSymbol, type);
+            currentTypeStack.Push(type);
+            importer.CreateSourceAnchor(type, node);
+            type.isStub = false;
+            base.VisitInterfaceStatement(node);
+        }
+
+        public override void VisitInterfaceBlock(InterfaceBlockSyntax node)
+        {
+            base.VisitInterfaceBlock(node);
+            currentTypeStack.Pop();
+        }
+
+        public override void VisitClassBlock(ClassBlockSyntax node)
+        {
+            base.VisitClassBlock(node);
+            currentTypeStack.Pop();
+        }
+
         public override void VisitMethodStatement(MethodStatementSyntax node)
         {
             //a MethodStatementSyntax is either a Function or a Sub
-            base.VisitMethodStatement(node);
             string methodName = node.Identifier.ToString();
             AddMethod(node, methodName);
+            base.VisitMethodStatement(node);
+        }
+
+        public override void VisitMethodBlock(MethodBlockSyntax node)
+        {
+            //AddMethod called from VisitMethodStatement sets currentMethod
+            //we later use the currentMethod set above for calls and accesses
+            base.VisitMethodBlock(node);
+            //Set it back to null just to be on the safe side
+            currentMethod = null;
         }
 
         private Method AddMethod(MethodStatementSyntax node, string name)
@@ -109,8 +142,49 @@ namespace RoslynMonoFamix.VB
             aMethod.declaredType = returnType;
             importer.CreateSourceAnchor(aMethod, node);
             aMethod.isStub = false;
+            currentMethod = aMethod;
             return aMethod;
         }
 
+        public override void VisitInvocationExpression(InvocationExpressionSyntax node)
+        {
+            try
+            {
+                if (currentMethod != null)
+                {
+                    FAMIX.NamedEntity referencedEntity = FindReferencedEntity(node.Expression);
+                    if (referencedEntity is FAMIX.Method)
+                        AddMethodCall(node, currentMethod, referencedEntity as FAMIX.Method);
+                }
+            }
+            catch (InvalidCastException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            base.VisitInvocationExpression(node);
+        }
+
+        private void AddMethodCall(SyntaxNode node, Method clientMethod, Method referencedEntity)
+        {
+            Invocation invocation = importer.CreateNewAssociation<Invocation>("FAMIX.Invocation");
+            invocation.sender = clientMethod;
+            invocation.AddCandidate(referencedEntity);
+            invocation.signature = node.Span.ToString();
+            clientMethod.AddOutgoingInvocation(invocation);
+            referencedEntity.AddIncomingInvocation(invocation);
+            importer.CreateSourceAnchor(invocation, node);
+        }
+
+        private NamedEntity FindReferencedEntity(ExpressionSyntax node)
+        {
+            var symbol = semanticModel.GetSymbolInfo(node).Symbol;
+            if (symbol is IMethodSymbol || symbol is IEventSymbol)
+                return importer.EnsureMethod(symbol);
+            if (symbol is IFieldSymbol)
+                return importer.EnsureAttribute(symbol);
+            if (symbol is IPropertySymbol)
+                return importer.EnsureAttribute(symbol);
+            return null;
+        }
     }
 }

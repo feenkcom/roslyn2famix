@@ -5,9 +5,12 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
 using System.IO;
 using RoslynMonoFamix.VB;
+using Microsoft.CodeAnalysis;
 
 using Fame;
 using Model;
+using Microsoft.CodeAnalysis.Diagnostics;
+using System.Text;
 
 namespace FamixTest
 {
@@ -46,21 +49,30 @@ namespace FamixTest
 					if (document.SupportsSyntaxTree && (document.FilePath.Replace("2.cs", "1.cs").EndsWith(targetFile) || document.FilePath.Replace("2.vb", "1.vb").EndsWith(targetFile) ))
 					{
 						var syntaxTree = document.GetSyntaxTreeAsync().Result;
+						System.Console.WriteLine(syntaxTree.ToString());
 						var compilationAsync = project.GetCompilationAsync().Result;
 						var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);
 
+						var syntax = syntaxTree.GetRoot().NormalizeWhitespace().ToFullString();
 
 						if (document.FilePath.EndsWith(".vb"))
 						{
 							var visitor = new VBASTVisitor(semanticModel, importer);
+							var printer = new VBPrettyPrinter();
 							visitor.Visit(syntaxTree.GetRoot());
+							printer.Visit(syntaxTree.GetRoot());
+							Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+							// WriteAllText creates a file, writes the specified string to the file,
+							// and then closes the file.    You do NOT need to call Flush() or Close().
+							System.IO.File.WriteAllText(@targetFile+".txt", printer.PrettyText);
+
+							System.Console.WriteLine(printer.PrettyText);
 						}
 						else
 						{
 							var visitor = new ASTVisitor(semanticModel, importer);
 							visitor.Visit(syntaxTree.GetRoot());
 						}
-						
                         fileWasFound = true;
 					}
 				}

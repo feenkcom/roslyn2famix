@@ -392,6 +392,7 @@
     <Compile Include="Model\Moose\PropertyGroup.cs" />
     <Compile Include="MainClass.cs" />
     <Compile Include="VB\VBASTVisitor.cs" />
+    <Compile Include="VB\VBPrettyPrinter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
