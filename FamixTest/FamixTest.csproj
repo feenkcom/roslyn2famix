@@ -260,7 +260,7 @@
     <Compile Include="CSharp\FanoutTest.cs" />
     <Compile Include="CSharp\ExpressionBodyTest.cs" />
     <Compile Include="CSharp\EventDelegateClassTest.cs" />
-    <Compile Include="VisualBasic\ClassAndMembersVBTest - Copy.cs" />
+    <Compile Include="VisualBasic\ClassAndMembersVBTest.cs" />
     <Compile Include="VisualBasic\InheritanceVBTest.cs" />
     <Compile Include="VisualBasic\SubroutineVBTest.cs" />
     <Compile Include="VisualBasic\FunctionInModuleVBTest.cs" />
