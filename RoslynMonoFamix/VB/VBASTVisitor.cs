@@ -10,6 +10,7 @@ using FAMIX;
 using RoslynMonoFamix.InCSharp;
 using CSharp;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
+using Type = FAMIX.Type;
 
 namespace RoslynMonoFamix.VB
 {
@@ -32,6 +33,57 @@ namespace RoslynMonoFamix.VB
             base.VisitModuleStatement(node);
             var typeSymbol = semanticModel.GetDeclaredSymbol(node);
             FAMIX.Type type = importer.EnsureType(typeSymbol, typeof(FAMIX.VBModule));
+        }
+
+        public override void VisitClassStatement(ClassStatementSyntax node)
+        {
+            base.VisitClassStatement(node);
+            string className = node.Identifier.ToString();
+            AddClass(node, className);
+        }
+
+        private Type AddClass(ClassStatementSyntax node, string name)
+        {
+            var typeSymbol = semanticModel.GetDeclaredSymbol(node);
+
+            FAMIX.Type type = type = importer.EnsureType(typeSymbol, typeof(FAMIX.Class));
+            node.Modifiers.ToList<SyntaxToken>().ForEach(token => type.Modifiers.Add(token.Text));
+            var superType = typeSymbol.BaseType;
+
+            if (superType != null)
+            {
+                FAMIX.Type baseType = null;
+                if (superType.DeclaringSyntaxReferences.Length == 0)
+                    baseType = importer.EnsureBinaryType(superType);
+                else
+                    baseType = importer.EnsureType(typeSymbol.BaseType, typeof(FAMIX.Class));
+                Inheritance inheritance = importer.CreateNewAssociation<Inheritance>(typeof(FAMIX.Inheritance).FullName);
+                inheritance.subclass = type;
+                inheritance.superclass = baseType;
+                baseType.AddSubInheritance(inheritance);
+                type.AddSuperInheritance(inheritance);
+            }
+
+            type.name = node.Identifier.ToString();
+            AddSuperInterfaces(typeSymbol, type);
+            importer.CreateSourceAnchor(type, node);
+            type.isStub = false;
+            if (type.container != null)
+                type.container.isStub = false;
+            return type;
+        }
+        private void AddSuperInterfaces(INamedTypeSymbol typeSymbol, FAMIX.Type type)
+        {
+            foreach (var inter in typeSymbol.Interfaces)
+            {
+                FAMIX.Type fInterface = (FAMIX.Type)importer.EnsureType(inter, typeof(FAMIX.Class));
+                if (fInterface is FAMIX.Class) (fInterface as FAMIX.Class).isInterface = true;
+                Inheritance inheritance = importer.CreateNewAssociation<Inheritance>("FAMIX.Inheritance");
+                inheritance.subclass = type;
+                inheritance.superclass = fInterface;
+                fInterface.AddSubInheritance(inheritance);
+                type.AddSuperInheritance(inheritance);
+            }
         }
 
         public override void VisitMethodStatement(MethodStatementSyntax node)

@@ -66,8 +66,10 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Inheritance.vb" />
     <Compile Include="FunctionInModule.vb" />
     <Compile Include="Module1.vb" />
+    <Compile Include="ClassAndMembers.vb" />
     <Compile Include="Subroutine.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
