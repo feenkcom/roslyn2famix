@@ -1,4 +1,6 @@
 ﻿using System;
+using System.CommandLine;
+using System.CommandLine.Invocation;
 using System.Linq;
 using System.Reflection;
 
@@ -17,32 +19,41 @@ namespace RoslynMonoFamix
 {
     class MainClass
     {
-        static void Main(string[] args)
+
+        public static void Main(params string[] args)
+        {
+            var rootCommand = new RootCommand();
+
+            rootCommand.Add(new Option<string>("--input"));
+            rootCommand.Add(new Option<string>("--output"));
+
+            rootCommand.Handler = CommandHandler.Create<string, string>(ExportToMSE);
+
+            rootCommand.InvokeAsync(args).Wait();
+        }
+
+        private static void ExportToMSE(string input, string output)
         { 
             try
             {
-                //The code that causes the error goes here.
-           
-            ValidateArgs(args);//validates arguments
             string path = Assembly.GetAssembly(typeof(MainClass)).Location;
             Console.WriteLine("Current executable location" + path);
             path = path.Replace("RoslynMonoFamix.exe", "");
-            string solutionPath = args[0];
 
             var metamodel = FamixModel.Metamodel();
 
             var msWorkspace = MSBuildWorkspace.Create();
 
-            var solution = msWorkspace.OpenSolutionAsync(solutionPath).Result;
+            var solution = msWorkspace.OpenSolutionAsync(input).Result;
             Uri uri = null;
             try
             {
-                uri = new Uri(solutionPath); ;
+                uri = new Uri(input); ;
             }
             catch (UriFormatException e)
             {
                 var currentFolder = new Uri(Environment.CurrentDirectory + "\\");
-                uri = new Uri(currentFolder, solutionPath.Replace("\\", "/"));
+                uri = new Uri(currentFolder, input.Replace("\\", "/"));
                 Console.WriteLine(e.StackTrace);
             }
 
@@ -68,13 +79,8 @@ namespace RoslynMonoFamix
 
                         var compilationAsync = project.GetCompilationAsync().Result;
                         var semanticModel = compilationAsync.GetSemanticModel(syntaxTree);
-
-                        
-                        //Console.WriteLine(""+compilationAsync.SyntaxTrees.FirstOrDefault.ToString());
-
                             
                         semanticModel.ToString();
-
                         
                         if (semanticModel.Language == "C#")
                         {
@@ -90,7 +96,7 @@ namespace RoslynMonoFamix
                 }
             }
 
-            metamodel.ExportMSEFile(args[1]);
+            metamodel.ExportMSEFile(output);
 
             }
             catch (ReflectionTypeLoadException ex)
@@ -114,13 +120,6 @@ namespace RoslynMonoFamix
                 Console.WriteLine(errorMessage);
                 //Display or log the error based on your application.
             }
-        }
-
-
-        private static void ValidateArgs(string[] args)
-        {
-            //validate we receive solution file path and output file path
-
         }
     }
 }
