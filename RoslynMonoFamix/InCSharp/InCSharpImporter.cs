@@ -161,6 +161,10 @@ namespace RoslynMonoFamix.InCSharp
             newNs.name = ns.Name;
             newNs.isStub = true;
             Namespaces.Add(ns.Name, newNs);
+            var containingNamespace = ns.ContainingNamespace;
+            if (containingNamespace != null && !containingNamespace.IsGlobalNamespace)
+                newNs.parentScope = EnsureNamespace(containingNamespace);
+
             return newNs;
         }
 
