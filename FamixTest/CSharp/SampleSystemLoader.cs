@@ -5,12 +5,9 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
 using System.IO;
 using RoslynMonoFamix.VB;
-using Microsoft.CodeAnalysis;
 
 using Fame;
 using Model;
-using Microsoft.CodeAnalysis.Diagnostics;
-using System.Text;
 
 namespace FamixTest
 {
@@ -19,7 +16,7 @@ namespace FamixTest
 	{
 		protected Repository metamodel = FamixModel.Metamodel();
 
-        protected RoslynMonoFamix.InCSharp.InCSharpImporter importer = null;
+        protected Roslyn2Famix.InCSharp.InCSharpImporter importer = null;
 
 		[TestInitialize]
 		public void LoadSampleSystem()
@@ -27,7 +24,7 @@ namespace FamixTest
 			string path = Assembly.GetAssembly(typeof(SampleSystemLoader)).Location;
 			path = path.Replace("FamixTest.dll", "");
 			string solutionPath = path + "../../../SampleCode/SampleCode.sln";
-            importer = new RoslynMonoFamix.InCSharp.InCSharpImporter(metamodel, Path.GetDirectoryName(new Uri(solutionPath).AbsolutePath));
+            importer = new Roslyn2Famix.InCSharp.InCSharpImporter(metamodel, Path.GetDirectoryName(new Uri(solutionPath).AbsolutePath));
             var msWorkspace = MSBuildWorkspace.Create();
 			msWorkspace.WorkspaceFailed += (o, e) =>
 			{
@@ -35,8 +32,12 @@ namespace FamixTest
 			};
 
 			var solution = msWorkspace.OpenSolutionAsync(solutionPath).Result;
-
-            Boolean fileWasFound = false;
+			var diagnostics = msWorkspace.Diagnostics;
+			foreach (var diagnostic in diagnostics)
+			{
+				Console.WriteLine(diagnostic.Message);
+			}
+			Boolean fileWasFound = false;
 			foreach (var project in solution.Projects)
 			{
 				foreach (var document in project.Documents)

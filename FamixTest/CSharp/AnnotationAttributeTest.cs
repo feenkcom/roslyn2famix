@@ -1,17 +1,15 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FamixTest
 {
     [TestClass]
     public class AnnotationAttributeTest : SampleSystemLoader
     {
         [TestMethod]
-        public void IngestedAnnotationTypes() => 
+        public void IngestedAnnotationTypes() =>
             Assert.IsNotNull(importer.Types.Named("SampleProject.Basic.AnnotationAttribute"));
 
         [TestMethod]
-        public void AnnotationTypeIsNotSimpleClass() => 
+        public void AnnotationTypeIsNotSimpleClass() =>
             Assert.IsTrue(importer.Types.Named("SampleProject.Basic.AnnotationAttribute") is FAMIX.AnnotationType);
 
         [TestMethod]

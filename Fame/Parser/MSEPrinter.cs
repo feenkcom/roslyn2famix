@@ -1,151 +1,152 @@
 ﻿using Fame.Internal;
 using System;
-using System.IO;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Fame.Parser
 {
-	public class MSEPrinter : IParseClient
-	{
+    public class MSEPrinter : IParseClient
+    {
 
-		protected int indentation;
-		protected StringBuilder stream = new StringBuilder();
-		public static object UNLIMITED = new Object();
-		private bool wasln;
-		private string filepath;
+        protected int indentation;
+        protected StringBuilder stream = new StringBuilder();
+        public static object UNLIMITED = new Object();
+        private bool wasln;
+        private string filepath;
 
-		public MSEPrinter(string filepath)
-		{
-			this.filepath = filepath;
-		}
+        public MSEPrinter(string filepath)
+        {
+            this.filepath = filepath;
+        }
 
-		protected void Lntabs()
-		{
-			if (!wasln)
-			{
-				stream.Append('\n');
+        protected void Lntabs()
+        {
+            if (!wasln)
+            {
+                stream.Append('\n');
 
-				for (int n = 0; n < indentation; n++)
-				{
-					stream.Append('\t');
-				}
-			}
+                for (int n = 0; n < indentation; n++)
+                {
+                    stream.Append('\t');
+                }
+            }
 
-			wasln = true;
-		}
+            wasln = true;
+        }
 
-		public void BeginAttribute(String name)
-		{
-			indentation++;
-			Lntabs();
-			Append('(');
-			Append(name);
-		}
+        public void BeginAttribute(String name)
+        {
+            indentation++;
+            Lntabs();
+            Append('(');
+            Append(name);
+        }
 
-		private void Append(string name)
-		{
-			stream.Append(name);
-			wasln = false;
-		}
+        private void Append(string name)
+        {
+            stream.Append(name);
+            wasln = false;
+        }
 
-		private void Append(char v)
-		{
-			stream.Append(v);
-			wasln = false;
-		}
+        private void Append(char v)
+        {
+            stream.Append(v);
+            wasln = false;
+        }
 
-		public void BeginDocument()
-		{
-			// indentation++;
-			Append('(');
-		}
-
-
-		public void BeginElement(String name)
-		{
-			indentation++;
-			Lntabs();
-			Append('(');
-			Append(name);
-		}
+        public void BeginDocument()
+        {
+            // indentation++;
+            Append('(');
+        }
 
 
-		public void EndAttribute(String name)
-		{
-			Append(')');
-			indentation--;
-		}
+        public void BeginElement(String name)
+        {
+            indentation++;
+            Lntabs();
+            Append('(');
+            Append(name);
+        }
 
-		public void EndDocument()
-		{
-			Append(')');
-			Close();
-		}
 
-		private void Close()
-		{
-			string s = stream.ToString();
-			if (filepath != null)
-				System.IO.File.WriteAllText(filepath, stream.ToString());
-		}
+        public void EndAttribute(String name)
+        {
+            Append(')');
+            indentation--;
+        }
 
-		public string GetMSE()
-		{
-			return stream.ToString();
-		}
+        public void EndDocument()
+        {
+            Append(')');
+            Close();
+        }
 
-		public void EndElement(String name)
-		{
-			Append(')');
-			indentation--;
-		}
+        private void Close()
+        {
+            string s = stream.ToString();
+            if (filepath != null)
+                System.IO.File.WriteAllText(filepath, stream.ToString());
+        }
 
-		public void Primitive(Object value)
-		{
-			Append(' ');
-			if (value == UNLIMITED)
-			{
-				Append('*');
-			}
-			else if (value.GetType() == typeof( string)) {
-				string str = (string)value;
-				Append('\'');
-				foreach (char ch in (string)value)
-				{
-					if (ch == '\'') Append('\'');
-					Append(ch);
-				}
-				Append('\'');
-			} else if (value is bool)
+        public string GetMSE()
+        {
+            return stream.ToString();
+        }
+
+        public void EndElement(String name)
+        {
+            Append(')');
+            indentation--;
+        }
+
+        public void Primitive(Object value)
+        {
+            Append(' ');
+            if (value == UNLIMITED)
+            {
+                Append('*');
+            }
+            else if (value.GetType() == typeof(string))
+            {
+                string str = (string)value;
+                Append('\'');
+                foreach (char ch in (string)value)
+                {
+                    if (ch == '\'') Append('\'');
+                    Append(ch);
+                }
+                Append('\'');
+            }
+            else if (value is bool)
             {
                 Append(value.ToString().ToLower());
             }
-            else if( Number.IsNumber(value)) {
-				Append(value.ToString());
-			}
-		}
+            else if (Number.IsNumber(value))
+            {
+                Append(value.ToString());
+            }
+        }
 
-		public void Reference(int index)
-		{
-				stream.Append(" (ref: "); // must prepend space!
-				stream.Append(index);
-				stream.Append(')');
-		}
+        public void Reference(int index)
+        {
+            stream.Append(" (ref: "); // must prepend space!
+            stream.Append(index);
+            stream.Append(')');
+        }
 
-		public void Reference(String name)
-		{
-				stream.Append(" (ref: "); // must prepend space!
-				stream.Append(name);
-				stream.Append(')');
-		}
+        public void Reference(String name)
+        {
+            stream.Append(" (ref: "); // must prepend space!
+            stream.Append(name);
+            stream.Append(')');
+        }
 
-		public void Serial(int index)
-		{
-				stream.Append(" (id: "); // must prepend space!
-				stream.Append(index);
-				stream.Append(')');
-		}
+        public void Serial(int index)
+        {
+            stream.Append(" (id: "); // must prepend space!
+            stream.Append(index);
+            stream.Append(')');
+        }
 
-	}
+    }
 }

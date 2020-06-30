@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Humanizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FamixTest.VisualBasic

@@ -1,0 +1,37 @@
+using Dynamix;
+using Fame;
+using FAMIX;
+using FILE;
+using System;
+using System.Collections.Generic;
+
+namespace Dynamix
+{
+    [FamePackage("Dynamix")]
+    [FameDescription("Activation")]
+    public class Activation : Dynamix.Event
+    {
+        private List<Dynamix.Reference> arguments = new List<Dynamix.Reference>();
+
+        [FameProperty(Name = "arguments", Opposite = "activationsWithArgument")]
+        public List<Dynamix.Reference> Arguments
+        {
+            get { return arguments; }
+            set { arguments = value; }
+        }
+        public void AddArgument(Dynamix.Reference one)
+        {
+            arguments.Add(one);
+        }
+
+        [FameProperty(Name = "behaviour", Opposite = "activations")]
+        public FAMIX.BehaviouralEntity behaviour { get; set; }
+
+        [FameProperty(Name = "receiver", Opposite = "activationsWithReceiver")]
+        public Dynamix.Reference receiver { get; set; }
+
+        [FameProperty(Name = "return", Opposite = "activationsWithReturn")]
+        public Dynamix.Reference _return { get; set; }
+
+    }
+}

@@ -1,30 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Fame.Parser
 {
-	public interface IParseClient
-	{
-		void BeginAttribute(String name);
+    public interface IParseClient
+    {
+        void BeginAttribute(String name);
 
-		void BeginDocument();
+        void BeginDocument();
 
-		void BeginElement(String name);
+        void BeginElement(String name);
 
-		void EndAttribute(String name);
+        void EndAttribute(String name);
 
-		void EndDocument();
+        void EndDocument();
 
-		void EndElement(String name);
+        void EndElement(String name);
 
-		void Primitive(Object value);
+        void Primitive(Object value);
 
-		void Reference(int index);
+        void Reference(int index);
 
-		void Reference(String name);
+        void Reference(String name);
 
-		void Serial(int index);
+        void Serial(int index);
 
-	}
+    }
 }

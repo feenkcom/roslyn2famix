@@ -2,9 +2,7 @@
 using Fame.Parser;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using System.Collections;
 
 namespace Fame.Internal
 {
@@ -63,7 +61,7 @@ namespace Fame.Internal
                         if (!(bool)enumerator.Current) continue;
                     }
 
-                    if (property.Type.Fullname == "System.Int32" && (values.Count == 1) )
+                    if (property.Type.Fullname == "System.Int32" && (values.Count == 1))
                     {
                         var enumerator = values.GetEnumerator();
                         enumerator.MoveNext();
@@ -95,7 +93,7 @@ namespace Fame.Internal
                                     value.GetType() == typeof(bool) ||
                                     Number.IsNumber(value))))
                             {
-                                    visitor.Primitive(value);
+                                visitor.Primitive(value);
                             }
                             else
                             {
